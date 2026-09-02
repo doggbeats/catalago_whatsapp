@@ -1,0 +1,29 @@
+[
+  {
+    "id": 1,
+    "produtoId": 8,
+    "nome": "Monitor 27\" IPS",
+    "valor": 1149.9,
+    "quantidade": 1,
+    "data": "2026-08-31T21:53:18.579Z",
+    "status": "confirmado"
+  },
+  {
+    "id": 2,
+    "produtoId": 1,
+    "nome": "Caixa de Som Bluetooth",
+    "valor": 199.9,
+    "quantidade": 1,
+    "data": "2026-08-31T22:18:45.803Z",
+    "status": "confirmado"
+  },
+  {
+    "id": 3,
+    "produtoId": 1,
+    "nome": "Caixa de Som Bluetooth",
+    "valor": 199.9,
+    "quantidade": 1,
+    "data": "2026-09-02T04:15:06.212Z",
+    "status": "aguardando"
+  }
+]

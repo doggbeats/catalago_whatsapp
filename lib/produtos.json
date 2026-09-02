@@ -1,0 +1,242 @@
+[
+  {
+    "id": 1,
+    "name": "Caixa de Som Bluetooth",
+    "price": 199.9,
+    "promotion": null,
+    "category": "Áudio",
+    "quantity": 13,
+    "image": "/caixa de som1.jpg",
+    "specs": [
+      "Bluetooth 5.0",
+      "Bateria 10h",
+      "20W de potência"
+    ],
+    "description": "Caixa de som bluetooth potente e portátil, ideal para festas e uso diário.",
+    "installments": 4
+  },
+  {
+    "id": 2,
+    "name": "Caixa de Som Portátil",
+    "price": 249.9,
+    "promotion": 219.9,
+    "category": "Áudio",
+    "quantity": 8,
+    "image": "/caixadesom .jpg",
+    "specs": [
+      "Portátil",
+      "Resistente à água",
+      "Bateria 12h"
+    ],
+    "description": "Caixa de som portátil com excelente qualidade sonora e resistência.",
+    "installments": 4
+  },
+  {
+    "id": 3,
+    "name": "Fone Bluetooth",
+    "price": 149.9,
+    "promotion": null,
+    "category": "Áudio",
+    "quantity": 30,
+    "image": "/fone1.jpg",
+    "specs": [
+      "Bluetooth 5.3",
+      "Bateria 6h",
+      "Microfone embutido"
+    ],
+    "description": "Fone bluetooth confortável com som claro e microfone para chamadas.",
+    "installments": 4
+  },
+  {
+    "id": 4,
+    "name": "Fone Over-Ear",
+    "price": 299.9,
+    "promotion": 249.9,
+    "category": "Áudio",
+    "quantity": 12,
+    "image": "/fone2.jpg",
+    "specs": [
+      "Over-Ear",
+      "Cancelamento de ruído",
+      "Bateria 30h"
+    ],
+    "description": "Fone over-ear com cancelamento de ruído e bateria de longa duração.",
+    "installments": 5
+  },
+  {
+    "id": 5,
+    "name": "Fones de Ouvido",
+    "price": 89.9,
+    "promotion": null,
+    "category": "Áudio",
+    "quantity": 25,
+    "image": "/fones de ouvido.jpg",
+    "specs": [
+      "Fone intra-auricular",
+      "Conector 3.5mm",
+      "Microfone"
+    ],
+    "description": "Fones de ouvido intra-auricular com ótimo custo-benefício.",
+    "installments": 3
+  },
+  {
+    "id": 6,
+    "name": "Furadeira Elétrica",
+    "price": 349.9,
+    "promotion": 299.9,
+    "category": "Ferramentas",
+    "quantity": 6,
+    "image": "/furadeira.jpg",
+    "specs": [
+      "Mandril 10mm",
+      "Bivolt 220V",
+      "Rotação variável"
+    ],
+    "description": "Furadeira elétrica bivolt com rotação variável para diversos trabalhos.",
+    "installments": 6
+  },
+  {
+    "id": 7,
+    "name": "Furadeira Profissional",
+    "price": 459.9,
+    "promotion": null,
+    "category": "Ferramentas",
+    "quantity": 4,
+    "image": "/furadeira1.jpg",
+    "specs": [
+      "Bateria recarregável",
+      "Mandril 13mm",
+      "22V"
+    ],
+    "description": "Furadeira profissional sem fio com bateria recarregável de alta potência.",
+    "installments": 6
+  },
+  {
+    "id": 8,
+    "name": "Monitor 27\" IPS",
+    "price": 1299.9,
+    "promotion": 1149.9,
+    "category": "Monitores",
+    "quantity": 9,
+    "image": "/monitor.jpg",
+    "specs": [
+      "27 polegadas",
+      "IPS Full HD",
+      "75Hz"
+    ],
+    "description": "Monitor IPS de 27 polegadas com qualidade Full HD e alta taxa de atualização.",
+    "installments": 10
+  },
+  {
+    "id": 9,
+    "name": "Mouse USB",
+    "price": 39.9,
+    "promotion": null,
+    "category": "Periféricos",
+    "quantity": 50,
+    "image": "/mouse-usb.jpg",
+    "specs": [
+      "Com fio USB",
+      "Óptico 1600 DPI",
+      "Confortável"
+    ],
+    "description": "Mouse óptico USB ergonômico, preciso e durável para uso no dia a dia.",
+    "installments": 2
+  },
+  {
+    "id": 10,
+    "name": "Mouse Wireless",
+    "price": 59.9,
+    "promotion": 49.9,
+    "category": "Periféricos",
+    "quantity": 40,
+    "image": "/mouse_wifi.jpg",
+    "specs": [
+      "Sem fio 2.4GHz",
+      "Óptico 1600 DPI",
+      "Bateria 12 meses"
+    ],
+    "description": "Mouse wireless com conexão estável e bateria de longa duração.",
+    "installments": 3
+  },
+  {
+    "id": 11,
+    "name": "PC Gamer",
+    "price": 4999.9,
+    "promotion": 4499.9,
+    "category": "Computadores",
+    "quantity": 3,
+    "image": "/pc gamer.jpg",
+    "specs": [
+      "Ryzen 5",
+      "16GB RAM",
+      "RTX 4060"
+    ],
+    "description": "PC gamer de alta performance ideal para jogos pesados e multitarefas.",
+    "installments": 12
+  },
+  {
+    "id": 12,
+    "name": "PC Gamer High-End",
+    "price": 6499.9,
+    "promotion": null,
+    "category": "Computadores",
+    "quantity": 2,
+    "image": "/pc gamerr.jpg",
+    "specs": [
+      "Intel i7",
+      "32GB RAM",
+      "RTX 4070"
+    ],
+    "description": "PC gamer high-end com componentes topo de linha para máxima performance.",
+    "installments": 12
+  },
+  {
+    "id": 13,
+    "name": "Console PS4",
+    "price": 1899.9,
+    "promotion": 1699.9,
+    "category": "Videogames",
+    "quantity": 7,
+    "image": "/ps4.jpg",
+    "specs": [
+      "1TB HDD",
+      "Controle DualShock",
+      "4K HDR"
+    ],
+    "description": "Console PlayStation 4 com controle DualShock e suporte a 4K HDR.",
+    "installments": 10
+  },
+  {
+    "id": 14,
+    "name": "Teclado USB",
+    "price": 79.9,
+    "promotion": null,
+    "category": "Periféricos",
+    "quantity": 35,
+    "image": "/teclado.jpg",
+    "specs": [
+      "Com fio USB",
+      "Layout ABNT2",
+      "Tecle silencioso"
+    ],
+    "description": "Teclado USB confortável e silencioso, ideal para trabalho e estudos.",
+    "installments": 3
+  },
+  {
+    "id": 15,
+    "name": "Teclado Mecânico RGB",
+    "price": 249.9,
+    "promotion": 199.9,
+    "category": "Periféricos",
+    "quantity": 18,
+    "image": "/teclado_mecanico.jpg",
+    "specs": [
+      "Switch mecânico",
+      "RGB",
+      "Layout ABNT2"
+    ],
+    "description": "Teclado mecânico RGB com switches de alta resposta para gamers.",
+    "installments": 6
+  }
+]
