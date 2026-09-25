@@ -1,36 +1,36 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+## Mini ERP — Gestão de Produtos e Vendas
 
-## Getting Started
+Desenvolvi um **Mini ERP para gestão de uma operação de vendas**, centralizando cadastro de produtos, vendas, atendimento via WhatsApp e gerenciamento administrativo em uma aplicação web.
 
-First, run the development server:
+### Funcionalidades
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+* Cadastro e gerenciamento de produtos
+* Controle de produtos disponíveis para venda
+* Gestão de vendas e pedidos
+* Integração com **WhatsApp**
+* Painel administrativo para gerenciamento da operação
+* Armazenamento e consulta dos dados
+* Interface para gerenciamento dos processos comerciais
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### Tecnologias utilizadas
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+* **Next.js** — desenvolvimento da aplicação web
+* **Tailwind CSS** — construção da interface
+* **APIs** — integração entre os recursos da aplicação e serviços externos
+* **Neon** — banco de dados PostgreSQL em ambiente cloud
+* **Vercel** — hospedagem e deploy da aplicação
+* **WhatsApp** — integração para atendimento/comunicação com clientes
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### Arquitetura simplificada
 
-## Learn More
+**Next.js → APIs → Neon PostgreSQL**
 
-To learn more about Next.js, take a look at the following resources:
+**Cliente → Produtos → Pedido/Venda → WhatsApp**
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+**Administrador → Painel Administrativo → Gestão dos dados**
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### Objetivo
 
-## Deploy on Vercel
+O projeto foi desenvolvido para **centralizar a operação comercial em um único sistema**, reduzindo a dependência de controles separados para produtos, vendas e atendimento.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Além de demonstrar conhecimentos em desenvolvimento web, o projeto envolve **integração de APIs, banco de dados, regras de negócio, operações CRUD, painel administrativo e implantação em ambiente cloud**.
