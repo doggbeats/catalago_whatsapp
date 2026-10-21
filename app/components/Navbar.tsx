@@ -5,7 +5,7 @@ import { useState } from "react";
 import Link from "next/link";
 
 const categories = [
-  { href: "/tipos", label: "Tipos de Tênis" },
+  { href: "/tipos", label: "Tipos de Calçados" },
   {
     href: "#",
     label: "Gêneros",
