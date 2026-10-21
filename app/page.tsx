@@ -69,7 +69,15 @@ export default function Home() {
           src="/page_inicio1.png"
           alt="TENIS NEON - Coleção de tênis"
           fill
-          className="object-cover object-center"
+          className="hidden object-cover object-center md:block"
+          priority
+          sizes="100vw"
+        />
+        <Image
+          src="/Tenis_premium.png"
+          alt="TENIS NEON - Coleção de tênis"
+          fill
+          className="block object-cover object-center md:hidden"
           priority
           sizes="100vw"
         />
@@ -146,10 +154,10 @@ export default function Home() {
           <div className="grid items-center gap-6 p-6 md:grid-cols-2 md:p-10">
             <div className="relative h-64 w-full md:h-80">
               <Image
-                src="/tenis-masculino-1.svg"
-                alt="Tênis em destaque"
+                src="/Tenis_premium.png"
+                alt="Tênis Premium em destaque"
                 fill
-                className="object-contain"
+                className="object-contain p-4"
                 sizes="(min-width: 768px) 50vw, 100vw"
               />
             </div>
