@@ -20,6 +20,8 @@ export async function POST(request: Request) {
     price: Number(body.price),
     promotion: body.promotion ? Number(body.promotion) : null,
     category: body.category,
+    marca: (body as any).marca || undefined,
+    tipo: (body as any).tipo || undefined,
     quantity: Number(body.quantity),
     image: body.image || "",
     specs: body.specs || [],

@@ -14,9 +14,9 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "ELECTRICS | Catálogo de Produtos Eletrônicos",
+  title: "TENIS NEON | Catálogo de Tênis",
   description:
-    "ELECTRICS - Os melhores eletrônicos com os melhores preços. Celulares, notebooks, áudio, acessórios e muito mais.",
+    "TENIS NEON - Os melhores tênis com os melhores preços. Masculino, Feminino, Infantil e muito mais.",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {

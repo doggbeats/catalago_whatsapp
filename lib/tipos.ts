@@ -5,6 +5,8 @@ export type Produto = {
   price: number;
   promotion: number | null;
   category: string;
+  marca?: string;
+  tipo?: string;
   quantity: number;
   image: string;
   specs: string[];

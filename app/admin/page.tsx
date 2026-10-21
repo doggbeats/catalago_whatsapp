@@ -15,7 +15,9 @@ type Produto = {
   installments: number;
 };
 
-const categorias = ["Áudio", "Computadores", "Periféricos", "Ferramentas", "Videogames", "Monitores"];
+const categorias = ["Masculino", "Feminino", "Infantil"];
+const marcas = ["Nike", "Adidas", "Jordan", "Fila", "Humbro"];
+const tipos = ["Corrida", "Casual", "Esportivo", "Fashion", "Slip-on", "Lazer"];
 
 type FormState = {
   name: string;
