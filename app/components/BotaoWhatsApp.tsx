@@ -9,9 +9,18 @@ type Props = {
   nome: string;
   categoria: string;
   precoFinal: number;
+  tamanho?: string;
+  cor?: string;
 };
 
-export default function BotaoWhatsApp({ produtoId, nome, categoria, precoFinal }: Props) {
+export default function BotaoWhatsApp({
+  produtoId,
+  nome,
+  categoria,
+  precoFinal,
+  tamanho,
+  cor,
+}: Props) {
   const [enviando, setEnviando] = useState(false);
 
   async function handleClick() {
@@ -26,8 +35,13 @@ export default function BotaoWhatsApp({ produtoId, nome, categoria, precoFinal }
     } catch {
       // ignora erro de registro; o WhatsApp ainda abre
     }
+
+    let mensagem = `Olá! Tenho interesse no produto *${nome}* (${categoria}) por ${formatBRL(precoFinal)}.`;
+    if (cor) mensagem += ` Cor: ${cor}.`;
+    if (tamanho) mensagem += ` Tamanho: ${tamanho}.`;
+
     window.open(
-      whatsappLink(`Olá! Tenho interesse no produto *${nome}* (${categoria}) por ${formatBRL(precoFinal)}.`),
+      whatsappLink(mensagem),
       "_blank",
       "noopener,noreferrer",
     );
