@@ -14,7 +14,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "TENIS NEON | Catálogo de Tênis",
+  title: "TENIS NEON + TÊNIS",
   description:
     "TENIS NEON - Os melhores tênis com os melhores preços. Masculino, Feminino, Infantil e muito mais.",
 };
