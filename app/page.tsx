@@ -77,7 +77,7 @@ export default function Home() {
           src="/Tenis_premium.png"
           alt="TENIS NEON - Coleção de tênis"
           fill
-          className="block object-cover object-center md:hidden"
+          className="block object-contain object-center md:hidden"
           priority
           sizes="100vw"
         />
