@@ -7,15 +7,19 @@
     "category": "Masculino",
     "marca": "Nike",
     "tipo": "Corrida",
+    "cor": "Preto",
+    "tamanho": "38-44",
+    "qualidade": "Original",
     "quantity": 26,
     "image": "/tenis-masculino.svg",
     "specs": [
       "Mesh respirável",
       "Solado EVA",
-      "38-44"
+      "Solado emborrachado",
+      "Confortável"
     ],
     "description": "Tênis leve e confortável ideal para corridas e dia a dia.",
-    "installments": 6
+    "installments": 2
   },
   {
     "id": 2,
@@ -25,12 +29,14 @@
     "category": "Masculino",
     "marca": "Adidas",
     "tipo": "Casual",
+    "cor": "Branco",
+    "tamanho": "38-44",
+    "qualidade": "Original",
     "quantity": 15,
     "image": "/tenis-masculino-1.svg",
     "specs": [
       "Cabedal sintético",
-      "Solado emborrachado",
-      "38-44"
+      "Solado emborrachado"
     ],
     "description": "Modelo clássico com ótimo conforto para o dia a dia.",
     "installments": 6
@@ -43,12 +49,14 @@
     "category": "Masculino",
     "marca": "Jordan",
     "tipo": "Esportivo",
-    "quantity": 10,
+    "cor": "Azul",
+    "tamanho": "39-44",
+    "qualidade": "Premium",
+    "quantity": 9,
     "image": "/tenis-masculino-2.svg",
     "specs": [
       "Amortecimento",
-      "Respirável",
-      "39-44"
+      "Respirável"
     ],
     "description": "Ideal para treinos com excelente suporte ao pé.",
     "installments": 6
@@ -61,12 +69,14 @@
     "category": "Masculino",
     "marca": "Fila",
     "tipo": "Slip-on",
+    "cor": "Cinza",
+    "tamanho": "38-43",
+    "qualidade": "Nacional",
     "quantity": 20,
     "image": "/tenis-masculino-3.svg",
     "specs": [
       "Sem cadarço",
-      "Leve",
-      "38-43"
+      "Leve"
     ],
     "description": "Prático e moderno para quem busca conforto rápido.",
     "installments": 4
@@ -79,12 +89,14 @@
     "category": "Feminino",
     "marca": "Nike",
     "tipo": "Corrida",
-    "quantity": 20,
+    "cor": "Rosa",
+    "tamanho": "34-40",
+    "qualidade": "Original",
+    "quantity": 19,
     "image": "/tenis-feminino.svg",
     "specs": [
       "Leve",
-      "Mesh",
-      "34-40"
+      "Mesh"
     ],
     "description": "Desenvolvido para corrida com design elegante.",
     "installments": 6
@@ -97,12 +109,14 @@
     "category": "Feminino",
     "marca": "Adidas",
     "tipo": "Casual",
+    "cor": "Branco",
+    "tamanho": "34-40",
+    "qualidade": "Original",
     "quantity": 30,
     "image": "/tenis-feminino-1.svg",
     "specs": [
       "Confortável",
-      "Versátil",
-      "34-40"
+      "Versátil"
     ],
     "description": "Combina com qualquer look do dia a dia.",
     "installments": 6
@@ -115,12 +129,14 @@
     "category": "Feminino",
     "marca": "Humbro",
     "tipo": "Fashion",
+    "cor": "Bege",
+    "tamanho": "34-39",
+    "qualidade": "Premium",
     "quantity": 15,
     "image": "/tenis-feminino-2.svg",
     "specs": [
       "Design moderno",
-      "Leve",
-      "34-39"
+      "Leve"
     ],
     "description": "Estilo e conforto em um só modelo.",
     "installments": 6
@@ -133,12 +149,14 @@
     "category": "Feminino",
     "marca": "Fila",
     "tipo": "Lazer",
-    "quantity": 3,
+    "cor": "Vermelho",
+    "tamanho": "34-40",
+    "qualidade": "Nacional",
+    "quantity": 2,
     "image": "/tenis-feminino-3.svg",
     "specs": [
       "Confortável",
-      "Macio",
-      "34-40"
+      "Macio"
     ],
     "description": "Perfeito para passeios e momentos de lazer.",
     "installments": 4
@@ -151,12 +169,14 @@
     "category": "Infantil",
     "marca": "Adidas",
     "tipo": "Casual",
+    "cor": "Azul",
+    "tamanho": "23-33",
+    "qualidade": "Original",
     "quantity": 40,
     "image": "/tenis-infantil.svg",
     "specs": [
       "Fechamento seguro",
-      "Flexível",
-      "23-33"
+      "Flexível"
     ],
     "description": "Confortável e resistente para o pé em crescimento.",
     "installments": 3
@@ -169,12 +189,14 @@
     "category": "Infantil",
     "marca": "Nike",
     "tipo": "Esportivo",
+    "cor": "Verde",
+    "tamanho": "23-33",
+    "qualidade": "Original",
     "quantity": 35,
     "image": "/tenis-infantil-1.svg",
     "specs": [
       "Respirável",
-      "Anti-deslizante",
-      "23-33"
+      "Anti-deslizante"
     ],
     "description": "Ideal para brincadeiras e atividades físicas.",
     "installments": 3
@@ -187,12 +209,14 @@
     "category": "Infantil",
     "marca": "Fila",
     "tipo": "Lazer",
+    "cor": "Rosa",
+    "tamanho": "23-33",
+    "qualidade": "Nacional",
     "quantity": 30,
     "image": "/tenis-infantil-2.svg",
     "specs": [
       "Leve",
-      "Macio",
-      "23-33"
+      "Macio"
     ],
     "description": "Macio e confortável para uso diário.",
     "installments": 3
@@ -205,12 +229,14 @@
     "category": "Infantil",
     "marca": "Humbro",
     "tipo": "Corrida",
+    "cor": "Multicolorido",
+    "tamanho": "23-33",
+    "qualidade": "Premium",
     "quantity": 25,
     "image": "/tenis-infantil-3.svg",
     "specs": [
       "Amortecimento",
-      "Leve",
-      "23-33"
+      "Leve"
     ],
     "description": "Dá suporte e conforto para correr e brincar.",
     "installments": 3

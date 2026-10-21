@@ -46,7 +46,10 @@ export default async function Products({
     const query = busca?.trim().toLowerCase();
     const matchBusca = query
       ? p.name.toLowerCase().includes(query) ||
-        p.specs?.some((s) => s.toLowerCase().includes(query))
+        p.specs?.some((s) => s.toLowerCase().includes(query)) ||
+        [p.cor, p.tamanho, p.qualidade].some((v) =>
+          v?.toLowerCase().includes(query),
+        )
       : true;
     return matchCategoria && matchPromo && matchMarca && matchTipo && matchBusca;
   });
@@ -240,18 +243,26 @@ export default async function Products({
                           <span className="text-slate-500">· {product.tipo}</span>
                         ) : null}
                       </div>
-                      <h2 className="mt-1 text-lg font-semibold text-black">
+                      <h2 className="mt-1 line-clamp-2 min-h-14 text-lg font-semibold text-black">
                         {product.name}
                       </h2>
 
-                      {product.description ? (
-                        <p className="mt-1.5 text-sm text-slate-600 line-clamp-2">
-                          {product.description}
-                        </p>
-                      ) : null}
+                      <p className="mt-1.5 line-clamp-2 min-h-10 text-sm text-slate-600">
+                        {product.description ?? ""}
+                      </p>
 
-                      <div className="mt-3 flex flex-wrap gap-1.5">
-                        {product.specs?.map((spec) => (
+                      <div className="mt-3 flex flex-wrap content-start gap-1.5">
+                        {[product.cor, product.tamanho, product.qualidade]
+                          .filter(Boolean)
+                          .map((v) => (
+                            <span
+                              key={v}
+                              className="rounded-md bg-amber-50 px-2 py-1 text-xs font-medium text-amber-700"
+                            >
+                              {v}
+                            </span>
+                          ))}
+                        {(product.specs ?? []).slice(0, 4).map((spec) => (
                           <span
                             key={spec}
                             className="rounded-md bg-slate-100 px-2 py-1 text-xs text-slate-700"
@@ -260,9 +271,10 @@ export default async function Products({
                           </span>
                         ))}
                       </div>
-
-                      <div className="mt-auto pt-4">
-                        <div className="flex items-end gap-2">
+                    </div>
+                    <div className="flex flex-col p-5 pt-0">
+                      <div className="mt-auto">
+                        <div className="flex h-7 items-end gap-2">
                           {product.promotion ? (
                             <>
                               <p className="text-sm text-slate-500 line-through">
@@ -279,7 +291,7 @@ export default async function Products({
                           )}
                         </div>
 
-                        <p className="mt-1 text-sm text-slate-500">
+                        <p className="mt-1 h-5 text-sm text-slate-500">
                           até {formatParcelas(product.promotion ?? product.price, product.installments ?? 1)}
                         </p>
 

@@ -9,6 +9,9 @@ type Produto = {
   price: number;
   promotion: number | null;
   category: string;
+  cor?: string;
+  tamanho?: string;
+  qualidade?: string;
   quantity: number;
   image: string;
   specs: string[];
@@ -18,6 +21,40 @@ type Produto = {
 const categorias = ["Masculino", "Feminino", "Infantil"];
 const marcas = ["Nike", "Adidas", "Jordan", "Fila", "Humbro"];
 const tipos = ["Corrida", "Casual", "Esportivo", "Fashion", "Slip-on", "Lazer"];
+const cores = [
+  "Preto",
+  "Branco",
+  "Cinza",
+  "Azul",
+  "Vermelho",
+  "Verde",
+  "Amarelo",
+  "Rosa",
+  "Bege",
+  "Marrom",
+  "Multicolorido",
+];
+const qualidades = ["Original", "Premium", "Nacional", "Importado", "Similar"];
+
+const sugestoesSpecs = [
+  "Leve",
+  "Respirável",
+  "Confortável",
+  "Macio",
+  "Amortecimento",
+  "Solado emborrachado",
+  "Solado EVA",
+  "Cabedal em mesh",
+  "Cabedal sintético",
+  "Sem cadarço",
+  "Anti-deslizante",
+  "Antiderrapante",
+  "Flexível",
+  "Acabamento premium",
+  "Alta durabilidade",
+  "Unissex",
+  ...cores,
+];
 
 type FormState = {
   name: string;
@@ -25,6 +62,9 @@ type FormState = {
   price: string;
   promotion: string;
   category: string;
+  cor: string;
+  tamanho: string;
+  qualidade: string;
   quantity: string;
   image: string;
   specs: string;
@@ -37,6 +77,9 @@ const emptyForm: FormState = {
   price: "",
   promotion: "",
   category: categorias[0],
+  cor: cores[0],
+  tamanho: "",
+  qualidade: qualidades[0],
   quantity: "",
   image: "",
   specs: "",
@@ -69,6 +112,18 @@ export default function AdminPage() {
     setForm({ ...form, [e.target.name]: e.target.value });
   }
 
+  function adicionarSpec(valor: string) {
+    const atuais = form.specs
+      .split(",")
+      .map((s) => s.trim())
+      .filter(Boolean);
+    const existe = atuais.some((s) => s.toLowerCase() === valor.toLowerCase());
+    const novos = existe
+      ? atuais.filter((s) => s.toLowerCase() !== valor.toLowerCase())
+      : [...atuais, valor];
+    setForm({ ...form, specs: novos.join(", ") });
+  }
+
   async function handlerArquivo(e: React.ChangeEvent<HTMLInputElement>) {
     const arquivo = e.target.files?.[0];
     if (!arquivo) return;
@@ -99,6 +154,9 @@ export default function AdminPage() {
       price: Number(form.price),
       promotion: form.promotion ? Number(form.promotion) : null,
       category: form.category,
+      cor: form.cor || undefined,
+      tamanho: form.tamanho || undefined,
+      qualidade: form.qualidade || undefined,
       quantity: Number(form.quantity),
       image: form.image,
       specs: form.specs
@@ -134,6 +192,9 @@ export default function AdminPage() {
       price: String(p.price),
       promotion: p.promotion ? String(p.promotion) : "",
       category: p.category,
+      cor: p.cor ?? "",
+      tamanho: p.tamanho ?? "",
+      qualidade: p.qualidade ?? "",
       quantity: String(p.quantity),
       image: p.image,
       specs: p.specs?.join(", ") ?? "",
@@ -202,6 +263,29 @@ export default function AdminPage() {
         </div>
 
         <div>
+          <label className="mb-1 block text-sm font-medium text-slate-700">Cor</label>
+          <select name="cor" value={form.cor} onChange={handleChange} className={inputClass}>
+            {cores.map((c) => (
+              <option key={c} value={c}>{c}</option>
+            ))}
+          </select>
+        </div>
+
+        <div>
+          <label className="mb-1 block text-sm font-medium text-slate-700">Tamanho</label>
+          <input name="tamanho" value={form.tamanho} onChange={handleChange} className={inputClass} placeholder="38-44, P, M, G..." />
+        </div>
+
+        <div>
+          <label className="mb-1 block text-sm font-medium text-slate-700">Qualidade</label>
+          <select name="qualidade" value={form.qualidade} onChange={handleChange} className={inputClass}>
+            {qualidades.map((q) => (
+              <option key={q} value={q}>{q}</option>
+            ))}
+          </select>
+        </div>
+
+        <div>
           <label className="mb-1 block text-sm font-medium text-slate-700">Quantidade em estoque</label>
           <input name="quantity" type="number" value={form.quantity} onChange={handleChange} required className={inputClass} placeholder="0" />
         </div>
@@ -236,7 +320,38 @@ export default function AdminPage() {
 
         <div className="md:col-span-2">
           <label className="mb-1 block text-sm font-medium text-slate-700">Especificações (separadas por vírgula)</label>
-          <input name="specs" value={form.specs} onChange={handleChange} className={inputClass} placeholder="Bluetooth 5.0, Bateria 10h, 20W" />
+          <input
+            name="specs"
+            value={form.specs}
+            onChange={handleChange}
+            className={inputClass}
+            placeholder="Leve, Respirável, Confortável, Original, Preto, Branco"
+          />
+          <p className="mt-1 text-xs text-slate-500">
+            Use palavras-chave de tênis, qualidade e cores para facilitar a busca.
+          </p>
+          <div className="mt-2 flex flex-wrap gap-1.5">
+            {sugestoesSpecs.map((s) => {
+              const ativo = form.specs
+                .split(",")
+                .map((v) => v.trim().toLowerCase())
+                .includes(s.toLowerCase());
+              return (
+                <button
+                  key={s}
+                  type="button"
+                  onClick={() => adicionarSpec(s)}
+                  className={`rounded-full px-3 py-1 text-xs font-medium transition ${
+                    ativo
+                      ? "bg-blue-600 text-white hover:bg-blue-700"
+                      : "border border-slate-300 text-slate-700 hover:bg-slate-100"
+                  }`}
+                >
+                  {s}
+                </button>
+              );
+            })}
+          </div>
         </div>
 
         <div className="flex gap-3 md:col-span-2">
@@ -273,6 +388,7 @@ export default function AdminPage() {
               <tr>
                 <th className="px-4 py-3 font-semibold">Produto</th>
                 <th className="px-4 py-3 font-semibold">Categoria</th>
+                <th className="px-4 py-3 font-semibold">Cor / Tam. / Qual.</th>
                 <th className="px-4 py-3 font-semibold">Valor</th>
                 <th className="px-4 py-3 font-semibold">Promoção</th>
                 <th className="px-4 py-3 font-semibold">Qtd.</th>
@@ -292,6 +408,17 @@ export default function AdminPage() {
                     ) : null}
                   </td>
                   <td className="px-4 py-3 text-slate-600">{p.category}</td>
+                  <td className="px-4 py-3 text-slate-600">
+                    <span className="flex flex-wrap gap-1">
+                      {[p.cor, p.tamanho, p.qualidade]
+                        .filter(Boolean)
+                        .map((v) => (
+                          <span key={v} className="rounded-md bg-slate-100 px-2 py-0.5 text-xs text-slate-700">
+                            {v}
+                          </span>
+                        ))}
+                    </span>
+                  </td>
                   <td className="px-4 py-3">{formatBRL(p.price)}</td>
                   <td className="px-4 py-3">
                     {p.promotion ? (

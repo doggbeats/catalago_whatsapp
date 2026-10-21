@@ -7,6 +7,9 @@ export type Produto = {
   category: string;
   marca?: string;
   tipo?: string;
+  cor?: string;
+  tamanho?: string;
+  qualidade?: string;
   quantity: number;
   image: string;
   specs: string[];
