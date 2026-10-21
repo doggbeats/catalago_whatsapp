@@ -75,7 +75,7 @@ export default async function Products({
       </div>
 
       <div className="mt-8 grid gap-6 lg:grid-cols-[280px_1fr]">
-        <aside className="h-fit rounded-xl border border-slate-200 bg-white">
+        <aside className="hidden h-fit rounded-xl border border-slate-200 bg-white lg:block">
           <div className="border-b border-slate-200 px-4 py-3">
             <h2 className="text-sm font-semibold text-black">Filtros</h2>
           </div>
@@ -291,15 +291,51 @@ export default async function Products({
                           )}
                         </div>
 
-                        <p className="mt-1 h-5 text-sm text-slate-500">
+                        <p className="mt-1 text-sm text-slate-500">
                           até {formatParcelas(product.promotion ?? product.price, product.installments ?? 1)}
                         </p>
+
+                        {product.tamanho ? (
+                          <div className="mt-2">
+                            <p className="text-xs font-medium text-slate-700">Tamanhos</p>
+                            <div className="mt-1.5 flex flex-wrap gap-1.5">
+                              {product.tamanho.includes("-")
+                                ? Array.from(
+                                    { length: (() => {
+                                        const [ini, fim] = product.tamanho!.split("-").map((n) => parseInt(n.trim()));
+                                        return fim - ini + 1;
+                                      })() },
+                                    (_, i) => {
+                                      const [ini] = product.tamanho!.split("-").map((n) => parseInt(n.trim()));
+                                      return String(ini + i);
+                                    }
+                                  ).map((tam) => (
+                                    <span
+                                      key={tam}
+                                      className="flex h-7 w-7 items-center justify-center rounded-md border border-slate-300 text-xs font-medium text-slate-700"
+                                    >
+                                      {tam}
+                                    </span>
+                                  ))
+                                : product.tamanho.split(",").map((tam) => tam.trim()).filter(Boolean).map((tam) => (
+                                    <span
+                                      key={tam}
+                                      className="flex h-7 items-center justify-center rounded-md border border-slate-300 px-2 text-xs font-medium text-slate-700"
+                                    >
+                                      {tam}
+                                    </span>
+                                  ))}
+                            </div>
+                          </div>
+                        ) : null}
 
                         <BotaoWhatsApp
                           produtoId={product.id}
                           nome={product.name}
                           categoria={product.category}
                           precoFinal={precoFinal}
+                          tamanho={product.tamanho}
+                          cor={product.cor}
                         />
                       </div>
                     </div>
