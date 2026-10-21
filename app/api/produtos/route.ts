@@ -4,6 +4,7 @@ import {
   salvarProdutos,
   type Produto,
 } from "@/lib/produtos";
+import { isAdmin } from "@/lib/auth";
 
 export async function GET() {
   const produtos = await getProdutos();
@@ -11,6 +12,9 @@ export async function GET() {
 }
 
 export async function POST(request: Request) {
+  if (!(await isAdmin())) {
+    return NextResponse.json({ error: "Não autorizado." }, { status: 401 });
+  }
   const body = (await request.json()) as Omit<Produto, "id">;
   const produtos = await getProdutos();
   const novo: Produto = {

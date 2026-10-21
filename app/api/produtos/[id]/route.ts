@@ -1,9 +1,13 @@
 import { NextResponse } from "next/server";
 import { getProdutos, salvarProdutos } from "@/lib/produtos";
+import { isAdmin } from "@/lib/auth";
 
 type Params = { params: Promise<{ id: string }> };
 
 export async function PUT(request: Request, { params }: Params) {
+  if (!(await isAdmin())) {
+    return NextResponse.json({ error: "Não autorizado." }, { status: 401 });
+  }
   const { id } = await params;
   const body = await request.json();
   let produtos = await getProdutos();
@@ -46,6 +50,9 @@ export async function PUT(request: Request, { params }: Params) {
 }
 
 export async function DELETE(_request: Request, { params }: Params) {
+  if (!(await isAdmin())) {
+    return NextResponse.json({ error: "Não autorizado." }, { status: 401 });
+  }
   const { id } = await params;
   const produtos = await getProdutos();
   const atualizados = produtos.filter((p) => p.id !== Number(id));

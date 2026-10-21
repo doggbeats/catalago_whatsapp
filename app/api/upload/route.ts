@@ -1,11 +1,15 @@
 import { NextResponse } from "next/server";
 import { promises as fs } from "fs";
 import path from "path";
+import { isAdmin } from "@/lib/auth";
 
 const extensoesPermitidas = ["jpg", "jpeg", "png", "webp", "gif"];
 const tamanhoMaximo = 5 * 1024 * 1024;
 
 export async function POST(request: Request) {
+  if (!(await isAdmin())) {
+    return NextResponse.json({ error: "Não autorizado." }, { status: 401 });
+  }
   try {
     const formData = await request.formData();
     const arquivo = formData.get("file");

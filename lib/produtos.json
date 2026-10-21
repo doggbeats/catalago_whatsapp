@@ -1,27 +1,5 @@
 [
   {
-    "id": 1,
-    "name": "Tênis Runner Masculino",
-    "price": 199.9,
-    "promotion": 159.9,
-    "category": "Masculino",
-    "marca": "Nike",
-    "tipo": "Corrida",
-    "cor": "Preto",
-    "tamanho": "38-44",
-    "qualidade": "Original",
-    "quantity": 26,
-    "image": "/tenis-masculino.svg",
-    "specs": [
-      "Mesh respirável",
-      "Solado EVA",
-      "Solado emborrachado",
-      "Confortável"
-    ],
-    "description": "Tênis leve e confortável ideal para corridas e dia a dia.",
-    "installments": 2
-  },
-  {
     "id": 2,
     "name": "Tênis Casual Masculino",
     "price": 179.9,
@@ -59,46 +37,6 @@
       "Respirável"
     ],
     "description": "Ideal para treinos com excelente suporte ao pé.",
-    "installments": 6
-  },
-  {
-    "id": 4,
-    "name": "Tênis Slip-On Masculino",
-    "price": 149.9,
-    "promotion": null,
-    "category": "Masculino",
-    "marca": "Fila",
-    "tipo": "Slip-on",
-    "cor": "Cinza",
-    "tamanho": "38-43",
-    "qualidade": "Nacional",
-    "quantity": 20,
-    "image": "/tenis-masculino-3.svg",
-    "specs": [
-      "Sem cadarço",
-      "Leve"
-    ],
-    "description": "Prático e moderno para quem busca conforto rápido.",
-    "installments": 4
-  },
-  {
-    "id": 5,
-    "name": "Tênis Feminino Runner",
-    "price": 199.9,
-    "promotion": 169.9,
-    "category": "Feminino",
-    "marca": "Nike",
-    "tipo": "Corrida",
-    "cor": "Rosa",
-    "tamanho": "34-40",
-    "qualidade": "Original",
-    "quantity": 19,
-    "image": "/tenis-feminino.svg",
-    "specs": [
-      "Leve",
-      "Mesh"
-    ],
-    "description": "Desenvolvido para corrida com design elegante.",
     "installments": 6
   },
   {

@@ -1,12 +1,16 @@
 import { NextResponse } from "next/server";
 import { getPedidos, salvarPedidos, type StatusPedido } from "@/lib/pedidos";
 import { getProdutos, salvarProdutos } from "@/lib/produtos";
+import { isAdmin } from "@/lib/auth";
 
 type Params = { params: Promise<{ id: string }> };
 
 const statusValidos: StatusPedido[] = ["aguardando", "confirmado", "concluido", "cancelado"];
 
 export async function PATCH(request: Request, { params }: Params) {
+  if (!(await isAdmin())) {
+    return NextResponse.json({ error: "Não autorizado." }, { status: 401 });
+  }
   const { id } = await params;
   const body = await request.json();
   const novoStatus = body.status as StatusPedido;
@@ -40,6 +44,9 @@ export async function PATCH(request: Request, { params }: Params) {
 }
 
 export async function DELETE(_request: Request, { params }: Params) {
+  if (!(await isAdmin())) {
+    return NextResponse.json({ error: "Não autorizado." }, { status: 401 });
+  }
   const { id } = await params;
   const pedidos = await getPedidos();
   const pedido = pedidos.find((p) => p.id === Number(id));
