@@ -153,45 +153,7 @@ export default function Home() {
           ))}
         </div>
 
-        <section className="mt-14 overflow-hidden rounded-2xl border border-slate-200 bg-white">
-          <div className="grid items-center gap-6 p-6 md:grid-cols-2 md:p-10">
-            <div className="relative h-64 w-full md:h-80">
-              <Image
-                src="/Tenis_premium.png"
-                alt="Tênis Premium em destaque"
-                fill
-                className="object-contain p-4"
-                sizes="(min-width: 768px) 50vw, 100vw"
-              />
-            </div>
-            <div className="flex flex-col items-start">
-              <span className="rounded-full bg-amber-100 px-3 py-1 text-xs font-semibold text-amber-700">
-                Destaque da semana
-              </span>
-              <h2 className="mt-4 text-2xl font-bold text-black lg:text-3xl">
-                Tênis Runner Masculino
-              </h2>
-              <p className="mt-3 max-w-md text-slate-600">
-                Solado em EVA, cabedal em mesh e numeração do 38 ao 44. Leveza e
-                conforto para os seus treinos e para o dia a dia.
-              </p>
-              <div className="mt-4">
-                <span className="text-sm text-slate-500 line-through">R$ 199,90</span>
-                <p className="text-3xl font-extrabold text-black">R$ 159,90</p>
-                <p className="text-sm font-semibold text-green-600">Economia de R$ 40,00</p>
-              </div>
-              <Link
-                href="/produtos"
-                className="mt-6 inline-flex items-center gap-2 rounded-lg bg-amber-400 px-6 py-3 font-semibold text-black transition hover:bg-amber-300"
-              >
-                Ver todos os produtos
-                <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                </svg>
-              </Link>
-            </div>
-          </div>
-        </section>
+
 
         <h2 className="mt-14 text-2xl font-bold text-black">Categorias</h2>
         <p className="mt-1 text-slate-600">Explore por tipo de produto</p>

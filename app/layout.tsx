@@ -52,37 +52,64 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
             <div className="grid gap-8 md:grid-cols-4">
               <div>
                 <div className="flex items-center gap-2 font-bold text-black">
-                  <span className="grid h-8 w-8 place-items-center rounded-lg bg-blue-600 text-white text-sm">
-                    ⚡
-                  </span>
-                  ELECTRICS
+                  TENIS NEON
                 </div>
-                <p className="mt-3 text-sm leading-relaxed text-slate-600">
-                  Sua loja de eletrônicos de confiança. Qualidade e preço justo em todos os produtos.
+                <p className="mt-3 text-sm text-slate-600">
+                  Os melhores tênis com os melhores preços. Masculino, Feminino, Infantil e muito mais.
                 </p>
               </div>
-
               <div>
                 <h3 className="text-sm font-semibold uppercase tracking-wide text-slate-900">
-                  Categorias
+                  Produtos
                 </h3>
                 <ul className="mt-3 space-y-2 text-sm text-slate-600">
-                  <li><span className="hover:text-blue-600 cursor-pointer transition">Áudio</span></li>
-                  <li><span className="hover:text-blue-600 cursor-pointer transition">Computadores</span></li>
-                  <li><span className="hover:text-blue-600 cursor-pointer transition">Periféricos</span></li>
-                  <li><span className="hover:text-blue-600 cursor-pointer transition">Videogames</span></li>
+                  <li>
+                    <span className="cursor-pointer transition hover:text-amber-600">
+                      Tênis Masculino
+                    </span>
+                  </li>
+                  <li>
+                    <span className="cursor-pointer transition hover:text-amber-600">
+                      Tênis Feminino
+                    </span>
+                  </li>
+                  <li>
+                    <span className="cursor-pointer transition hover:text-amber-600">
+                      Tênis Infantil
+                    </span>
+                  </li>
+                  <li>
+                    <span className="cursor-pointer transition hover:text-amber-600">
+                      Acessórios
+                    </span>
+                  </li>
                 </ul>
               </div>
-
               <div>
                 <h3 className="text-sm font-semibold uppercase tracking-wide text-slate-900">
                   Institucional
                 </h3>
                 <ul className="mt-3 space-y-2 text-sm text-slate-600">
-                  <li><span className="hover:text-blue-600 cursor-pointer transition">Sobre</span></li>
-                  <li><span className="hover:text-blue-600 cursor-pointer transition">Contato</span></li>
-                  <li><span className="hover:text-blue-600 cursor-pointer transition">Política de Troca</span></li>
-                  <li><span className="hover:text-blue-600 cursor-pointer transition">Termos de Uso</span></li>
+                  <li>
+                    <span className="cursor-pointer transition hover:text-amber-600">
+                      Sobre
+                    </span>
+                  </li>
+                  <li>
+                    <span className="cursor-pointer transition hover:text-amber-600">
+                      Contato
+                    </span>
+                  </li>
+                  <li>
+                    <span className="cursor-pointer transition hover:text-amber-600">
+                      Política de Troca
+                    </span>
+                  </li>
+                  <li>
+                    <span className="cursor-pointer transition hover:text-amber-600">
+                      Termos de Uso
+                    </span>
+                  </li>
                 </ul>
               </div>
 
@@ -93,14 +120,13 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
                 <ul className="mt-3 space-y-2 text-sm text-slate-600">
                   <li>contato@electrics.com</li>
                   <li>(11) 4002-8922</li>
-                  <li>Brasilia - DF</li>
+                  <li>Brasília - DF</li>
                 </ul>
               </div>
             </div>
 
             <div className="mt-10 border-t border-slate-200 pt-6 text-center text-xs text-slate-500">
-              © {new Date().getFullYear()} ELECTRICS. Todos os direitos reservados.
-              CODE_PH - SOLUÇÕES DIGITAIS.
+              © {new Date().getFullYear()} TENIS NEON. Todos os direitos reservados. CODE_PH - SOLUÇÕES DIGITAIS.
             </div>
           </div>
         </footer>
