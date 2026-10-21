@@ -29,9 +29,19 @@ function formatData(iso: string): string {
   });
 }
 
+function getCurrentMonthYear() {
+  const now = new Date();
+  return {
+    month: now.getMonth() + 1,
+    year: now.getFullYear(),
+  };
+}
+
 export default function AdminDashboard() {
   const [pedidos, setPedidos] = useState<Pedido[]>([]);
   const [loading, setLoading] = useState(true);
+  const [filtroMes, setFiltroMes] = useState(getCurrentMonthYear().month);
+  const [filtroAno, setFiltroAno] = useState(getCurrentMonthYear().year);
 
   useEffect(() => {
     carregar();
@@ -58,20 +68,25 @@ export default function AdminDashboard() {
     await carregar();
   }
 
+  const pedidosFiltrados = pedidos.filter((p) => {
+    const d = new Date(p.data);
+    return d.getMonth() + 1 === filtroMes && d.getFullYear() === filtroAno;
+  });
+
   const totais = {
-    total: pedidos.length,
-    aguardando: pedidos.filter((p) => p.status === "aguardando").length,
-    confirmado: pedidos.filter((p) => p.status === "confirmado").length,
-    concluido: pedidos.filter((p) => p.status === "concluido").length,
-    cancelado: pedidos.filter((p) => p.status === "cancelado").length,
-    unidades: pedidos.filter((p) => p.status !== "cancelado").reduce((s, p) => s + p.quantidade, 0),
-    faturamento: pedidos
+    total: pedidosFiltrados.length,
+    aguardando: pedidosFiltrados.filter((p) => p.status === "aguardando").length,
+    confirmado: pedidosFiltrados.filter((p) => p.status === "confirmado").length,
+    concluido: pedidosFiltrados.filter((p) => p.status === "concluido").length,
+    cancelado: pedidosFiltrados.filter((p) => p.status === "cancelado").length,
+    unidades: pedidosFiltrados.filter((p) => p.status !== "cancelado").reduce((s, p) => s + p.quantidade, 0),
+    faturamento: pedidosFiltrados
       .filter((p) => p.status !== "cancelado")
       .reduce((s, p) => s + p.valor, 0),
   };
 
   const cardClass =
-    "rounded-xl border border-slate-200 bg-white p-5";
+    "rounded-xl border border-slate-200 bg-white p-6";
 
   const card = (
     titulo: string,
@@ -79,17 +94,60 @@ export default function AdminDashboard() {
     cor: string,
   ) => (
     <div className={cardClass}>
-      <p className="text-sm text-slate-500">{titulo}</p>
-      <p className={`mt-1 text-2xl font-bold ${cor}`}>{valor}</p>
+      <p className="text-base text-slate-500">{titulo}</p>
+      <p className={`mt-2 text-4xl font-bold ${cor}`}>{valor}</p>
     </div>
   );
 
+  const meses = [
+    { value: 1, label: "Janeiro" },
+    { value: 2, label: "Fevereiro" },
+    { value: 3, label: "Março" },
+    { value: 4, label: "Abril" },
+    { value: 5, label: "Maio" },
+    { value: 6, label: "Junho" },
+    { value: 7, label: "Julho" },
+    { value: 8, label: "Agosto" },
+    { value: 9, label: "Setembro" },
+    { value: 10, label: "Outubro" },
+    { value: 11, label: "Novembro" },
+    { value: 12, label: "Dezembro" },
+  ];
+
+  const anos = Array.from({ length: 5 }, (_, i) => getCurrentMonthYear().year - 2 + i);
+
   return (
     <div className="mx-auto max-w-6xl px-4 py-10">
-      <h1 className="text-3xl font-bold text-black">Dashboard de Pedidos</h1>
-      <p className="mt-1 text-slate-600">
+      <h1 className="text-4xl font-bold text-black">Dashboard de Pedidos</h1>
+      <p className="mt-2 text-lg text-slate-600">
         Controle dos pedidos encaminhados ao WhatsApp e saída de estoque.
       </p>
+
+      <div className="mt-8 flex flex-wrap items-center gap-3 rounded-xl border border-slate-200 bg-white p-4">
+        <span className="text-base font-semibold text-black">Relatório mensal</span>
+        <select
+          value={filtroMes}
+          onChange={(e) => setFiltroMes(Number(e.target.value))}
+          className="rounded-lg border border-slate-300 px-4 py-2 text-base text-black outline-none focus:border-blue-500"
+        >
+          {meses.map((m) => (
+            <option key={m.value} value={m.value}>
+              {m.label}
+            </option>
+          ))}
+        </select>
+        <select
+          value={filtroAno}
+          onChange={(e) => setFiltroAno(Number(e.target.value))}
+          className="rounded-lg border border-slate-300 px-4 py-2 text-base text-black outline-none focus:border-blue-500"
+        >
+          {anos.map((a) => (
+            <option key={a} value={a}>
+              {a}
+            </option>
+          ))}
+        </select>
+      </div>
 
       <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         {card("Faturamento estimado", formatBRL(totais.faturamento), "text-green-600")}

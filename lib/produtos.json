@@ -7,9 +7,13 @@
     "category": "Masculino",
     "marca": "Nike",
     "tipo": "Corrida",
-    "quantity": 25,
+    "quantity": 26,
     "image": "/tenis-masculino.svg",
-    "specs": ["Mesh respirável", "Solado EVA", "38-44"],
+    "specs": [
+      "Mesh respirável",
+      "Solado EVA",
+      "38-44"
+    ],
     "description": "Tênis leve e confortável ideal para corridas e dia a dia.",
     "installments": 6
   },
@@ -23,7 +27,11 @@
     "tipo": "Casual",
     "quantity": 15,
     "image": "/tenis-masculino-1.svg",
-    "specs": ["Cabedal sintético", "Solado emborrachado", "38-44"],
+    "specs": [
+      "Cabedal sintético",
+      "Solado emborrachado",
+      "38-44"
+    ],
     "description": "Modelo clássico com ótimo conforto para o dia a dia.",
     "installments": 6
   },
@@ -37,7 +45,11 @@
     "tipo": "Esportivo",
     "quantity": 10,
     "image": "/tenis-masculino-2.svg",
-    "specs": ["Amortecimento", "Respirável", "39-44"],
+    "specs": [
+      "Amortecimento",
+      "Respirável",
+      "39-44"
+    ],
     "description": "Ideal para treinos com excelente suporte ao pé.",
     "installments": 6
   },
@@ -51,7 +63,11 @@
     "tipo": "Slip-on",
     "quantity": 20,
     "image": "/tenis-masculino-3.svg",
-    "specs": ["Sem cadarço", "Leve", "38-43"],
+    "specs": [
+      "Sem cadarço",
+      "Leve",
+      "38-43"
+    ],
     "description": "Prático e moderno para quem busca conforto rápido.",
     "installments": 4
   },
@@ -65,7 +81,11 @@
     "tipo": "Corrida",
     "quantity": 20,
     "image": "/tenis-feminino.svg",
-    "specs": ["Leve", "Mesh", "34-40"],
+    "specs": [
+      "Leve",
+      "Mesh",
+      "34-40"
+    ],
     "description": "Desenvolvido para corrida com design elegante.",
     "installments": 6
   },
@@ -79,7 +99,11 @@
     "tipo": "Casual",
     "quantity": 30,
     "image": "/tenis-feminino-1.svg",
-    "specs": ["Confortável", "Versátil", "34-40"],
+    "specs": [
+      "Confortável",
+      "Versátil",
+      "34-40"
+    ],
     "description": "Combina com qualquer look do dia a dia.",
     "installments": 6
   },
@@ -93,7 +117,11 @@
     "tipo": "Fashion",
     "quantity": 15,
     "image": "/tenis-feminino-2.svg",
-    "specs": ["Design moderno", "Leve", "34-39"],
+    "specs": [
+      "Design moderno",
+      "Leve",
+      "34-39"
+    ],
     "description": "Estilo e conforto em um só modelo.",
     "installments": 6
   },
@@ -105,9 +133,13 @@
     "category": "Feminino",
     "marca": "Fila",
     "tipo": "Lazer",
-    "quantity": 2,
+    "quantity": 3,
     "image": "/tenis-feminino-3.svg",
-    "specs": ["Confortável", "Macio", "34-40"],
+    "specs": [
+      "Confortável",
+      "Macio",
+      "34-40"
+    ],
     "description": "Perfeito para passeios e momentos de lazer.",
     "installments": 4
   },
@@ -121,7 +153,11 @@
     "tipo": "Casual",
     "quantity": 40,
     "image": "/tenis-infantil.svg",
-    "specs": ["Fechamento seguro", "Flexível", "23-33"],
+    "specs": [
+      "Fechamento seguro",
+      "Flexível",
+      "23-33"
+    ],
     "description": "Confortável e resistente para o pé em crescimento.",
     "installments": 3
   },
@@ -135,7 +171,11 @@
     "tipo": "Esportivo",
     "quantity": 35,
     "image": "/tenis-infantil-1.svg",
-    "specs": ["Respirável", "Anti-deslizante", "23-33"],
+    "specs": [
+      "Respirável",
+      "Anti-deslizante",
+      "23-33"
+    ],
     "description": "Ideal para brincadeiras e atividades físicas.",
     "installments": 3
   },
@@ -149,7 +189,11 @@
     "tipo": "Lazer",
     "quantity": 30,
     "image": "/tenis-infantil-2.svg",
-    "specs": ["Leve", "Macio", "23-33"],
+    "specs": [
+      "Leve",
+      "Macio",
+      "23-33"
+    ],
     "description": "Macio e confortável para uso diário.",
     "installments": 3
   },
@@ -163,7 +207,11 @@
     "tipo": "Corrida",
     "quantity": 25,
     "image": "/tenis-infantil-3.svg",
-    "specs": ["Amortecimento", "Leve", "23-33"],
+    "specs": [
+      "Amortecimento",
+      "Leve",
+      "23-33"
+    ],
     "description": "Dá suporte e conforto para correr e brincar.",
     "installments": 3
   }

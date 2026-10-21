@@ -261,33 +261,35 @@ export default async function Products({
                         ))}
                       </div>
 
-                      <div className="mt-4 flex items-end gap-2">
-                        {product.promotion ? (
-                          <>
-                            <p className="text-sm text-slate-500 line-through">
+                      <div className="mt-auto pt-4">
+                        <div className="flex items-end gap-2">
+                          {product.promotion ? (
+                            <>
+                              <p className="text-sm text-slate-500 line-through">
+                                {formatBRL(product.price)}
+                              </p>
+                              <p className="text-xl font-bold text-black">
+                                {formatBRL(product.promotion)}
+                              </p>
+                            </>
+                          ) : (
+                            <p className="text-xl font-bold text-black">
                               {formatBRL(product.price)}
                             </p>
-                            <p className="text-xl font-bold text-black">
-                              {formatBRL(product.promotion)}
-                            </p>
-                          </>
-                        ) : (
-                          <p className="text-xl font-bold text-black">
-                            {formatBRL(product.price)}
-                          </p>
-                        )}
+                          )}
+                        </div>
+
+                        <p className="mt-1 text-sm text-slate-500">
+                          até {formatParcelas(product.promotion ?? product.price, product.installments ?? 1)}
+                        </p>
+
+                        <BotaoWhatsApp
+                          produtoId={product.id}
+                          nome={product.name}
+                          categoria={product.category}
+                          precoFinal={precoFinal}
+                        />
                       </div>
-
-                      <p className="mt-1 text-sm text-slate-500">
-                        até {formatParcelas(product.promotion ?? product.price, product.installments ?? 1)}
-                      </p>
-
-                      <BotaoWhatsApp
-                        produtoId={product.id}
-                        nome={product.name}
-                        categoria={product.category}
-                        precoFinal={precoFinal}
-                      />
                     </div>
                   </article>
                 );
