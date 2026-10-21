@@ -64,20 +64,23 @@ const advantages = [
 export default function Home() {
   return (
     <div>
-      <section className="relative h-[calc(100dvh-5rem)] w-full bg-white md:h-[calc(100dvh-6rem)]">
+      <section className="w-full bg-white md:hidden">
+        <Image
+          src="/page_inicio1.png"
+          alt="TENIS NEON - Coleção de tênis"
+          width={1080}
+          height={480}
+          className="w-full h-auto object-cover object-top"
+          priority
+        />
+      </section>
+
+      <section className="relative hidden h-[calc(100dvh-5rem)] w-full bg-white md:block md:h-[calc(100dvh-6rem)]">
         <Image
           src="/page_inicio1.png"
           alt="TENIS NEON - Coleção de tênis"
           fill
-          className="hidden object-cover object-center md:block"
-          priority
-          sizes="100vw"
-        />
-        <Image
-          src="/Tenis_premium.png"
-          alt="TENIS NEON - Coleção de tênis"
-          fill
-          className="block object-contain object-center md:hidden"
+          className="object-cover object-center"
           priority
           sizes="100vw"
         />
