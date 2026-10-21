@@ -7,5 +7,32 @@
     "quantidade": 1,
     "data": "2026-10-21T03:31:58.517Z",
     "status": "confirmado"
+  },
+  {
+    "id": 2,
+    "produtoId": 5,
+    "nome": "Tênis Feminino Runner",
+    "valor": 169.9,
+    "quantidade": 1,
+    "data": "2026-10-21T03:59:24.708Z",
+    "status": "concluido"
+  },
+  {
+    "id": 3,
+    "produtoId": 8,
+    "nome": "Tênis Feminino Lazer",
+    "valor": 139.9,
+    "quantidade": 1,
+    "data": "2026-10-21T04:01:00.538Z",
+    "status": "confirmado"
+  },
+  {
+    "id": 4,
+    "produtoId": 3,
+    "nome": "Tênis Esportivo Masculino",
+    "valor": 199.9,
+    "quantidade": 1,
+    "data": "2026-10-21T04:13:28.057Z",
+    "status": "aguardando"
   }
 ]

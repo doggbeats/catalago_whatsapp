@@ -49,7 +49,7 @@ export default function Navbar() {
                 <>
                   <button
                     type="button"
-                    className="group relative inline-flex items-center gap-1 rounded-md px-3 py-2 text-sm font-medium text-slate-700 transition hover:text-black"
+                    className="group relative inline-flex items-center gap-1 rounded-md px-3.5 py-2 text-base font-medium text-slate-700 transition hover:text-black"
                   >
                     {cat.label}
                     <svg
@@ -68,7 +68,7 @@ export default function Navbar() {
                         <li key={sub.href}>
                           <Link
                             href={sub.href}
-                            className="block px-4 py-2 text-sm text-slate-700 transition hover:bg-amber-50 hover:text-black"
+                            className="block px-4 py-2 text-base text-slate-700 transition hover:bg-amber-50 hover:text-black"
                           >
                             {sub.label}
                           </Link>
@@ -80,7 +80,7 @@ export default function Navbar() {
               ) : cat.label === "Contato" ? (
                 <a
                   href="#contato"
-                  className="group relative inline-flex items-center rounded-md px-3 py-2 text-sm font-medium text-slate-700 transition hover:text-black"
+                  className="group relative inline-flex items-center rounded-md px-3.5 py-2 text-base font-medium text-slate-700 transition hover:text-black"
                 >
                   {cat.label}
                   <span className="absolute inset-x-3 -bottom-0.5 h-0.5 origin-left scale-x-0 rounded-full bg-amber-400 transition-transform duration-200 group-hover:scale-x-100" />
@@ -88,7 +88,7 @@ export default function Navbar() {
               ) : (
                 <Link
                   href={cat.href}
-                  className="group relative inline-flex items-center rounded-md px-3 py-2 text-sm font-medium text-slate-700 transition hover:text-black"
+                  className="group relative inline-flex items-center rounded-md px-3.5 py-2 text-base font-medium text-slate-700 transition hover:text-black"
                 >
                   {cat.label}
                   <span className="absolute inset-x-3 -bottom-0.5 h-0.5 origin-left scale-x-0 rounded-full bg-amber-400 transition-transform duration-200 group-hover:scale-x-100" />
@@ -160,7 +160,7 @@ export default function Navbar() {
                     <button
                       type="button"
                       onClick={() => setGeneroOpen((v) => !v)}
-                      className="flex w-full items-center justify-between rounded-lg px-3 py-3 text-sm font-medium text-slate-700 transition hover:text-amber-600"
+                      className="flex w-full items-center justify-between rounded-lg px-3 py-3 text-base font-medium text-slate-700 transition hover:text-amber-600"
                     >
                       {cat.label}
                       <svg
@@ -179,7 +179,7 @@ export default function Navbar() {
                             <Link
                               href={sub.href}
                               onClick={() => setOpen(false)}
-                              className="block rounded-lg px-3 py-2 text-sm text-slate-600 transition hover:text-amber-600"
+                              className="block rounded-lg px-3 py-2 text-base text-slate-600 transition hover:text-amber-600"
                             >
                               {sub.label}
                             </Link>
@@ -192,7 +192,7 @@ export default function Navbar() {
                   <a
                     href="#contato"
                     onClick={() => setOpen(false)}
-                    className="block rounded-lg px-3 py-3 text-sm font-medium text-slate-700 transition hover:text-amber-600"
+                    className="block rounded-lg px-3 py-3 text-base font-medium text-slate-700 transition hover:text-amber-600"
                   >
                     {cat.label}
                   </a>
@@ -200,7 +200,7 @@ export default function Navbar() {
                   <Link
                     href={cat.href}
                     onClick={() => setOpen(false)}
-                    className="block rounded-lg px-3 py-3 text-sm font-medium text-slate-700 transition hover:text-amber-600"
+                    className="block rounded-lg px-3 py-3 text-base font-medium text-slate-700 transition hover:text-amber-600"
                   >
                     {cat.label}
                   </Link>
@@ -211,7 +211,7 @@ export default function Navbar() {
               <Link
                 href="/admin"
                 onClick={() => setOpen(false)}
-                className="flex items-center gap-2 rounded-lg px-3 py-3 text-sm font-medium text-slate-700 transition hover:text-amber-600"
+                className="flex items-center gap-2 rounded-lg px-3 py-3 text-base font-medium text-slate-700 transition hover:text-amber-600"
               >
                 <svg
                   className="h-[18px] w-[18px]"
