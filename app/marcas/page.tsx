@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { getProdutos } from "@/lib/produtos";
 
-const marcas = ["Nike", "Adidas", "Jordan", "Fila", "Humbro"];
+const marcas = ["Nike", "Adidas", "New Balance", "Jordan", "Fila", "Humbro"];
 
 export default async function MarcasPage() {
   const produtos = await getProdutos();

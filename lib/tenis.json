@@ -1,0 +1,404 @@
+[
+  {
+    "marca": "New Balance",
+    "modelo": "Modelo 1",
+    "slug": "modelo-1",
+    "categoria": "Masculino",
+    "tamanho": "34-43",
+    "totalFotos": 4,
+    "imagens": [
+      "/tenis/new-balance/modelo-1/01.jpeg",
+      "/tenis/new-balance/modelo-1/02.jpeg",
+      "/tenis/new-balance/modelo-1/03.jpeg",
+      "/tenis/new-balance/modelo-1/04.jpeg"
+    ]
+  },
+  {
+    "marca": "New Balance",
+    "modelo": "Modelo 2",
+    "slug": "modelo-2",
+    "categoria": "Masculino",
+    "tamanho": "34-43",
+    "totalFotos": 5,
+    "imagens": [
+      "/tenis/new-balance/modelo-2/01.jpeg",
+      "/tenis/new-balance/modelo-2/02.jpeg",
+      "/tenis/new-balance/modelo-2/03.jpeg",
+      "/tenis/new-balance/modelo-2/04.jpeg",
+      "/tenis/new-balance/modelo-2/05.jpeg"
+    ]
+  },
+  {
+    "marca": "New Balance",
+    "modelo": "Modelo 3",
+    "slug": "modelo-3",
+    "categoria": "Masculino",
+    "tamanho": "34-43",
+    "totalFotos": 4,
+    "imagens": [
+      "/tenis/new-balance/modelo-3/01.jpeg",
+      "/tenis/new-balance/modelo-3/02.jpeg",
+      "/tenis/new-balance/modelo-3/03.jpeg",
+      "/tenis/new-balance/modelo-3/04.jpeg"
+    ]
+  },
+  {
+    "marca": "New Balance",
+    "modelo": "Modelo 4",
+    "slug": "modelo-4",
+    "categoria": "Feminino",
+    "tamanho": "34-39",
+    "totalFotos": 4,
+    "imagens": [
+      "/tenis/new-balance/modelo-4/01.jpeg",
+      "/tenis/new-balance/modelo-4/02.jpeg",
+      "/tenis/new-balance/modelo-4/03.jpeg",
+      "/tenis/new-balance/modelo-4/04.jpeg"
+    ]
+  },
+  {
+    "marca": "New Balance",
+    "modelo": "Modelo 5",
+    "slug": "modelo-5",
+    "categoria": "Masculino",
+    "tamanho": "34-43",
+    "totalFotos": 5,
+    "imagens": [
+      "/tenis/new-balance/modelo-5/01.jpeg",
+      "/tenis/new-balance/modelo-5/02.jpeg",
+      "/tenis/new-balance/modelo-5/03.jpeg",
+      "/tenis/new-balance/modelo-5/04.jpeg",
+      "/tenis/new-balance/modelo-5/05.jpeg"
+    ]
+  },
+  {
+    "marca": "Adidas",
+    "modelo": "Modelo 1",
+    "slug": "modelo-1",
+    "categoria": "Feminino",
+    "tamanho": "34-39",
+    "totalFotos": 4,
+    "imagens": [
+      "/tenis/adidas/modelo-1/01.jpeg",
+      "/tenis/adidas/modelo-1/02.jpeg",
+      "/tenis/adidas/modelo-1/03.jpeg",
+      "/tenis/adidas/modelo-1/04.jpeg"
+    ]
+  },
+  {
+    "marca": "New Balance",
+    "modelo": "Modelo 6",
+    "slug": "modelo-6",
+    "categoria": "Masculino",
+    "tamanho": "34-43",
+    "totalFotos": 3,
+    "imagens": [
+      "/tenis/new-balance/modelo-6/01.jpeg",
+      "/tenis/new-balance/modelo-6/02.jpeg",
+      "/tenis/new-balance/modelo-6/03.jpeg"
+    ]
+  },
+  {
+    "marca": "Adidas",
+    "modelo": "Campus",
+    "slug": "campus",
+    "categoria": "Masculino",
+    "tamanho": "34-45",
+    "totalFotos": 12,
+    "imagens": [
+      "/tenis/adidas/campus/01.jpeg",
+      "/tenis/adidas/campus/02.jpeg",
+      "/tenis/adidas/campus/03.jpeg",
+      "/tenis/adidas/campus/04.jpeg",
+      "/tenis/adidas/campus/05.jpeg",
+      "/tenis/adidas/campus/06.jpeg",
+      "/tenis/adidas/campus/07.jpeg",
+      "/tenis/adidas/campus/08.jpeg",
+      "/tenis/adidas/campus/09.jpeg",
+      "/tenis/adidas/campus/10.jpeg",
+      "/tenis/adidas/campus/11.jpeg",
+      "/tenis/adidas/campus/12.jpeg"
+    ]
+  },
+  {
+    "marca": "Adidas",
+    "modelo": "Samba",
+    "slug": "samba",
+    "categoria": "Masculino",
+    "tamanho": "34-43",
+    "totalFotos": 10,
+    "imagens": [
+      "/tenis/adidas/samba/01.jpeg",
+      "/tenis/adidas/samba/02.jpeg",
+      "/tenis/adidas/samba/03.jpeg",
+      "/tenis/adidas/samba/04.jpeg",
+      "/tenis/adidas/samba/05.jpeg",
+      "/tenis/adidas/samba/06.jpeg",
+      "/tenis/adidas/samba/07.jpeg",
+      "/tenis/adidas/samba/08.jpeg",
+      "/tenis/adidas/samba/09.jpeg",
+      "/tenis/adidas/samba/10.jpeg"
+    ]
+  },
+  {
+    "marca": "Adidas",
+    "modelo": "Modelo 2",
+    "slug": "modelo-2",
+    "categoria": "Masculino",
+    "tamanho": "34-43",
+    "totalFotos": 4,
+    "imagens": [
+      "/tenis/adidas/modelo-2/01.jpeg",
+      "/tenis/adidas/modelo-2/02.jpeg",
+      "/tenis/adidas/modelo-2/03.jpeg",
+      "/tenis/adidas/modelo-2/04.jpeg"
+    ]
+  },
+  {
+    "marca": "Adidas",
+    "modelo": "Modelo 3",
+    "slug": "modelo-3",
+    "categoria": "Masculino",
+    "tamanho": "",
+    "totalFotos": 3,
+    "imagens": [
+      "/tenis/adidas/modelo-3/01.jpeg",
+      "/tenis/adidas/modelo-3/02.jpeg",
+      "/tenis/adidas/modelo-3/03.jpeg"
+    ]
+  },
+  {
+    "marca": "Adidas",
+    "modelo": "Modelo 4",
+    "slug": "modelo-4",
+    "categoria": "Masculino",
+    "tamanho": "34-42",
+    "totalFotos": 5,
+    "imagens": [
+      "/tenis/adidas/modelo-4/01.jpeg",
+      "/tenis/adidas/modelo-4/02.jpeg",
+      "/tenis/adidas/modelo-4/03.jpeg",
+      "/tenis/adidas/modelo-4/04.jpeg",
+      "/tenis/adidas/modelo-4/05.jpeg"
+    ]
+  },
+  {
+    "marca": "Adidas",
+    "modelo": "Modelo 5",
+    "slug": "modelo-5",
+    "categoria": "Feminino",
+    "tamanho": "34-39",
+    "totalFotos": 5,
+    "imagens": [
+      "/tenis/adidas/modelo-5/01.jpeg",
+      "/tenis/adidas/modelo-5/02.jpeg",
+      "/tenis/adidas/modelo-5/03.jpeg",
+      "/tenis/adidas/modelo-5/04.jpeg",
+      "/tenis/adidas/modelo-5/05.jpeg"
+    ]
+  },
+  {
+    "marca": "Adidas",
+    "modelo": "Modelo 6",
+    "slug": "modelo-6",
+    "categoria": "Masculino",
+    "tamanho": "34-43",
+    "totalFotos": 4,
+    "imagens": [
+      "/tenis/adidas/modelo-6/01.jpeg",
+      "/tenis/adidas/modelo-6/02.jpeg",
+      "/tenis/adidas/modelo-6/03.jpeg",
+      "/tenis/adidas/modelo-6/04.jpeg"
+    ]
+  },
+  {
+    "marca": "Adidas",
+    "modelo": "Modelo 7",
+    "slug": "modelo-7",
+    "categoria": "Masculino",
+    "tamanho": "34-43",
+    "totalFotos": 5,
+    "imagens": [
+      "/tenis/adidas/modelo-7/01.jpeg",
+      "/tenis/adidas/modelo-7/02.jpeg",
+      "/tenis/adidas/modelo-7/03.jpeg",
+      "/tenis/adidas/modelo-7/04.jpeg",
+      "/tenis/adidas/modelo-7/05.jpeg"
+    ]
+  },
+  {
+    "marca": "Adidas",
+    "modelo": "Modelo 8",
+    "slug": "modelo-8",
+    "categoria": "Infantil",
+    "tamanho": "26-43",
+    "totalFotos": 5,
+    "imagens": [
+      "/tenis/adidas/modelo-8/01.jpeg",
+      "/tenis/adidas/modelo-8/02.jpeg",
+      "/tenis/adidas/modelo-8/03.jpeg",
+      "/tenis/adidas/modelo-8/04.jpeg",
+      "/tenis/adidas/modelo-8/05.jpeg"
+    ]
+  },
+  {
+    "marca": "Adidas",
+    "modelo": "Ref. 800",
+    "slug": "ref-800",
+    "categoria": "Masculino",
+    "tamanho": "",
+    "totalFotos": 8,
+    "imagens": [
+      "/tenis/adidas/ref-800/01.jpeg",
+      "/tenis/adidas/ref-800/02.jpeg",
+      "/tenis/adidas/ref-800/03.jpeg",
+      "/tenis/adidas/ref-800/04.jpeg",
+      "/tenis/adidas/ref-800/05.jpeg",
+      "/tenis/adidas/ref-800/06.jpeg",
+      "/tenis/adidas/ref-800/07.jpeg",
+      "/tenis/adidas/ref-800/08.jpeg"
+    ]
+  },
+  {
+    "marca": "Adidas",
+    "modelo": "Modelo 9",
+    "slug": "modelo-9",
+    "categoria": "Masculino",
+    "tamanho": "",
+    "totalFotos": 4,
+    "imagens": [
+      "/tenis/adidas/modelo-9/01.jpeg",
+      "/tenis/adidas/modelo-9/02.jpeg",
+      "/tenis/adidas/modelo-9/03.jpeg",
+      "/tenis/adidas/modelo-9/04.jpeg"
+    ]
+  },
+  {
+    "marca": "Adidas",
+    "modelo": "Modelo 10",
+    "slug": "modelo-10",
+    "categoria": "Masculino",
+    "tamanho": "",
+    "totalFotos": 4,
+    "imagens": [
+      "/tenis/adidas/modelo-10/01.jpeg",
+      "/tenis/adidas/modelo-10/02.jpeg",
+      "/tenis/adidas/modelo-10/03.jpeg",
+      "/tenis/adidas/modelo-10/04.jpeg"
+    ]
+  },
+  {
+    "marca": "Adidas",
+    "modelo": "Modelo 11",
+    "slug": "modelo-11",
+    "categoria": "Masculino",
+    "tamanho": "34-43",
+    "totalFotos": 3,
+    "imagens": [
+      "/tenis/adidas/modelo-11/01.jpeg",
+      "/tenis/adidas/modelo-11/02.jpeg",
+      "/tenis/adidas/modelo-11/03.jpeg"
+    ]
+  },
+  {
+    "marca": "Adidas",
+    "modelo": "Modelo 12",
+    "slug": "modelo-12",
+    "categoria": "Feminino",
+    "tamanho": "34-39",
+    "totalFotos": 5,
+    "imagens": [
+      "/tenis/adidas/modelo-12/01.jpeg",
+      "/tenis/adidas/modelo-12/02.jpeg",
+      "/tenis/adidas/modelo-12/03.jpeg",
+      "/tenis/adidas/modelo-12/04.jpeg",
+      "/tenis/adidas/modelo-12/05.jpeg"
+    ]
+  },
+  {
+    "marca": "Adidas",
+    "modelo": "Modelo 13",
+    "slug": "modelo-13",
+    "categoria": "Masculino",
+    "tamanho": "34-43",
+    "totalFotos": 4,
+    "imagens": [
+      "/tenis/adidas/modelo-13/01.jpeg",
+      "/tenis/adidas/modelo-13/02.jpeg",
+      "/tenis/adidas/modelo-13/03.jpeg",
+      "/tenis/adidas/modelo-13/04.jpeg"
+    ]
+  },
+  {
+    "marca": "Adidas",
+    "modelo": "Modelo 14",
+    "slug": "modelo-14",
+    "categoria": "Masculino",
+    "tamanho": "34-43",
+    "totalFotos": 5,
+    "imagens": [
+      "/tenis/adidas/modelo-14/01.jpeg",
+      "/tenis/adidas/modelo-14/02.jpeg",
+      "/tenis/adidas/modelo-14/03.jpeg",
+      "/tenis/adidas/modelo-14/04.jpeg",
+      "/tenis/adidas/modelo-14/05.jpeg"
+    ]
+  },
+  {
+    "marca": "Adidas",
+    "modelo": "Racing Pro",
+    "slug": "racing-pro",
+    "categoria": "Masculino",
+    "tamanho": "34-43",
+    "totalFotos": 14,
+    "imagens": [
+      "/tenis/adidas/racing-pro/01.jpeg",
+      "/tenis/adidas/racing-pro/02.jpeg",
+      "/tenis/adidas/racing-pro/03.jpeg",
+      "/tenis/adidas/racing-pro/04.jpeg",
+      "/tenis/adidas/racing-pro/05.jpeg",
+      "/tenis/adidas/racing-pro/06.jpeg",
+      "/tenis/adidas/racing-pro/07.jpeg",
+      "/tenis/adidas/racing-pro/08.jpeg",
+      "/tenis/adidas/racing-pro/09.jpeg",
+      "/tenis/adidas/racing-pro/10.jpeg",
+      "/tenis/adidas/racing-pro/11.jpeg",
+      "/tenis/adidas/racing-pro/12.jpeg",
+      "/tenis/adidas/racing-pro/13.jpeg",
+      "/tenis/adidas/racing-pro/14.jpeg"
+    ]
+  },
+  {
+    "marca": "Adidas",
+    "modelo": "Modelo 15",
+    "slug": "modelo-15",
+    "categoria": "Feminino",
+    "tamanho": "34-39",
+    "totalFotos": 5,
+    "imagens": [
+      "/tenis/adidas/modelo-15/01.jpeg",
+      "/tenis/adidas/modelo-15/02.jpeg",
+      "/tenis/adidas/modelo-15/03.jpeg",
+      "/tenis/adidas/modelo-15/04.jpeg",
+      "/tenis/adidas/modelo-15/05.jpeg"
+    ]
+  },
+  {
+    "marca": "Adidas",
+    "modelo": "Superstar",
+    "slug": "superstar",
+    "categoria": "Feminino",
+    "tamanho": "34-39",
+    "totalFotos": 8,
+    "imagens": [
+      "/tenis/adidas/superstar/01.jpeg",
+      "/tenis/adidas/superstar/02.jpeg",
+      "/tenis/adidas/superstar/03.jpeg",
+      "/tenis/adidas/superstar/04.jpeg",
+      "/tenis/adidas/superstar/05.jpeg",
+      "/tenis/adidas/superstar/06.jpeg",
+      "/tenis/adidas/superstar/07.jpeg",
+      "/tenis/adidas/superstar/08.jpeg"
+    ]
+  }
+]

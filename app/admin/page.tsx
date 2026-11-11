@@ -9,6 +9,8 @@ type Produto = {
   price: number;
   promotion: number | null;
   category: string;
+  marca?: string;
+  tipo?: string;
   cor?: string;
   tamanho?: string;
   qualidade?: string;
@@ -19,7 +21,7 @@ type Produto = {
 };
 
 const categorias = ["Masculino", "Feminino", "Infantil"];
-const marcas = ["Nike", "Adidas", "Jordan", "Fila", "Humbro"];
+const marcas = ["Nike", "Adidas", "New Balance", "Jordan", "Fila", "Humbro"];
 const tipos = ["Corrida", "Casual", "Esportivo", "Fashion", "Slip-on", "Lazer"];
 const cores = [
   "Preto",
@@ -62,6 +64,8 @@ type FormState = {
   price: string;
   promotion: string;
   category: string;
+  marca: string;
+  tipo: string;
   cor: string;
   tamanho: string;
   qualidade: string;
@@ -77,6 +81,8 @@ const emptyForm: FormState = {
   price: "",
   promotion: "",
   category: categorias[0],
+  marca: "",
+  tipo: "",
   cor: cores[0],
   tamanho: "",
   qualidade: qualidades[0],
@@ -154,6 +160,8 @@ export default function AdminPage() {
       price: Number(form.price),
       promotion: form.promotion ? Number(form.promotion) : null,
       category: form.category,
+      marca: form.marca || undefined,
+      tipo: form.tipo || undefined,
       cor: form.cor || undefined,
       tamanho: form.tamanho || undefined,
       qualidade: form.qualidade || undefined,
@@ -192,6 +200,8 @@ export default function AdminPage() {
       price: String(p.price),
       promotion: p.promotion ? String(p.promotion) : "",
       category: p.category,
+      marca: p.marca ?? "",
+      tipo: p.tipo ?? "",
       cor: p.cor ?? "",
       tamanho: p.tamanho ?? "",
       qualidade: p.qualidade ?? "",
@@ -236,6 +246,26 @@ export default function AdminPage() {
           <select name="category" value={form.category} onChange={handleChange} className={inputClass}>
             {categorias.map((c) => (
               <option key={c} value={c}>{c}</option>
+            ))}
+          </select>
+        </div>
+
+        <div>
+          <label className="mb-1 block text-sm font-medium text-slate-700">Marca</label>
+          <select name="marca" value={form.marca} onChange={handleChange} className={inputClass}>
+            <option value="">Sem marca</option>
+            {marcas.map((m) => (
+              <option key={m} value={m}>{m}</option>
+            ))}
+          </select>
+        </div>
+
+        <div>
+          <label className="mb-1 block text-sm font-medium text-slate-700">Tipo</label>
+          <select name="tipo" value={form.tipo} onChange={handleChange} className={inputClass}>
+            <option value="">Sem tipo</option>
+            {tipos.map((t) => (
+              <option key={t} value={t}>{t}</option>
             ))}
           </select>
         </div>

@@ -2,10 +2,10 @@ import Image from "next/image";
 import Link from "next/link";
 import { getProdutos, type Produto } from "@/lib/produtos";
 import { formatBRL, formatParcelas } from "@/lib/format";
-import BotaoWhatsApp from "../components/BotaoWhatsApp";
+import BotaoCarrinho from "../components/BotaoCarrinho";
 
 const categorias = ["Masculino", "Feminino", "Infantil"];
-const marcas = ["Nike", "Adidas", "Jordan", "Fila", "Humbro"];
+const marcas = ["Nike", "Adidas", "New Balance", "Jordan", "Fila", "Humbro"];
 const tipos = ["Corrida", "Casual", "Esportivo", "Fashion", "Slip-on", "Lazer"];
 const tamanhos = ["35", "36", "37", "38", "39", "40", "41", "42", "43", "44"];
 
@@ -208,20 +208,26 @@ export default async function Products({
                 return (
                   <article
                     key={product.id}
-                    className="group flex flex-col overflow-hidden rounded-2xl border border-slate-200 bg-white transition hover:-translate-y-0.5 hover:border-amber-400 hover:shadow-lg"
+                    className="group flex flex-col overflow-hidden rounded-2xl border border-slate-200 bg-white transition duration-300 hover:-translate-y-1.5 hover:border-amber-400 hover:shadow-xl"
                   >
                     <div className="relative h-44 w-full overflow-hidden bg-slate-50">
-                      {product.image ? (
-                        <Image
-                          src={product.image}
-                          alt={product.name}
-                          fill
-                          className="object-contain p-4 transition duration-300 group-hover:scale-105"
-                          sizes="(min-width: 1280px) 25vw, (min-width: 640px) 50vw, 100vw"
-                        />
-                      ) : (
-                        <div className="grid h-full place-items-center text-4xl">📦</div>
-                      )}
+                      <Link
+                        href={`/produtos/${product.id}`}
+                        aria-label={`Ver detalhes de ${product.name}`}
+                        className="block h-full w-full"
+                      >
+                        {product.image ? (
+                          <Image
+                            src={product.image}
+                            alt={product.name}
+                            fill
+                            className="object-contain p-4 transition duration-500 ease-out group-hover:scale-110"
+                            sizes="(min-width: 1280px) 25vw, (min-width: 640px) 50vw, 100vw"
+                          />
+                        ) : (
+                          <div className="grid h-full place-items-center text-4xl">📦</div>
+                        )}
+                      </Link>
                       {product.promotion ? (
                         <span className="absolute left-3 top-3 rounded-md bg-amber-400 px-2.5 py-1 text-xs font-bold text-black shadow-sm">
                           PROMO
@@ -230,6 +236,11 @@ export default async function Products({
                       {product.quantity <= 3 ? (
                         <span className="absolute right-3 top-3 rounded-md bg-amber-400 px-2.5 py-1 text-xs font-bold text-black shadow-sm">
                           Últimas unidades
+                        </span>
+                      ) : null}
+                      {(product.images?.length ?? 0) > 1 ? (
+                        <span className="absolute bottom-3 right-3 rounded-md bg-black/70 px-2.5 py-1 text-xs font-medium text-white">
+                          {product.images!.length} fotos
                         </span>
                       ) : null}
                     </div>
@@ -244,7 +255,12 @@ export default async function Products({
                         ) : null}
                       </div>
                       <h2 className="mt-1 line-clamp-2 min-h-14 text-lg font-semibold text-black">
-                        {product.name}
+                        <Link
+                          href={`/produtos/${product.id}`}
+                          className="transition hover:text-amber-600"
+                        >
+                          {product.name}
+                        </Link>
                       </h2>
 
                       <p className="mt-1.5 line-clamp-2 min-h-10 text-sm text-slate-600">
@@ -295,47 +311,12 @@ export default async function Products({
                           até {formatParcelas(product.promotion ?? product.price, product.installments ?? 1)}
                         </p>
 
-                        {product.tamanho ? (
-                          <div className="mt-2">
-                            <p className="text-xs font-medium text-slate-700">Tamanhos</p>
-                            <div className="mt-1.5 flex flex-wrap gap-1.5">
-                              {product.tamanho.includes("-")
-                                ? Array.from(
-                                    { length: (() => {
-                                        const [ini, fim] = product.tamanho!.split("-").map((n) => parseInt(n.trim()));
-                                        return fim - ini + 1;
-                                      })() },
-                                    (_, i) => {
-                                      const [ini] = product.tamanho!.split("-").map((n) => parseInt(n.trim()));
-                                      return String(ini + i);
-                                    }
-                                  ).map((tam) => (
-                                    <span
-                                      key={tam}
-                                      className="flex h-7 w-7 items-center justify-center rounded-md border border-slate-300 text-xs font-medium text-slate-700"
-                                    >
-                                      {tam}
-                                    </span>
-                                  ))
-                                : product.tamanho.split(",").map((tam) => tam.trim()).filter(Boolean).map((tam) => (
-                                    <span
-                                      key={tam}
-                                      className="flex h-7 items-center justify-center rounded-md border border-slate-300 px-2 text-xs font-medium text-slate-700"
-                                    >
-                                      {tam}
-                                    </span>
-                                  ))}
-                            </div>
-                          </div>
-                        ) : null}
-
-                        <BotaoWhatsApp
+                        <BotaoCarrinho
                           produtoId={product.id}
                           nome={product.name}
-                          categoria={product.category}
-                          precoFinal={precoFinal}
-                          tamanho={product.tamanho}
-                          cor={product.cor}
+                          preco={precoFinal}
+                          imagem={product.image}
+                          compacto
                         />
                       </div>
                     </div>

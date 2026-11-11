@@ -1,26 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
-
-const categories = [
-  {
-    name: "Homens",
-    description: "Tênis masculinos",
-    image: "/tenis-masculino.svg",
-    href: "/produtos?categoria=Masculino",
-  },
-  {
-    name: "Mulheres",
-    description: "Tênis femininos",
-    image: "/tenis-feminino.svg",
-    href: "/produtos?categoria=Feminino",
-  },
-  {
-    name: "Infantil",
-    description: "Tênis infantis",
-    image: "/tenis-infantil.svg",
-    href: "/produtos?categoria=Infantil",
-  },
-];
+import { getProdutos } from "@/lib/produtos";
+import CarrosselTenis from "./components/CarrosselTenis";
 
 const advantages = [
   {
@@ -61,61 +42,126 @@ const advantages = [
   },
 ];
 
-export default function Home() {
+export default async function Home() {
+  const produtos = await getProdutos();
+  const novidades = produtos.filter((p) => p.images?.length).slice(0, 8);
+
+  const newBalance = novidades.filter((p) => p.marca === "New Balance");
+  const adidas = novidades.filter((p) => p.marca === "Adidas");
+  const vitrine = [
+    newBalance[0],
+    adidas[0],
+    newBalance[1],
+    adidas[1],
+  ].filter((p): p is (typeof novidades)[number] => Boolean(p));
+
+  const fotoCategoria = (categoria: string) =>
+    produtos.find((p) => p.category === categoria && p.images?.length)?.image;
+
+  const categories = [
+    {
+      name: "Homens",
+      description: "Tênis masculinos",
+      image: fotoCategoria("Masculino"),
+      href: "/produtos?categoria=Masculino",
+    },
+    {
+      name: "Mulheres",
+      description: "Tênis femininos",
+      image: fotoCategoria("Feminino"),
+      href: "/produtos?categoria=Feminino",
+    },
+    {
+      name: "Infantil",
+      description: "Tênis infantis",
+      image: fotoCategoria("Infantil"),
+      href: "/produtos?categoria=Infantil",
+    },
+  ].filter((c): c is typeof c & { image: string } => Boolean(c.image));
+
   return (
     <div>
-      <section className="w-full bg-white md:hidden">
-        <Image
-          src="/page_inicio1.png"
-          alt="TENIS NEON - Coleção de tênis"
-          width={1080}
-          height={480}
-          className="w-full h-auto object-cover object-top"
-          priority
-        />
-      </section>
+      <section className="w-full bg-white px-4 pt-4">
+        <div className="mx-auto grid max-w-6xl gap-4 lg:grid-cols-[1.7fr_1fr]">
+          <div className="overflow-hidden rounded-2xl bg-black shadow-sm">
+            <video
+              src="/video_tenis.mp4?v=2"
+              autoPlay
+              muted
+              loop
+              playsInline
+              preload="metadata"
+              aria-label="Vídeo de apresentação da TENIS NEON"
+              className="aspect-video w-full bg-black object-cover"
+            />
+          </div>
 
-      <section className="relative hidden h-[calc(100dvh-5rem)] w-full bg-white md:block md:h-[calc(100dvh-6rem)]">
-        <Image
-          src="/page_inicio1.png"
-          alt="TENIS NEON - Coleção de tênis"
-          fill
-          className="object-cover object-center"
-          priority
-          sizes="100vw"
-        />
+          <aside className="flex flex-col overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
+            <div className="flex items-center justify-between border-b border-slate-100 px-4 py-3">
+              <h2 className="text-sm font-bold uppercase tracking-wide text-black">
+                Vitrine
+              </h2>
+              <Link
+                href="/produtos"
+                className="text-xs font-semibold text-amber-600 transition hover:text-amber-500"
+              >
+                Ver todos
+              </Link>
+            </div>
+
+            <div className="flex flex-1 flex-col divide-y divide-slate-100">
+              {vitrine.map((produto) => (
+                <Link
+                  key={produto.id}
+                  href={`/produtos/${produto.id}`}
+                  className="group flex flex-1 items-center gap-3 px-3 py-2 transition hover:bg-amber-50/70"
+                >
+                  <div className="relative h-14 w-14 shrink-0 overflow-hidden rounded-lg border border-slate-100 bg-slate-50">
+                    <Image
+                      src={produto.image}
+                      alt={produto.name}
+                      fill
+                      className="object-contain p-1 transition duration-300 group-hover:scale-110"
+                      sizes="56px"
+                    />
+                  </div>
+                  <div className="min-w-0 flex-1">
+                    <p className="line-clamp-1 text-xs font-semibold text-black transition group-hover:text-amber-600">
+                      {produto.name}
+                    </p>
+                    <p className="mt-0.5 line-clamp-2 text-[11px] leading-snug text-slate-500">
+                      {produto.description}
+                    </p>
+                  </div>
+                </Link>
+              ))}
+            </div>
+          </aside>
+        </div>
       </section>
 
       <div className="mx-auto max-w-6xl px-4 py-10">
-        <section className="mt-12">
-          <div className="flex items-end justify-between">
-            <div>
-              <h2 className="text-2xl font-bold text-black">Promoções</h2>
-              <p className="mt-1 text-slate-600">Aproveite os melhores preços</p>
+        {novidades.length ? (
+          <section className="mt-14">
+            <div className="flex items-end justify-between">
+              <div>
+                <h2 className="text-2xl font-bold text-black">Novidades</h2>
+                <p className="mt-1 text-slate-600">
+                  Adidas e New Balance com fotos reais de cada modelo
+                </p>
+              </div>
+              <Link
+                href="/produtos"
+                className="text-sm font-semibold text-amber-600 transition hover:text-amber-500"
+              >
+                Ver todos
+              </Link>
             </div>
-            <Link href="/produtos?promo=sim" className="text-sm font-semibold text-amber-600 transition hover:text-amber-500">
-              Ver todos
-            </Link>
-          </div>
-          <div className="mt-6 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
-            <Link href="/produtos?promo=sim" className="group overflow-hidden rounded-xl border border-slate-200 bg-white transition hover:border-amber-400 hover:shadow-md">
-              <div className="relative h-40 w-full overflow-hidden bg-slate-50">
-                <Image
-                  src="/tenis-masculino-1.svg"
-                  alt="Promoções"
-                  fill
-                  className="object-contain p-3 transition duration-300 group-hover:scale-105"
-                  sizes="(min-width: 1024px) 25vw, (min-width: 640px) 50vw, 100vw"
-                />
-                <span className="absolute left-3 top-3 rounded-md bg-amber-400 px-2.5 py-1 text-xs font-bold text-black">PROMO</span>
-              </div>
-              <div className="p-4">
-                <h3 className="font-semibold text-black">Tênis em Promoção</h3>
-                <p className="mt-1 text-sm text-slate-600">Veja todos os produtos com desconto</p>
-              </div>
-            </Link>
-          </div>
-        </section>
+            <div className="mt-6">
+              <CarrosselTenis produtos={novidades} />
+            </div>
+          </section>
+        ) : null}
 
         <section className="mt-14">
           <div className="flex items-end justify-between">
@@ -169,7 +215,7 @@ export default function Home() {
                   src={cat.image}
                   alt={cat.name}
                   fill
-                  className="object-cover transition duration-300 group-hover:scale-110"
+                  className="object-contain p-4 transition duration-300 group-hover:scale-110"
                   sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
                 />
               </div>
@@ -210,7 +256,7 @@ export default function Home() {
               </div>
             </div>
             <div className="flex items-center justify-center">
-              <Image src="/tenis_neon.png" alt="TENIS NEON" width={400} height={200} className="h-auto w-64 md:w-80" />
+              <Image src="/logo1.png" alt="TENIS NEON" width={418} height={146} className="h-auto w-72 md:w-96" />
             </div>
           </div>
         </div>
@@ -218,7 +264,7 @@ export default function Home() {
 
       <footer className="border-t border-slate-200 bg-white">
         <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-4 px-4 py-6 md:flex-row">
-          <Image src="/tenis_neon.png" alt="TENIS NEON" width={1774} height={887} className="h-12 w-auto" />
+          <Image src="/logo1.png" alt="TENIS NEON" width={418} height={146} className="h-16 w-auto" />
           <p className="text-sm text-slate-600">© {new Date().getFullYear()} TENIS NEON. Todos os direitos reservados.</p>
         </div>
       </footer>

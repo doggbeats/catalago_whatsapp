@@ -25,6 +25,8 @@ export async function PUT(request: Request, { params }: Params) {
                 : null
               : p.promotion,
           category: body.category ?? p.category,
+          marca: body.marca !== undefined ? body.marca || undefined : p.marca,
+          tipo: body.tipo !== undefined ? body.tipo || undefined : p.tipo,
           cor: body.cor !== undefined ? body.cor || undefined : p.cor,
           tamanho:
             body.tamanho !== undefined ? body.tamanho || undefined : p.tamanho,

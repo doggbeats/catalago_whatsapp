@@ -12,6 +12,7 @@ export type Produto = {
   qualidade?: string;
   quantity: number;
   image: string;
+  images?: string[];
   specs: string[];
   installments: number;
 };
