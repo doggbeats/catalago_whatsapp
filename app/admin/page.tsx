@@ -20,8 +20,8 @@ type Produto = {
   installments: number;
 };
 
-const categorias = ["Masculino", "Feminino", "Infantil"];
-const marcas = ["Nike", "Adidas", "New Balance", "Jordan", "Fila", "Humbro"];
+const categoriasIniciais = ["Masculino", "Feminino", "Infantil", "Painel de novidades"];
+const marcasIniciais = ["Adidas", "New Balance", "Mizuno", "Nike", "Jordan", "Fila", "Humbro"];
 const tipos = ["Corrida", "Casual", "Esportivo", "Fashion", "Slip-on", "Lazer"];
 const cores = [
   "Preto",
@@ -80,7 +80,7 @@ const emptyForm: FormState = {
   description: "",
   price: "",
   promotion: "",
-  category: categorias[0],
+  category: "Masculino",
   marca: "",
   tipo: "",
   cor: cores[0],
@@ -103,6 +103,9 @@ export default function AdminPage() {
   const [loading, setLoading] = useState(true);
   const [previa, setPrevia] = useState<string>("");
   const [enviandoImagem, setEnviandoImagem] = useState(false);
+  const [categorias, setCategorias] = useState<string[]>(categoriasIniciais);
+  const [marcas, setMarcas] = useState<string[]>(marcasIniciais);
+  const [novaMarca, setNovaMarca] = useState("");
 
   useEffect(() => {
     carregar();
@@ -118,6 +121,21 @@ export default function AdminPage() {
     setForm({ ...form, [e.target.name]: e.target.value });
   }
 
+function adicionarMarca() {
+    const nome = novaMarca.trim();
+    if (!nome) return;
+    if (marcas.some((m) => m.toLowerCase() === nome.toLowerCase())) {
+      setNovaMarca("");
+      return;
+    }
+    setMarcas((prev) => [...prev, nome]);
+    setNovaMarca("");
+  }
+
+  function removerMarca(marca: string) {
+    setMarcas((prev) => prev.filter((m) => m !== marca));
+    if (form.marca === marca) setForm({ ...form, marca: "" });
+  }
   function adicionarSpec(valor: string) {
     const atuais = form.specs
       .split(",")
@@ -226,7 +244,7 @@ export default function AdminPage() {
   return (
     <div className="mx-auto max-w-6xl px-4 py-10">
       <h1 className="text-3xl font-bold text-black">Gestão de Produtos</h1>
-      <p className="mt-1 text-slate-600">Cadastre produtos e anexe imagens.</p>
+      <p className="mt-1 text-black">Cadastre produtos e anexe imagens.</p>
 
       <form
         onSubmit={handleSubmit}
@@ -237,12 +255,12 @@ export default function AdminPage() {
         </h2>
 
         <div>
-          <label className="mb-1 block text-sm font-medium text-slate-700">Nome</label>
+          <label className="mb-1 block text-sm font-medium text-black">Nome</label>
           <input name="name" value={form.name} onChange={handleChange} required className={inputClass} placeholder="Nome do produto" />
         </div>
 
         <div>
-          <label className="mb-1 block text-sm font-medium text-slate-700">Categoria</label>
+          <label className="mb-1 block text-sm font-medium text-black">Categoria</label>
           <select name="category" value={form.category} onChange={handleChange} className={inputClass}>
             {categorias.map((c) => (
               <option key={c} value={c}>{c}</option>
@@ -251,7 +269,7 @@ export default function AdminPage() {
         </div>
 
         <div>
-          <label className="mb-1 block text-sm font-medium text-slate-700">Marca</label>
+          <label className="mb-1 block text-sm font-medium text-black">Marca</label>
           <select name="marca" value={form.marca} onChange={handleChange} className={inputClass}>
             <option value="">Sem marca</option>
             {marcas.map((m) => (
@@ -260,8 +278,45 @@ export default function AdminPage() {
           </select>
         </div>
 
+        <div className="md:col-span-2">
+          <label className="mb-1 block text-sm font-medium text-black">Gerenciar marcas</label>
+          <div className="flex gap-2">
+            <input
+              value={novaMarca}
+              onChange={(e) => setNovaMarca(e.target.value)}
+              className={inputClass}
+              placeholder="Nova marca"
+            />
+            <button
+              type="button"
+              onClick={adicionarMarca}
+              className="shrink-0 rounded-lg bg-black px-4 py-2 text-sm font-semibold text-white transition hover:bg-neutral-800"
+            >
+              Adicionar
+            </button>
+          </div>
+          <div className="mt-3 flex flex-wrap gap-2">
+            {marcas.map((m) => (
+              <span
+                key={m}
+                className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-slate-50 px-3 py-1 text-xs font-medium text-black"
+              >
+                {m}
+                <button
+                  type="button"
+                  onClick={() => removerMarca(m)}
+                  className="text-red-500 transition hover:text-red-700"
+                  aria-label={`Remover ${m}`}
+                >
+                  ×
+                </button>
+              </span>
+            ))}
+          </div>
+        </div>
+
         <div>
-          <label className="mb-1 block text-sm font-medium text-slate-700">Tipo</label>
+          <label className="mb-1 block text-sm font-medium text-black">Tipo</label>
           <select name="tipo" value={form.tipo} onChange={handleChange} className={inputClass}>
             <option value="">Sem tipo</option>
             {tipos.map((t) => (
@@ -271,17 +326,17 @@ export default function AdminPage() {
         </div>
 
         <div>
-          <label className="mb-1 block text-sm font-medium text-slate-700">Valor (R$)</label>
+          <label className="mb-1 block text-sm font-medium text-black">Valor (R$)</label>
           <input name="price" type="number" step="0.01" value={form.price} onChange={handleChange} required className={inputClass} placeholder="0.00" />
         </div>
 
         <div>
-          <label className="mb-1 block text-sm font-medium text-slate-700">Valor promocional (R$)</label>
+          <label className="mb-1 block text-sm font-medium text-black">Valor promocional (R$)</label>
           <input name="promotion" type="number" step="0.01" value={form.promotion} onChange={handleChange} className={inputClass} placeholder="Deixe vazio se não houver" />
         </div>
 
         <div className="md:col-span-2">
-          <label className="mb-1 block text-sm font-medium text-slate-700">Descrição do produto</label>
+          <label className="mb-1 block text-sm font-medium text-black">Descrição do produto</label>
           <textarea
             name="description"
             value={form.description}
@@ -293,7 +348,7 @@ export default function AdminPage() {
         </div>
 
         <div>
-          <label className="mb-1 block text-sm font-medium text-slate-700">Cor</label>
+          <label className="mb-1 block text-sm font-medium text-black">Cor</label>
           <select name="cor" value={form.cor} onChange={handleChange} className={inputClass}>
             {cores.map((c) => (
               <option key={c} value={c}>{c}</option>
@@ -302,12 +357,12 @@ export default function AdminPage() {
         </div>
 
         <div>
-          <label className="mb-1 block text-sm font-medium text-slate-700">Tamanho</label>
+          <label className="mb-1 block text-sm font-medium text-black">Tamanho</label>
           <input name="tamanho" value={form.tamanho} onChange={handleChange} className={inputClass} placeholder="38-44, P, M, G..." />
         </div>
 
         <div>
-          <label className="mb-1 block text-sm font-medium text-slate-700">Qualidade</label>
+          <label className="mb-1 block text-sm font-medium text-black">Qualidade</label>
           <select name="qualidade" value={form.qualidade} onChange={handleChange} className={inputClass}>
             {qualidades.map((q) => (
               <option key={q} value={q}>{q}</option>
@@ -316,19 +371,19 @@ export default function AdminPage() {
         </div>
 
         <div>
-          <label className="mb-1 block text-sm font-medium text-slate-700">Quantidade em estoque</label>
+          <label className="mb-1 block text-sm font-medium text-black">Quantidade em estoque</label>
           <input name="quantity" type="number" value={form.quantity} onChange={handleChange} required className={inputClass} placeholder="0" />
         </div>
 
         <div>
-          <label className="mb-1 block text-sm font-medium text-slate-700">Parcelas (até quantas vezes)</label>
+          <label className="mb-1 block text-sm font-medium text-black">Parcelas (até quantas vezes)</label>
           <input name="installments" type="number" min="1" value={form.installments} onChange={handleChange} className={inputClass} placeholder="4" />
         </div>
 
         <div className="md:col-span-2">
-          <label className="mb-1 block text-sm font-medium text-slate-700">Imagem do produto</label>
+          <label className="mb-1 block text-sm font-medium text-black">Imagem do produto</label>
           <div className="flex items-center gap-4">
-            <label className="inline-flex cursor-pointer items-center gap-2 rounded-lg border border-slate-300 px-4 py-2.5 text-sm font-medium text-slate-700 transition hover:bg-slate-50">
+            <label className="inline-flex cursor-pointer items-center gap-2 rounded-lg border border-slate-300 px-4 py-2.5 text-sm font-medium text-black transition hover:bg-slate-50">
               <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
               </svg>
@@ -343,13 +398,13 @@ export default function AdminPage() {
             {previa ? (
               <img src={previa} alt="Prévia" className="h-16 w-16 rounded-lg border border-slate-200 object-contain" />
             ) : (
-              <span className="text-sm text-slate-400">Nenhuma imagem anexada</span>
+              <span className="text-sm text-black">Nenhuma imagem anexada</span>
             )}
           </div>
         </div>
 
         <div className="md:col-span-2">
-          <label className="mb-1 block text-sm font-medium text-slate-700">Especificações (separadas por vírgula)</label>
+          <label className="mb-1 block text-sm font-medium text-black">Especificações (separadas por vírgula)</label>
           <input
             name="specs"
             value={form.specs}
@@ -357,7 +412,7 @@ export default function AdminPage() {
             className={inputClass}
             placeholder="Leve, Respirável, Confortável, Original, Preto, Branco"
           />
-          <p className="mt-1 text-xs text-slate-500">
+          <p className="mt-1 text-xs text-black">
             Use palavras-chave de tênis, qualidade e cores para facilitar a busca.
           </p>
           <div className="mt-2 flex flex-wrap gap-1.5">
@@ -374,7 +429,7 @@ export default function AdminPage() {
                   className={`rounded-full px-3 py-1 text-xs font-medium transition ${
                     ativo
                       ? "bg-blue-600 text-white hover:bg-blue-700"
-                      : "border border-slate-300 text-slate-700 hover:bg-slate-100"
+                      : "border border-slate-300 text-black hover:bg-slate-100"
                   }`}
                 >
                   {s}
@@ -399,7 +454,7 @@ export default function AdminPage() {
                 setForm(emptyForm);
                 setPrevia("");
               }}
-              className="rounded-lg border border-slate-300 px-5 py-2.5 font-semibold text-slate-700 transition hover:bg-slate-100"
+              className="rounded-lg border border-slate-300 px-5 py-2.5 font-semibold text-black transition hover:bg-slate-100"
             >
               Cancelar
             </button>
@@ -410,11 +465,11 @@ export default function AdminPage() {
       <h2 className="mt-10 text-2xl font-bold text-black">Produtos ({produtos.length})</h2>
 
       {loading ? (
-        <p className="mt-4 text-slate-600">Carregando...</p>
+        <p className="mt-4 text-black">Carregando...</p>
       ) : (
         <div className="mt-4 overflow-x-auto rounded-xl border border-slate-200 bg-white">
           <table className="w-full min-w-[700px] text-left text-sm">
-            <thead className="border-b border-slate-200 bg-slate-50 text-slate-600">
+            <thead className="border-b border-slate-200 bg-slate-50 text-black">
               <tr>
                 <th className="px-4 py-3 font-semibold">Produto</th>
                 <th className="px-4 py-3 font-semibold">Categoria</th>
@@ -432,18 +487,18 @@ export default function AdminPage() {
                   <td className="px-4 py-3">
                     <p className="font-medium text-black">{p.name}</p>
                     {p.description ? (
-                      <p className="mt-0.5 max-w-xs truncate text-xs text-slate-500" title={p.description}>
+                      <p className="mt-0.5 max-w-xs truncate text-xs text-black" title={p.description}>
                         {p.description}
                       </p>
                     ) : null}
                   </td>
-                  <td className="px-4 py-3 text-slate-600">{p.category}</td>
-                  <td className="px-4 py-3 text-slate-600">
+                  <td className="px-4 py-3 text-black">{p.category}</td>
+                  <td className="px-4 py-3 text-black">
                     <span className="flex flex-wrap gap-1">
                       {[p.cor, p.tamanho, p.qualidade]
                         .filter(Boolean)
                         .map((v) => (
-                          <span key={v} className="rounded-md bg-slate-100 px-2 py-0.5 text-xs text-slate-700">
+                          <span key={v} className="rounded-md bg-slate-100 px-2 py-0.5 text-xs text-black">
                             {v}
                           </span>
                         ))}
@@ -454,7 +509,7 @@ export default function AdminPage() {
                     {p.promotion ? (
                       <span className="font-semibold text-green-600">{formatBRL(p.promotion)}</span>
                     ) : (
-                      <span className="text-slate-400">—</span>
+                      <span className="text-black">—</span>
                     )}
                   </td>
                   <td className="px-4 py-3">{p.quantity}</td>
@@ -463,7 +518,7 @@ export default function AdminPage() {
                     <div className="flex gap-2">
                       <button
                         onClick={() => iniciarEdicao(p)}
-                        className="rounded-md border border-slate-300 px-3 py-1 text-xs font-medium text-slate-700 transition hover:bg-slate-100"
+                        className="rounded-md border border-slate-300 px-3 py-1 text-xs font-medium text-black transition hover:bg-slate-100"
                       >
                         Editar
                       </button>

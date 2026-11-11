@@ -20,13 +20,26 @@ const statusColors: Record<StatusPedido, string> = {
 
 function formatData(iso: string): string {
   const d = new Date(iso);
-  return d.toLocaleString("pt-BR", {
+  return d.toLocaleDateString("pt-BR", {
     day: "2-digit",
     month: "2-digit",
     year: "2-digit",
+  });
+}
+
+function formatHora(iso: string): string {
+  return new Date(iso).toLocaleTimeString("pt-BR", {
     hour: "2-digit",
     minute: "2-digit",
   });
+}
+
+function mesmoDia(a: Date, b: Date): boolean {
+  return (
+    a.getFullYear() === b.getFullYear() &&
+    a.getMonth() === b.getMonth() &&
+    a.getDate() === b.getDate()
+  );
 }
 
 function getCurrentMonthYear() {
@@ -85,6 +98,18 @@ export default function AdminDashboard() {
       .reduce((s, p) => s + p.valor, 0),
   };
 
+  const hoje = new Date();
+  const pedidosHoje = pedidos
+    .filter((p) => mesmoDia(new Date(p.data), hoje))
+    .sort((a, b) => (a.data < b.data ? 1 : -1));
+  const vendasHoje = pedidosHoje.filter((p) => p.status !== "cancelado");
+  const faturamentoHoje = vendasHoje.reduce((s, p) => s + p.valor, 0);
+  const unidadesHoje = vendasHoje.reduce((s, p) => s + p.quantidade, 0);
+  const ultimaVenda = vendasHoje[0];
+  const ticketMedioHoje = vendasHoje.length
+    ? faturamentoHoje / vendasHoje.length
+    : 0;
+
   const cardClass =
     "rounded-xl border border-slate-200 bg-white p-6";
 
@@ -94,7 +119,7 @@ export default function AdminDashboard() {
     cor: string,
   ) => (
     <div className={cardClass}>
-      <p className="text-base text-slate-500">{titulo}</p>
+      <p className="text-base text-black">{titulo}</p>
       <p className={`mt-2 text-4xl font-bold ${cor}`}>{valor}</p>
     </div>
   );
@@ -119,9 +144,87 @@ export default function AdminDashboard() {
   return (
     <div className="mx-auto max-w-6xl px-4 py-10">
       <h1 className="text-4xl font-bold text-black">Dashboard de Pedidos</h1>
-      <p className="mt-2 text-lg text-slate-600">
+      <p className="mt-2 text-lg text-black">
         Controle dos pedidos encaminhados ao WhatsApp e saída de estoque.
       </p>
+
+      <section className="mt-8">
+        <div className="flex flex-wrap items-end justify-between gap-2">
+          <div>
+            <h2 className="text-2xl font-bold text-black">Vendas de hoje</h2>
+            <p className="text-sm capitalize text-black">
+              {hoje.toLocaleDateString("pt-BR", {
+                weekday: "long",
+                day: "2-digit",
+                month: "long",
+                year: "numeric",
+              })}
+            </p>
+          </div>
+          <span className="rounded-full bg-slate-100 px-3 py-1 text-xs font-semibold text-black">
+            Atualizado automaticamente
+          </span>
+        </div>
+
+        <div className="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          {card("Vendas hoje", String(vendasHoje.length), "text-black")}
+          {card("Faturamento hoje", formatBRL(faturamentoHoje), "text-green-600")}
+          {card("Unidades vendidas", String(unidadesHoje), "text-blue-600")}
+          {card(
+            "Última venda",
+            ultimaVenda ? formatHora(ultimaVenda.data) : "—",
+            "text-amber-600",
+          )}
+        </div>
+
+        <div className="mt-4 overflow-hidden rounded-xl border border-slate-200 bg-white">
+          <div className="flex flex-wrap items-center justify-between gap-2 border-b border-slate-200 bg-slate-50 px-4 py-3">
+            <p className="font-semibold text-black">
+              Vendas registradas hoje ({pedidosHoje.length})
+            </p>
+            <p className="text-sm text-black">
+              Ticket médio: {formatBRL(ticketMedioHoje)}
+            </p>
+          </div>
+
+          {pedidosHoje.length === 0 ? (
+            <p className="px-4 py-8 text-center text-sm text-black">
+              Nenhuma venda registrada hoje ainda. As vendas do site aparecem
+              aqui automaticamente.
+            </p>
+          ) : (
+            <ul className="divide-y divide-slate-100">
+              {pedidosHoje.map((p) => (
+                <li
+                  key={p.id}
+                  className="flex flex-wrap items-center gap-3 px-4 py-3 text-sm"
+                >
+                  <span className="w-14 font-mono text-base font-bold text-black">
+                    {formatHora(p.data)}
+                  </span>
+                  <span className="min-w-0 flex-1 font-medium text-black">
+                    {p.nome}
+                    {p.tamanho ? (
+                      <span className="ml-1 text-black">
+                        ({p.tamanho})
+                      </span>
+                    ) : null}
+                  </span>
+                  <span className="text-black">{p.quantidade} un.</span>
+                  <span className="font-semibold text-black">
+                    {formatBRL(p.valor)}
+                  </span>
+                  <span
+                    className={`rounded-full px-2.5 py-1 text-xs font-semibold ${statusColors[p.status]}`}
+                  >
+                    {labels[p.status]}
+                  </span>
+                </li>
+              ))}
+            </ul>
+          )}
+        </div>
+      </section>
 
       <div className="mt-8 flex flex-wrap items-center gap-3 rounded-xl border border-slate-200 bg-white p-4">
         <span className="text-base font-semibold text-black">Relatório mensal</span>
@@ -162,16 +265,17 @@ export default function AdminDashboard() {
       <h2 className="mt-10 text-2xl font-bold text-black">Pedidos ({pedidos.length})</h2>
 
       {loading ? (
-        <p className="mt-4 text-slate-600">Carregando...</p>
+        <p className="mt-4 text-black">Carregando...</p>
       ) : (
         <div className="mt-4 overflow-x-auto rounded-xl border border-slate-200 bg-white">
           <table className="w-full min-w-[700px] text-left text-sm">
-            <thead className="border-b border-slate-200 bg-slate-50 text-slate-600">
+            <thead className="border-b border-slate-200 bg-slate-50 text-black">
               <tr>
                 <th className="px-4 py-3 font-semibold">Produto</th>
                 <th className="px-4 py-3 font-semibold">Qtd.</th>
                 <th className="px-4 py-3 font-semibold">Valor</th>
                 <th className="px-4 py-3 font-semibold">Data</th>
+                <th className="px-4 py-3 font-semibold">Hora</th>
                 <th className="px-4 py-3 font-semibold">Status</th>
                 <th className="px-4 py-3 font-semibold">Ações</th>
               </tr>
@@ -179,17 +283,25 @@ export default function AdminDashboard() {
             <tbody className="divide-y divide-slate-100">
               {pedidos.length === 0 ? (
                 <tr>
-                  <td colSpan={6} className="px-4 py-8 text-center text-slate-400">
+                  <td colSpan={7} className="px-4 py-8 text-center text-black">
                     Nenhum pedido registrado ainda.
                   </td>
                 </tr>
               ) : (
                 pedidos.map((p) => (
                   <tr key={p.id} className="hover:bg-slate-50">
-                    <td className="px-4 py-3 font-medium text-black">{p.nome}</td>
+                    <td className="px-4 py-3 font-medium text-black">
+                      {p.nome}
+                      {p.tamanho ? (
+                        <span className="ml-1 text-xs text-black">
+                          ({p.tamanho})
+                        </span>
+                      ) : null}
+                    </td>
                     <td className="px-4 py-3">{p.quantidade}</td>
                     <td className="px-4 py-3">{formatBRL(p.valor)}</td>
-                    <td className="px-4 py-3 text-slate-600">{formatData(p.data)}</td>
+                    <td className="px-4 py-3 text-black">{formatData(p.data)}</td>
+                    <td className="px-4 py-3 font-mono text-black">{formatHora(p.data)}</td>
                     <td className="px-4 py-3">
                       <select
                         value={p.status}

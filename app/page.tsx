@@ -48,15 +48,25 @@ export default async function Home() {
 
   const newBalance = novidades.filter((p) => p.marca === "New Balance");
   const adidas = novidades.filter((p) => p.marca === "Adidas");
-  const vitrine = [
-    newBalance[0],
-    adidas[0],
-    newBalance[1],
-    adidas[1],
-  ].filter((p): p is (typeof novidades)[number] => Boolean(p));
+  const vitrine = [newBalance[0], adidas[0], newBalance[1]].filter(
+    (p): p is (typeof novidades)[number] => Boolean(p),
+  );
 
   const fotoCategoria = (categoria: string) =>
     produtos.find((p) => p.category === categoria && p.images?.length)?.image;
+
+  const marcas = Array.from(
+    new Set(produtos.map((p) => p.marca).filter((m): m is string => Boolean(m))),
+  )
+    .sort((a, b) => a.localeCompare(b, "pt-BR"))
+    .map((nome) => {
+      const lista = produtos.filter((p) => p.marca === nome);
+      return {
+        nome,
+        total: lista.length,
+        imagem: lista.find((p) => p.image)?.image,
+      };
+    });
 
   const categories = [
     {
@@ -109,27 +119,28 @@ export default async function Home() {
               </Link>
             </div>
 
-            <div className="flex flex-1 flex-col divide-y divide-slate-100">
-              {vitrine.map((produto) => (
+            <div className="flex flex-1 flex-col divide-y divide-slate-100 overflow-hidden">
+              {vitrine.map((produto, indice) => (
                 <Link
                   key={produto.id}
                   href={`/produtos/${produto.id}`}
-                  className="group flex flex-1 items-center gap-3 px-3 py-2 transition hover:bg-amber-50/70"
+                  style={{ animationDelay: `${indice * 160}ms` }}
+                  className="animate-vitrine-card group flex flex-1 items-center gap-3 px-3 py-3 transition hover:bg-amber-50/70"
                 >
-                  <div className="relative h-14 w-14 shrink-0 overflow-hidden rounded-lg border border-slate-100 bg-slate-50">
+                  <div className="relative h-20 w-20 shrink-0 overflow-hidden rounded-lg border border-slate-100 bg-slate-50">
                     <Image
                       src={produto.image}
                       alt={produto.name}
                       fill
-                      className="object-contain p-1 transition duration-300 group-hover:scale-110"
-                      sizes="56px"
+                      className="object-contain p-1.5 transition duration-300 group-hover:scale-110"
+                      sizes="80px"
                     />
                   </div>
                   <div className="min-w-0 flex-1">
-                    <p className="line-clamp-1 text-xs font-semibold text-black transition group-hover:text-amber-600">
+                    <p className="line-clamp-1 text-sm font-semibold text-black transition group-hover:text-amber-600">
                       {produto.name}
                     </p>
-                    <p className="mt-0.5 line-clamp-2 text-[11px] leading-snug text-slate-500">
+                    <p className="mt-1 line-clamp-3 text-xs leading-snug text-slate-500">
                       {produto.description}
                     </p>
                   </div>
@@ -179,6 +190,96 @@ export default async function Home() {
                 <span className="text-sm font-semibold text-black">{t.name}</span>
               </Link>
             ))}
+          </div>
+        </section>
+
+        <section className="mt-14">
+          <div className="flex items-end justify-between">
+            <div>
+              <h2 className="text-2xl font-bold text-black">Marcas</h2>
+              <p className="mt-1 text-slate-600">
+                Compre pelos modelos que você já confia
+              </p>
+            </div>
+            <Link
+              href="/marcas"
+              className="text-sm font-semibold text-amber-600 transition hover:text-amber-500"
+            >
+              Ver todas
+            </Link>
+          </div>
+          <div className="mt-6 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+            {marcas.map((marca) => (
+              <Link
+                key={marca.nome}
+                href={`/produtos?marca=${encodeURIComponent(marca.nome)}`}
+                className="group overflow-hidden rounded-2xl border border-slate-200 bg-white transition hover:border-amber-400 hover:shadow-md"
+              >
+                <div className="relative h-40 w-full overflow-hidden bg-gradient-to-br from-neutral-100 via-neutral-50 to-neutral-200">
+                  {marca.imagem ? (
+                    <Image
+                      src={marca.imagem}
+                      alt={marca.nome}
+                      fill
+                      className="object-contain p-5 mix-blend-multiply transition duration-300 group-hover:scale-110"
+                      sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
+                    />
+                  ) : null}
+                </div>
+                <div className="flex items-center justify-between p-5">
+                  <div>
+                    <h3 className="text-lg font-black tracking-tight text-black">
+                      {marca.nome}
+                    </h3>
+                    <p className="mt-0.5 text-sm text-slate-600">
+                      {marca.total} {marca.total === 1 ? "produto" : "produtos"}
+                    </p>
+                  </div>
+                  <span className="grid h-8 w-8 shrink-0 place-items-center rounded-full bg-slate-100 text-slate-500 transition group-hover:bg-amber-100 group-hover:text-amber-600">
+                    <svg
+                      className="h-4 w-4"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M9 5l7 7-7 7"
+                      />
+                    </svg>
+                  </span>
+                </div>
+              </Link>
+            ))}
+
+            <Link
+              href="/marcas"
+              className="group flex min-h-56 flex-col items-center justify-center gap-2 rounded-2xl border border-dashed border-slate-300 p-6 text-center transition hover:border-amber-400 hover:bg-white"
+            >
+              <span className="grid h-11 w-11 place-items-center rounded-full bg-slate-100 text-slate-500 transition group-hover:bg-amber-100 group-hover:text-amber-600">
+                <svg
+                  className="h-5 w-5"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M9 5l7 7-7 7"
+                  />
+                </svg>
+              </span>
+              <span className="text-base font-bold text-black">
+                Ver todas as marcas
+              </span>
+              <span className="text-sm text-slate-600">
+                Explore o catálogo completo
+              </span>
+            </Link>
           </div>
         </section>
 

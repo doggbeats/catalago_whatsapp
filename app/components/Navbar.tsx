@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import CarrinhoBotao from "./CarrinhoBotao";
 
-const marcas = ["Nike", "Adidas", "New Balance", "Jordan", "Fila", "Humbro"];
+const marcas = ["Adidas", "New Balance", "Mizuno", "Nike"];
 
 const categories = [
   { href: "/tipos", label: "Tipos de Calçados" },
@@ -31,7 +31,7 @@ const categories = [
     ],
   },
   { href: "/produtos?promo=sim", label: "Promoções" },
-  { href: "#contato", label: "Contato" },
+  { href: "/contato", label: "Contato" },
 ];
 
 export default function Navbar() {
@@ -114,7 +114,7 @@ export default function Navbar() {
                 </>
               ) : cat.label === "Contato" ? (
                 <a
-                  href="#contato"
+                  href="/contato"
                   className="group relative inline-flex items-center rounded-md px-3 py-2 text-[15px] font-medium xl:px-3.5 xl:text-base text-slate-200 transition hover:text-white"
                 >
                   {cat.label}
@@ -278,7 +278,7 @@ export default function Navbar() {
                   </>
                 ) : cat.label === "Contato" ? (
                   <a
-                    href="#contato"
+                    href="/contato"
                     onClick={() => setOpen(false)}
                     className="block rounded-lg px-3 py-3 text-base font-medium text-slate-200 transition hover:text-amber-400"
                   >

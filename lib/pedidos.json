@@ -33,6 +33,35 @@
     "valor": 199.9,
     "quantidade": 1,
     "data": "2026-10-21T04:13:28.057Z",
-    "status": "aguardando"
+    "status": "confirmado"
+  },
+  {
+    "id": 5,
+    "produtoId": 15,
+    "nome": "Tênis New Balance Modelo 3",
+    "tamanho": "37",
+    "valor": 199.9,
+    "quantidade": 1,
+    "data": "2026-11-11T20:10:07.191Z",
+    "status": "confirmado"
+  },
+  {
+    "id": 6,
+    "produtoId": 14,
+    "nome": "Tênis New Balance Modelo 2",
+    "tamanho": "37",
+    "valor": 199.9,
+    "quantidade": 1,
+    "data": "2026-11-11T20:10:07.270Z",
+    "status": "confirmado"
+  },
+  {
+    "id": 7,
+    "produtoId": 13,
+    "nome": "Tênis New Balance Modelo 1",
+    "valor": 199.9,
+    "quantidade": 1,
+    "data": "2026-11-11T20:11:44.452Z",
+    "status": "cancelado"
   }
 ]

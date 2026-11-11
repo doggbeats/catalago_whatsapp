@@ -16,6 +16,10 @@ export async function POST(request: Request) {
   const body = await request.json();
   const produtoId = Number(body.produtoId);
   const quantidade = Math.max(1, Number(body.quantidade) || 1);
+  const tamanho =
+    typeof body.tamanho === "string" && body.tamanho.trim()
+      ? body.tamanho.trim()
+      : undefined;
 
   const produtos = await getProdutos();
   const produto = produtos.find((p) => p.id === produtoId);
@@ -35,6 +39,7 @@ export async function POST(request: Request) {
     id: pedidos.length ? Math.max(...pedidos.map((p) => p.id)) + 1 : 1,
     produtoId: produto.id,
     nome: produto.name,
+    tamanho,
     valor,
     quantidade,
     data: dataAtual(),

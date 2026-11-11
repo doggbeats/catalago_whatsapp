@@ -23,6 +23,7 @@ export type Pedido = {
   id: number;
   produtoId: number;
   nome: string;
+  tamanho?: string;
   valor: number;
   quantidade: number;
   data: string;

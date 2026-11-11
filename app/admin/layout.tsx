@@ -1,6 +1,8 @@
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import Link from "next/link";
+import { getProdutos } from "@/lib/produtos";
+import { ESTOQUE_BAIXO } from "@/lib/estoque";
 import LogoutButton from "./logout-button";
 
 export default async function AdminLayout({
@@ -18,7 +20,12 @@ export default async function AdminLayout({
   const links = [
     { href: "/admin", label: "Produtos" },
     { href: "/admin/pedidos", label: "Pedidos" },
+    { href: "/admin/estoque", label: "Estoque" },
   ];
+
+  const produtos = await getProdutos();
+  const baixos = produtos.filter((p) => p.quantity <= ESTOQUE_BAIXO);
+  const semEstoque = produtos.filter((p) => p.quantity <= 0);
 
   return (
     <div className="min-h-screen">
@@ -47,15 +54,45 @@ export default async function AdminLayout({
               <Link
                 key={l.href}
                 href={l.href}
-                className="rounded-lg px-4 py-2 text-sm font-medium text-slate-600 transition hover:bg-slate-100 hover:text-black"
+                className="rounded-lg px-4 py-2 text-sm font-medium text-black transition hover:bg-slate-100 hover:text-black"
               >
                 {l.label}
+                {l.href === "/admin/estoque" && baixos.length ? (
+                  <span className="ml-1.5 rounded-full bg-red-500 px-1.5 py-0.5 text-[10px] font-bold text-white">
+                    {baixos.length}
+                  </span>
+                ) : null}
               </Link>
             ))}
             <LogoutButton />
           </nav>
         </div>
       </div>
+
+      {baixos.length ? (
+        <div className="border-b border-amber-200 bg-amber-50">
+          <div className="mx-auto flex max-w-6xl flex-wrap items-center gap-2 px-4 py-2 text-sm text-black">
+            <span className="font-semibold">⚠ Alerta de estoque:</span>
+            <span>
+              {baixos.length}{" "}
+              {baixos.length === 1
+                ? "produto está com estoque baixo ou esgotado"
+                : "produtos estão com estoque baixo ou esgotados"}
+              {semEstoque.length
+                ? ` (${semEstoque.length} sem estoque)`
+                : ""}
+              .
+            </span>
+            <Link
+              href="/admin/estoque"
+              className="font-semibold underline underline-offset-2 hover:text-amber-700"
+            >
+              Ver estoque
+            </Link>
+          </div>
+        </div>
+      ) : null}
+
       {children}
     </div>
   );

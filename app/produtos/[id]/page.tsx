@@ -4,20 +4,7 @@ import { getProdutos } from "@/lib/produtos";
 import { formatBRL, formatParcelas } from "@/lib/format";
 import ComprarProduto from "@/app/components/ComprarProduto";
 import Galeria from "@/app/components/Galeria";
-
-function listaTamanhos(tamanho?: string): string[] {
-  if (!tamanho) return [];
-  if (tamanho.includes("-")) {
-    const [ini, fim] = tamanho.split("-").map((n) => parseInt(n.trim()));
-    if (Number.isFinite(ini) && Number.isFinite(fim) && fim >= ini) {
-      return Array.from({ length: fim - ini + 1 }, (_, i) => String(ini + i));
-    }
-  }
-  return tamanho
-    .split(",")
-    .map((t) => t.trim())
-    .filter(Boolean);
-}
+import { listaTamanhos } from "@/lib/tamanhos";
 
 export default async function ProdutoPage({
   params,
