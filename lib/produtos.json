@@ -19,7 +19,8 @@
     ],
     "specs": [],
     "description": "Tênis New Balance Modelo 1, numeração 34-43.",
-    "installments": 6
+    "installments": 6,
+    "modelo": "Modelo 1"
   },
   {
     "id": 14,
@@ -41,7 +42,8 @@
     ],
     "specs": [],
     "description": "Tênis New Balance Modelo 2, numeração 34-43.",
-    "installments": 6
+    "installments": 6,
+    "modelo": "Modelo 2"
   },
   {
     "id": 15,
@@ -63,7 +65,8 @@
     ],
     "specs": [],
     "description": "Tênis New Balance Modelo 3, numeração 34-43.",
-    "installments": 6
+    "installments": 6,
+    "modelo": "Modelo 3"
   },
   {
     "id": 16,
@@ -85,7 +88,8 @@
     ],
     "specs": [],
     "description": "Tênis New Balance Modelo 4, numeração 34-39.",
-    "installments": 6
+    "installments": 6,
+    "modelo": "Modelo 4"
   },
   {
     "id": 17,
@@ -108,7 +112,8 @@
     ],
     "specs": [],
     "description": "Tênis New Balance Modelo 5, numeração 34-43.",
-    "installments": 6
+    "installments": 6,
+    "modelo": "Modelo 5"
   },
   {
     "id": 18,
@@ -130,7 +135,8 @@
     ],
     "specs": [],
     "description": "Tênis Adidas Modelo 1, numeração 34-39.",
-    "installments": 6
+    "installments": 6,
+    "modelo": "Modelo 1"
   },
   {
     "id": 19,
@@ -151,7 +157,8 @@
     ],
     "specs": [],
     "description": "Tênis New Balance Modelo 6, numeração 34-43.",
-    "installments": 6
+    "installments": 6,
+    "modelo": "Modelo 6"
   },
   {
     "id": 22,
@@ -173,7 +180,8 @@
     ],
     "specs": [],
     "description": "Tênis Adidas Modelo 2, numeração 34-43.",
-    "installments": 6
+    "installments": 6,
+    "modelo": "Modelo 2"
   },
   {
     "id": 23,
@@ -194,7 +202,8 @@
     "specs": [],
     "description": "Tênis Adidas Modelo 3.",
     "installments": 6,
-    "tamanho": "34-43"
+    "tamanho": "34-43",
+    "modelo": "Modelo 3"
   },
   {
     "id": 24,
@@ -217,7 +226,8 @@
     ],
     "specs": [],
     "description": "Tênis Adidas Modelo 4, numeração 34-42.",
-    "installments": 6
+    "installments": 6,
+    "modelo": "Modelo 4"
   },
   {
     "id": 25,
@@ -240,7 +250,8 @@
     ],
     "specs": [],
     "description": "Tênis Adidas Modelo 5, numeração 34-39.",
-    "installments": 6
+    "installments": 6,
+    "modelo": "Modelo 5"
   },
   {
     "id": 26,
@@ -262,7 +273,8 @@
     ],
     "specs": [],
     "description": "Tênis Adidas Modelo 6, numeração 34-43.",
-    "installments": 6
+    "installments": 6,
+    "modelo": "Modelo 6"
   },
   {
     "id": 27,
@@ -285,7 +297,8 @@
     ],
     "specs": [],
     "description": "Tênis Adidas Modelo 7, numeração 34-43.",
-    "installments": 6
+    "installments": 6,
+    "modelo": "Modelo 7"
   },
   {
     "id": 28,
@@ -308,7 +321,8 @@
     ],
     "specs": [],
     "description": "Tênis Adidas Modelo 8, numeração 26-43.",
-    "installments": 6
+    "installments": 6,
+    "modelo": "Modelo 8"
   },
   {
     "id": 30,
@@ -330,7 +344,8 @@
     "specs": [],
     "description": "Tênis Adidas Modelo 9.",
     "installments": 6,
-    "tamanho": "34-43"
+    "tamanho": "34-43",
+    "modelo": "Modelo 9"
   },
   {
     "id": 31,
@@ -352,7 +367,8 @@
     "specs": [],
     "description": "Tênis Adidas Modelo 10.",
     "installments": 6,
-    "tamanho": "34-43"
+    "tamanho": "34-43",
+    "modelo": "Modelo 10"
   },
   {
     "id": 32,
@@ -373,7 +389,8 @@
     ],
     "specs": [],
     "description": "Tênis Adidas Modelo 11, numeração 34-43.",
-    "installments": 6
+    "installments": 6,
+    "modelo": "Modelo 11"
   },
   {
     "id": 33,
@@ -396,7 +413,8 @@
     ],
     "specs": [],
     "description": "Tênis Adidas Modelo 12, numeração 34-39.",
-    "installments": 6
+    "installments": 6,
+    "modelo": "Modelo 12"
   },
   {
     "id": 34,
@@ -418,7 +436,8 @@
     ],
     "specs": [],
     "description": "Tênis Adidas Modelo 13, numeração 34-43.",
-    "installments": 6
+    "installments": 6,
+    "modelo": "Modelo 13"
   },
   {
     "id": 35,
@@ -441,7 +460,8 @@
     ],
     "specs": [],
     "description": "Tênis Adidas Modelo 14, numeração 34-43.",
-    "installments": 6
+    "installments": 6,
+    "modelo": "Modelo 14"
   },
   {
     "id": 37,
@@ -464,7 +484,8 @@
     ],
     "specs": [],
     "description": "Tênis Adidas Modelo 15, numeração 34-39.",
-    "installments": 6
+    "installments": 6,
+    "modelo": "Modelo 15"
   },
   {
     "id": 20,
@@ -495,7 +516,8 @@
     ],
     "specs": [],
     "description": "Tênis Adidas Modelo 16, numeração 34-45.",
-    "installments": 6
+    "installments": 6,
+    "modelo": "Modelo 16"
   },
   {
     "id": 21,
@@ -523,7 +545,8 @@
     ],
     "specs": [],
     "description": "Tênis Adidas Modelo 17, numeração 34-43.",
-    "installments": 6
+    "installments": 6,
+    "modelo": "Modelo 17"
   },
   {
     "id": 29,
@@ -551,7 +574,8 @@
     "specs": [],
     "description": "Tênis Adidas Modelo 18, numeração 34-43.",
     "installments": 6,
-    "tamanho": "34-43"
+    "tamanho": "34-43",
+    "modelo": "Modelo 18"
   },
   {
     "id": 36,
@@ -583,7 +607,8 @@
     ],
     "specs": [],
     "description": "Tênis Adidas Modelo 19, numeração 34-43.",
-    "installments": 6
+    "installments": 6,
+    "modelo": "Modelo 19"
   },
   {
     "id": 38,
@@ -609,7 +634,8 @@
     ],
     "specs": [],
     "description": "Tênis Adidas Modelo 20, numeração 34-39.",
-    "installments": 6
+    "installments": 6,
+    "modelo": "Modelo 20"
   },
   {
     "id": 39,
@@ -633,7 +659,8 @@
     "specs": [],
     "description": "Tênis Mizuno Modelo 1.",
     "installments": 6,
-    "tamanho": "34-43"
+    "tamanho": "34-43",
+    "modelo": "Modelo 1"
   },
   {
     "id": 40,
@@ -655,7 +682,8 @@
     "specs": [],
     "description": "Tênis Mizuno Modelo 2.",
     "installments": 6,
-    "tamanho": "34-43"
+    "tamanho": "34-43",
+    "modelo": "Modelo 2"
   },
   {
     "id": 41,
@@ -679,7 +707,8 @@
     "specs": [],
     "description": "Tênis Mizuno Modelo 3.",
     "installments": 6,
-    "tamanho": "34-43"
+    "tamanho": "34-43",
+    "modelo": "Modelo 3"
   },
   {
     "id": 42,
@@ -700,7 +729,8 @@
     "specs": [],
     "description": "Tênis Mizuno Modelo 4.",
     "installments": 6,
-    "tamanho": "34-43"
+    "tamanho": "34-43",
+    "modelo": "Modelo 4"
   },
   {
     "id": 43,
@@ -723,7 +753,8 @@
     "specs": [],
     "description": "Tênis Mizuno Modelo 5.",
     "installments": 6,
-    "tamanho": "34-43"
+    "tamanho": "34-43",
+    "modelo": "Modelo 5"
   },
   {
     "id": 44,
@@ -746,7 +777,8 @@
     "specs": [],
     "description": "Tênis Mizuno Modelo 6.",
     "installments": 6,
-    "tamanho": "34-43"
+    "tamanho": "34-43",
+    "modelo": "Modelo 6"
   },
   {
     "id": 45,
@@ -767,7 +799,8 @@
     "specs": [],
     "description": "Tênis Mizuno Modelo 7.",
     "installments": 6,
-    "tamanho": "34-43"
+    "tamanho": "34-43",
+    "modelo": "Modelo 7"
   },
   {
     "id": 46,
@@ -799,7 +832,8 @@
     ],
     "specs": [],
     "description": "Tênis Nike Modelo 1, numeração 34-43.",
-    "installments": 6
+    "installments": 6,
+    "modelo": "Modelo 1"
   },
   {
     "id": 47,
@@ -831,7 +865,8 @@
     ],
     "specs": [],
     "description": "Tênis Nike Modelo 2, numeração 34-43.",
-    "installments": 6
+    "installments": 6,
+    "modelo": "Modelo 2"
   },
   {
     "id": 48,
@@ -861,7 +896,8 @@
     ],
     "specs": [],
     "description": "Tênis Nike Modelo 3, numeração 34-43.",
-    "installments": 6
+    "installments": 6,
+    "modelo": "Modelo 3"
   },
   {
     "id": 49,
@@ -893,7 +929,8 @@
     ],
     "specs": [],
     "description": "Tênis Nike Modelo 4, numeração 34-43.",
-    "installments": 6
+    "installments": 6,
+    "modelo": "Modelo 4"
   },
   {
     "id": 50,
@@ -933,7 +970,8 @@
     ],
     "specs": [],
     "description": "Tênis Nike Modelo 5, numeração 34-43.",
-    "installments": 6
+    "installments": 6,
+    "modelo": "Modelo 5"
   },
   {
     "id": 51,
@@ -956,7 +994,8 @@
     ],
     "specs": [],
     "description": "Tênis Vans Modelo 1, numeração 34-43.",
-    "installments": 6
+    "installments": 6,
+    "modelo": "Modelo 1"
   },
   {
     "id": 52,
@@ -980,7 +1019,8 @@
     ],
     "specs": [],
     "description": "Tênis Vans Modelo 2, numeração 34-43.",
-    "installments": 6
+    "installments": 6,
+    "modelo": "Modelo 2"
   },
   {
     "id": 53,
@@ -1003,7 +1043,8 @@
     ],
     "specs": [],
     "description": "Tênis Vans Modelo 3, numeração 34-43.",
-    "installments": 6
+    "installments": 6,
+    "modelo": "Modelo 3"
   },
   {
     "id": 54,
@@ -1025,7 +1066,8 @@
     ],
     "specs": [],
     "description": "Tênis Vans Modelo 4, numeração 34-43.",
-    "installments": 6
+    "installments": 6,
+    "modelo": "Modelo 4"
   },
   {
     "id": 55,
@@ -1049,216 +1091,226 @@
     ],
     "specs": [],
     "description": "Tênis Oakley Modelo 1, numeração 37-43.",
-    "installments": 6
+    "installments": 6,
+    "modelo": "Modelo 1"
   },
   {
     "id": 56,
-    "name": "Sapatênis Modelo 1",
+    "name": "Tênis Lacoste Modelo 1",
     "price": 179.9,
     "promotion": null,
     "category": "Masculino",
-    "marca": "Sapatênis",
+    "marca": "Lacoste",
     "tipo": "Casual",
     "tamanho": "38-43",
     "qualidade": "Original",
     "quantity": 10,
-    "image": "/tenis/sapatenis/modelo-1/01.jpeg",
+    "image": "/tenis/lacoste/modelo-1/01.jpeg",
     "images": [
-      "/tenis/sapatenis/modelo-1/01.jpeg",
-      "/tenis/sapatenis/modelo-1/02.jpeg",
-      "/tenis/sapatenis/modelo-1/03.jpeg",
-      "/tenis/sapatenis/modelo-1/04.jpeg",
-      "/tenis/sapatenis/modelo-1/05.jpeg",
-      "/tenis/sapatenis/modelo-1/06.jpeg"
+      "/tenis/lacoste/modelo-1/01.jpeg",
+      "/tenis/lacoste/modelo-1/02.jpeg",
+      "/tenis/lacoste/modelo-1/03.jpeg",
+      "/tenis/lacoste/modelo-1/04.jpeg",
+      "/tenis/lacoste/modelo-1/05.jpeg",
+      "/tenis/lacoste/modelo-1/06.jpeg"
     ],
     "specs": [],
-    "description": "Sapatênis Modelo 1, numeração 38-43.",
-    "installments": 6
+    "description": "Tênis Lacoste Modelo 1",
+    "installments": 6,
+    "modelo": "Modelo 1"
   },
   {
     "id": 57,
-    "name": "Sapatênis Modelo 2",
+    "name": "Mocassim BOSS Modelo 2",
     "price": 179.9,
     "promotion": null,
     "category": "Masculino",
-    "marca": "Sapatênis",
+    "marca": "BOSS",
     "tipo": "Casual",
     "tamanho": "38-43",
     "qualidade": "Original",
     "quantity": 10,
-    "image": "/tenis/sapatenis/modelo-2/01.jpeg",
+    "image": "/tenis/boss/modelo-2/01.jpeg",
     "images": [
-      "/tenis/sapatenis/modelo-2/01.jpeg",
-      "/tenis/sapatenis/modelo-2/02.jpeg",
-      "/tenis/sapatenis/modelo-2/03.jpeg",
-      "/tenis/sapatenis/modelo-2/04.jpeg",
-      "/tenis/sapatenis/modelo-2/05.jpeg"
+      "/tenis/boss/modelo-2/01.jpeg",
+      "/tenis/boss/modelo-2/02.jpeg",
+      "/tenis/boss/modelo-2/03.jpeg",
+      "/tenis/boss/modelo-2/04.jpeg",
+      "/tenis/boss/modelo-2/05.jpeg"
     ],
     "specs": [],
-    "description": "Sapatênis Modelo 2, numeração 38-43.",
-    "installments": 6
+    "description": "Mocassim BOSS Modelo 2",
+    "installments": 6,
+    "modelo": "Modelo 2"
   },
   {
     "id": 58,
-    "name": "Sapatênis Modelo 3",
+    "name": "Tênis Armani Exchange Modelo 3",
     "price": 179.9,
     "promotion": null,
     "category": "Masculino",
-    "marca": "Sapatênis",
+    "marca": "Armani Exchange",
     "tipo": "Casual",
     "tamanho": "38-43",
     "qualidade": "Original",
-    "quantity": 10,
-    "image": "/tenis/sapatenis/modelo-3/01.jpeg",
+    "quantity": 9,
+    "image": "/tenis/armani-exchange/modelo-3/01.jpeg",
     "images": [
-      "/tenis/sapatenis/modelo-3/01.jpeg",
-      "/tenis/sapatenis/modelo-3/02.jpeg",
-      "/tenis/sapatenis/modelo-3/03.jpeg",
-      "/tenis/sapatenis/modelo-3/04.jpeg",
-      "/tenis/sapatenis/modelo-3/05.jpeg"
+      "/tenis/armani-exchange/modelo-3/01.jpeg",
+      "/tenis/armani-exchange/modelo-3/02.jpeg",
+      "/tenis/armani-exchange/modelo-3/03.jpeg",
+      "/tenis/armani-exchange/modelo-3/04.jpeg",
+      "/tenis/armani-exchange/modelo-3/05.jpeg"
     ],
     "specs": [],
-    "description": "Sapatênis Modelo 3, numeração 38-43.",
-    "installments": 6
+    "description": "Tênis Armani Exchange Modelo 3",
+    "installments": 6,
+    "modelo": "Modelo 3"
   },
   {
     "id": 59,
-    "name": "Sapatênis Modelo 4",
+    "name": "Tênis BOSS Modelo 4",
     "price": 179.9,
     "promotion": null,
     "category": "Masculino",
-    "marca": "Sapatênis",
+    "marca": "BOSS",
     "tipo": "Casual",
     "tamanho": "38-43",
     "qualidade": "Original",
     "quantity": 10,
-    "image": "/tenis/sapatenis/modelo-4/01.jpeg",
+    "image": "/tenis/boss/modelo-4/01.jpeg",
     "images": [
-      "/tenis/sapatenis/modelo-4/01.jpeg",
-      "/tenis/sapatenis/modelo-4/02.jpeg",
-      "/tenis/sapatenis/modelo-4/03.jpeg",
-      "/tenis/sapatenis/modelo-4/04.jpeg",
-      "/tenis/sapatenis/modelo-4/05.jpeg"
+      "/tenis/boss/modelo-4/01.jpeg",
+      "/tenis/boss/modelo-4/02.jpeg",
+      "/tenis/boss/modelo-4/03.jpeg",
+      "/tenis/boss/modelo-4/04.jpeg",
+      "/tenis/boss/modelo-4/05.jpeg"
     ],
     "specs": [],
-    "description": "Sapatênis Modelo 4, numeração 38-43.",
-    "installments": 6
+    "description": "Tênis BOSS Modelo 4",
+    "installments": 6,
+    "modelo": "Modelo 4"
   },
   {
     "id": 60,
-    "name": "Sapatênis Modelo 5",
+    "name": "Nike Air Force 1",
     "price": 179.9,
     "promotion": null,
     "category": "Masculino",
-    "marca": "Sapatênis",
+    "marca": "Nike",
     "tipo": "Casual",
     "tamanho": "38-43",
     "qualidade": "Original",
     "quantity": 10,
-    "image": "/tenis/sapatenis/modelo-5/01.jpeg",
+    "image": "/tenis/nike/air-force-1/01.jpeg",
     "images": [
-      "/tenis/sapatenis/modelo-5/01.jpeg",
-      "/tenis/sapatenis/modelo-5/02.jpeg",
-      "/tenis/sapatenis/modelo-5/03.jpeg",
-      "/tenis/sapatenis/modelo-5/04.jpeg",
-      "/tenis/sapatenis/modelo-5/05.jpeg",
-      "/tenis/sapatenis/modelo-5/06.jpeg"
+      "/tenis/nike/air-force-1/01.jpeg",
+      "/tenis/nike/air-force-1/02.jpeg",
+      "/tenis/nike/air-force-1/03.jpeg",
+      "/tenis/nike/air-force-1/04.jpeg",
+      "/tenis/nike/air-force-1/05.jpeg",
+      "/tenis/nike/air-force-1/06.jpeg"
     ],
     "specs": [],
-    "description": "Sapatênis Modelo 5, numeração 38-43.",
-    "installments": 6
+    "description": "Nike Air Force 1",
+    "installments": 6,
+    "modelo": "Air Force 1"
   },
   {
     "id": 61,
-    "name": "Sapatênis Modelo 6",
+    "name": "Sapato BOSS Modelo 6",
     "price": 179.9,
     "promotion": null,
     "category": "Masculino",
-    "marca": "Sapatênis",
+    "marca": "BOSS",
     "tipo": "Casual",
     "tamanho": "38-43",
     "qualidade": "Original",
     "quantity": 10,
-    "image": "/tenis/sapatenis/modelo-6/01.jpeg",
+    "image": "/tenis/boss/modelo-6/01.jpeg",
     "images": [
-      "/tenis/sapatenis/modelo-6/01.jpeg",
-      "/tenis/sapatenis/modelo-6/02.jpeg",
-      "/tenis/sapatenis/modelo-6/03.jpeg",
-      "/tenis/sapatenis/modelo-6/04.jpeg",
-      "/tenis/sapatenis/modelo-6/05.jpeg",
-      "/tenis/sapatenis/modelo-6/06.jpeg"
+      "/tenis/boss/modelo-6/01.jpeg",
+      "/tenis/boss/modelo-6/02.jpeg",
+      "/tenis/boss/modelo-6/03.jpeg",
+      "/tenis/boss/modelo-6/04.jpeg",
+      "/tenis/boss/modelo-6/05.jpeg",
+      "/tenis/boss/modelo-6/06.jpeg"
     ],
     "specs": [],
-    "description": "Sapatênis Modelo 6, numeração 38-43.",
-    "installments": 6
+    "description": "Sapato BOSS Modelo 6",
+    "installments": 6,
+    "modelo": "Modelo 6"
   },
   {
     "id": 62,
-    "name": "Sapatênis Modelo 7",
+    "name": "Tênis BOSS Modelo 7",
     "price": 179.9,
     "promotion": null,
     "category": "Masculino",
-    "marca": "Sapatênis",
+    "marca": "BOSS",
     "tipo": "Casual",
     "tamanho": "38-43",
     "qualidade": "Original",
     "quantity": 10,
-    "image": "/tenis/sapatenis/modelo-7/01.jpeg",
+    "image": "/tenis/boss/modelo-7/01.jpeg",
     "images": [
-      "/tenis/sapatenis/modelo-7/01.jpeg",
-      "/tenis/sapatenis/modelo-7/02.jpeg",
-      "/tenis/sapatenis/modelo-7/03.jpeg",
-      "/tenis/sapatenis/modelo-7/04.jpeg"
+      "/tenis/boss/modelo-7/01.jpeg",
+      "/tenis/boss/modelo-7/02.jpeg",
+      "/tenis/boss/modelo-7/03.jpeg",
+      "/tenis/boss/modelo-7/04.jpeg"
     ],
     "specs": [],
-    "description": "Sapatênis Modelo 7, numeração 38-43.",
-    "installments": 6
+    "description": "Tênis BOSS Modelo 7",
+    "installments": 6,
+    "modelo": "Modelo 7"
   },
   {
     "id": 63,
-    "name": "Sapatênis Modelo 8",
+    "name": "Tênis BOSS Modelo 8",
     "price": 179.9,
     "promotion": null,
     "category": "Masculino",
-    "marca": "Sapatênis",
+    "marca": "BOSS",
     "tipo": "Casual",
     "tamanho": "38-43",
     "qualidade": "Original",
     "quantity": 10,
-    "image": "/tenis/sapatenis/modelo-8/01.jpeg",
+    "image": "/tenis/boss/modelo-8/01.jpeg",
     "images": [
-      "/tenis/sapatenis/modelo-8/01.jpeg",
-      "/tenis/sapatenis/modelo-8/02.jpeg",
-      "/tenis/sapatenis/modelo-8/03.jpeg",
-      "/tenis/sapatenis/modelo-8/04.jpeg",
-      "/tenis/sapatenis/modelo-8/05.jpeg"
+      "/tenis/boss/modelo-8/01.jpeg",
+      "/tenis/boss/modelo-8/02.jpeg",
+      "/tenis/boss/modelo-8/03.jpeg",
+      "/tenis/boss/modelo-8/04.jpeg",
+      "/tenis/boss/modelo-8/05.jpeg"
     ],
     "specs": [],
-    "description": "Sapatênis Modelo 8, numeração 38-43.",
-    "installments": 6
+    "description": "Tênis BOSS Modelo 8",
+    "installments": 6,
+    "modelo": "Modelo 8"
   },
   {
     "id": 64,
-    "name": "Sapatênis Modelo 9",
+    "name": "Mocassim BOSS Modelo 9",
     "price": 179.9,
     "promotion": null,
     "category": "Masculino",
-    "marca": "Sapatênis",
+    "marca": "BOSS",
     "tipo": "Casual",
     "tamanho": "38-43",
     "qualidade": "Original",
     "quantity": 10,
-    "image": "/tenis/sapatenis/modelo-9/01.jpeg",
+    "image": "/tenis/boss/modelo-9/01.jpeg",
     "images": [
-      "/tenis/sapatenis/modelo-9/01.jpeg",
-      "/tenis/sapatenis/modelo-9/02.jpeg",
-      "/tenis/sapatenis/modelo-9/03.jpeg",
-      "/tenis/sapatenis/modelo-9/04.jpeg",
-      "/tenis/sapatenis/modelo-9/05.jpeg"
+      "/tenis/boss/modelo-9/01.jpeg",
+      "/tenis/boss/modelo-9/02.jpeg",
+      "/tenis/boss/modelo-9/03.jpeg",
+      "/tenis/boss/modelo-9/04.jpeg",
+      "/tenis/boss/modelo-9/05.jpeg"
     ],
     "specs": [],
-    "description": "Sapatênis Modelo 9, numeração 38-43.",
-    "installments": 6
+    "description": "Mocassim BOSS Modelo 9",
+    "installments": 6,
+    "modelo": "Modelo 9"
   },
   {
     "id": 65,
@@ -1279,7 +1331,8 @@
     ],
     "specs": [],
     "description": "Tênis All Star Infantil Modelo 1, numeração 26-33.",
-    "installments": 6
+    "installments": 6,
+    "modelo": "Modelo 1"
   },
   {
     "id": 66,
@@ -1308,12 +1361,13 @@
     ],
     "specs": [],
     "description": "Tênis All Star Infantil Modelo 2, numeração 26-33.",
-    "installments": 6
+    "installments": 6,
+    "modelo": "Modelo 2"
   },
   {
     "id": 67,
-    "name": "Modelo 1 corrida",
-    "description": "",
+    "name": "Tênis Adidas Modelo de corrida",
+    "description": "Tênis Adidas para corrida.",
     "price": 199.9,
     "promotion": null,
     "category": "Masculino",
@@ -1322,10 +1376,10 @@
     "cor": "Preto",
     "qualidade": "Premium",
     "quantity": 4,
-    "image": "/uploads/cfd9641e-b85d-49e4-802e-78c5c9060b3a-01.jpeg",
+    "image": "/tenis/adidas/corrida/01.jpeg",
     "images": [
-      "/uploads/cfd9641e-b85d-49e4-802e-78c5c9060b3a-01.jpeg",
-      "/uploads/71285b9d-3162-47b0-ac50-9419e1106f9b-02.jpeg"
+      "/tenis/adidas/corrida/01.jpeg",
+      "/tenis/adidas/corrida/02.jpeg"
     ],
     "specs": [
       "Amortecimento",
@@ -1335,25 +1389,26 @@
       "Unissex",
       "Acabamento premium"
     ],
-    "installments": 4
+    "installments": 4,
+    "modelo": "Modelo de corrida"
   },
   {
     "id": 68,
-    "name": "Jordan 4",
-    "description": "",
+    "name": "Tênis Mizuno Wave Prophecy",
+    "description": "Tênis Mizuno da linha Wave Prophecy.",
     "price": 499.9,
     "promotion": null,
     "category": "Masculino",
-    "tipo": "Esportivo",
+    "tipo": "Corrida",
     "cor": "Preto",
     "tamanho": "38,39,40,41",
     "qualidade": "Original",
     "quantity": 12,
-    "image": "/uploads/94f15030-7579-4c89-bd67-319018c78327-03.jpeg",
+    "image": "/tenis/mizuno/wave-prophecy/01.jpeg",
     "images": [
-      "/uploads/94f15030-7579-4c89-bd67-319018c78327-03.jpeg",
-      "/uploads/45318b29-55d8-44b2-9060-356b7d201cd0-05.jpeg",
-      "/uploads/8c0389c0-3872-41bc-8efe-b9b5e196c361-06.jpeg"
+      "/tenis/mizuno/wave-prophecy/01.jpeg",
+      "/tenis/mizuno/wave-prophecy/02.jpeg",
+      "/tenis/mizuno/wave-prophecy/03.jpeg"
     ],
     "specs": [
       "Confortável",
@@ -1366,6 +1421,8 @@
       "Flexível",
       "Anti-deslizante"
     ],
-    "installments": 4
+    "installments": 4,
+    "marca": "Mizuno",
+    "modelo": "Wave Prophecy"
   }
 ]

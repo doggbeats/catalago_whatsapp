@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import CarrinhoBotao from "./CarrinhoBotao";
@@ -40,6 +40,8 @@ export default function Navbar({
   marcas?: string[];
 }) {
   const menu = categories(marcas);
+  const pathname = usePathname();
+  const isHome = pathname === "/";
   const router = useRouter();
   const [open, setOpen] = useState(false);
   const [submenuAberto, setSubmenuAberto] = useState<string | null>(null);
@@ -62,9 +64,11 @@ export default function Navbar({
 
   return (
     <header
-      className={`sticky top-0 z-50 bg-neutral-950 transition-shadow ${
-        scrolled ? "shadow-lg shadow-black/30" : ""
-      }`}
+      className={`${
+        isHome
+          ? "absolute inset-x-0 top-0 z-50 bg-transparent"
+          : "sticky top-0 z-50 bg-neutral-950"
+      } transition-shadow ${scrolled && !isHome ? "shadow-lg shadow-black/30" : ""}`}
     >
       <nav className="mx-auto flex h-20 w-full max-w-7xl items-center gap-3 px-3 md:h-24 md:px-4">
         <Link

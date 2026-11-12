@@ -70,22 +70,22 @@ export default async function ProdutoPage({
             ) : null}
           </div>
 
-          <h1 className="mt-4 text-3xl font-bold text-black">{produto.name}</h1>
+          <h1 className="produto-nome mt-4 text-3xl text-black">{produto.name}</h1>
 
           <p className="mt-3 text-slate-600">{produto.description}</p>
 
           <div className="mt-6 flex h-9 items-end gap-3">
             {produto.promotion ? (
               <>
-                <p className="text-base text-slate-500 line-through">
+                <p className="produto-preco text-base text-slate-500 line-through">
                   {formatBRL(produto.price)}
                 </p>
-                <p className="text-3xl font-bold text-black">
+                <p className="produto-preco text-3xl text-black">
                   {formatBRL(produto.promotion)}
                 </p>
               </>
             ) : (
-              <p className="text-3xl font-bold text-black">
+              <p className="produto-preco text-3xl text-black">
                 {formatBRL(produto.price)}
               </p>
             )}

@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { promises as fs } from "fs";
 import path from "path";
 import { randomUUID } from "crypto";
+import { put } from "@vercel/blob";
 import { isAdmin } from "@/lib/auth";
 import { AVISO_SOMENTE_LEITURA, somenteLeitura } from "@/lib/ambiente";
 
@@ -20,6 +21,17 @@ export async function POST(request: Request) {
 
   if (somenteLeitura) {
     return NextResponse.json({ error: AVISO_SOMENTE_LEITURA }, { status: 409 });
+  }
+
+  const blobConfigurado = Boolean(
+    process.env.BLOB_READ_WRITE_TOKEN ||
+      (process.env.VERCEL_OIDC_TOKEN && process.env.BLOB_STORE_ID),
+  );
+  if (process.env.VERCEL === "1" && !blobConfigurado) {
+    return NextResponse.json(
+      { error: "Conecte um Blob público à Vercel para habilitar o envio de imagens." },
+      { status: 503 },
+    );
   }
 
   try {
@@ -63,6 +75,15 @@ export async function POST(request: Request) {
     const nomeArquivo = `${randomUUID()}${nomeBase ? `-${nomeBase}` : ""}.${ext}`;
 
     // A pasta pode não existir em um deploy novo; cria antes de gravar.
+    if (process.env.VERCEL === "1") {
+      const blob = await put(`produtos/${nomeArquivo}`, bytes, {
+        access: "public",
+        contentType: arquivo.type,
+        addRandomSuffix: false,
+      });
+      return NextResponse.json({ image: blob.url }, { status: 201 });
+    }
+
     const pastaUploads = path.join(process.cwd(), "public", "uploads");
     await fs.mkdir(pastaUploads, { recursive: true });
     await fs.writeFile(path.join(pastaUploads, nomeArquivo), bytes);

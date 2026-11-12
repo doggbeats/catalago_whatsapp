@@ -4,7 +4,7 @@ import Link from "next/link";
 import { getProdutos } from "@/lib/produtos";
 import { getPedidos } from "@/lib/pedidos";
 import { ESTOQUE_BAIXO } from "@/lib/estoque";
-import { somenteLeitura } from "@/lib/ambiente";
+import { AVISO_SOMENTE_LEITURA, somenteLeitura } from "@/lib/ambiente";
 import LogoutButton from "./logout-button";
 
 export default async function AdminLayout({
@@ -92,10 +92,7 @@ export default async function AdminLayout({
       {somenteLeitura ? (
         <div className="border-b border-amber-200 bg-amber-50">
           <div className="mx-auto max-w-6xl px-4 py-2 text-sm text-black">
-            <span className="font-semibold">Modo somente leitura:</span> a
-            Vercel não permite gravar arquivos. Edições de produtos, estoque,
-            pedidos, senha e imagens estão desativadas. As vendas continuam
-            sendo enviadas pelo WhatsApp.
+            {AVISO_SOMENTE_LEITURA}
           </div>
         </div>
       ) : null}

@@ -127,6 +127,7 @@ export async function PUT(request: Request, { params }: Params) {
   }
 
   if (body.marca !== undefined) atualizado.marca = texto(body.marca);
+  if (body.modelo !== undefined) atualizado.modelo = texto(body.modelo);
   if (body.tipo !== undefined) atualizado.tipo = texto(body.tipo);
   if (body.cor !== undefined) atualizado.cor = texto(body.cor);
   if (body.tamanho !== undefined) atualizado.tamanho = texto(body.tamanho);

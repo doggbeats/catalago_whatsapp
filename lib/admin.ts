@@ -6,6 +6,7 @@ import {
   timingSafeEqual,
 } from "crypto";
 import { promisify } from "util";
+import { lerDadosPersistidos, salvarDadosPersistidos, temBancoConfigurado } from "./database";
 
 const configPath = path.join(process.cwd(), "lib", "admin-config.json");
 const KEY_LENGTH = 64;
@@ -26,6 +27,11 @@ type ArquivoConfig = {
   user?: string;
   password?: string;
   passwordHash?: string;
+};
+
+type AdminPersistido = {
+  user: string;
+  passwordHash: string;
 };
 
 async function hashPassword(senha: string): Promise<string> {
@@ -54,6 +60,13 @@ export async function verifyPassword(
 }
 
 export async function getAdminConfig(): Promise<AdminConfig> {
+  if (temBancoConfigurado()) {
+    const persistido = await lerDadosPersistidos<AdminPersistido>("admin");
+    if (persistido) {
+      return { user: persistido.user, password: persistido.passwordHash };
+    }
+  }
+
   let arquivo: ArquivoConfig | null = null;
 
   try {
@@ -74,6 +87,11 @@ export async function getAdminConfig(): Promise<AdminConfig> {
 export async function setAdminPassword(senha: string): Promise<void> {
   const { user } = await getAdminConfig();
   const passwordHash = await hashPassword(senha);
+
+  if (temBancoConfigurado()) {
+    await salvarDadosPersistidos("admin", { user, passwordHash });
+    return;
+  }
 
   await fs.writeFile(
     configPath,

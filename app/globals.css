@@ -8,7 +8,7 @@
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-montserrat), ui-sans-serif, system-ui, sans-serif;
+  --font-sans: var(--font-poppins), ui-sans-serif, system-ui, sans-serif;
   --font-mono: var(--font-geist-mono), ui-monospace, monospace;
 }
 
@@ -16,6 +16,45 @@ body {
   background: var(--background);
   color: var(--foreground);
   font-family: var(--font-sans);
+  font-weight: 400;
+}
+
+html.pagina-contato body > footer {
+  display: none;
+}
+
+h1,
+h2,
+h3 {
+  font-family: var(--font-montserrat), ui-sans-serif, system-ui, sans-serif;
+  font-weight: 800;
+}
+
+nav a,
+nav button {
+  font-family: var(--font-montserrat), ui-sans-serif, system-ui, sans-serif;
+  font-weight: 600;
+}
+
+button {
+  font-family: var(--font-montserrat), ui-sans-serif, system-ui, sans-serif;
+  font-weight: 700;
+}
+
+main a[class*="bg-"] {
+  font-family: var(--font-montserrat), ui-sans-serif, system-ui, sans-serif;
+  font-weight: 700;
+}
+
+.produto-nome,
+.produto-preco {
+  font-family: var(--font-poppins), ui-sans-serif, system-ui, sans-serif;
+  font-weight: 500;
+}
+
+.nome-loja {
+  font-family: var(--font-montserrat), ui-sans-serif, system-ui, sans-serif;
+  font-weight: 800;
 }
 
 @keyframes pagina-entrada {

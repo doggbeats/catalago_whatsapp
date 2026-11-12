@@ -23,3 +23,24 @@ export function useSomenteLeitura(): boolean {
 
   return somenteLeitura;
 }
+
+export function useImagensConfiguradas(): boolean {
+  const [configuradas, setConfiguradas] = useState(false);
+
+  useEffect(() => {
+    let ativo = true;
+
+    fetch("/api/admin/ambiente")
+      .then((res) => (res.ok ? res.json() : null))
+      .then((dados: { imagensConfiguradas?: boolean } | null) => {
+        if (ativo && dados) setConfiguradas(Boolean(dados.imagensConfiguradas));
+      })
+      .catch(() => {});
+
+    return () => {
+      ativo = false;
+    };
+  }, []);
+
+  return configuradas;
+}

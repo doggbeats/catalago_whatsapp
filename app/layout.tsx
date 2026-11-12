@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { Geist_Mono, Montserrat } from "next/font/google";
+import { Geist_Mono, Montserrat, Poppins } from "next/font/google";
 import "./globals.css";
 import Navbar from "./components/Navbar";
 import BotoesFlutuantes from "./components/BotoesFlutuantes";
@@ -11,6 +11,14 @@ import { whatsappContatos } from "@/lib/format";
 const montserrat = Montserrat({
   variable: "--font-montserrat",
   subsets: ["latin"],
+  weight: ["600", "700", "800"],
+  display: "swap",
+});
+
+const poppins = Poppins({
+  variable: "--font-poppins",
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
   display: "swap",
 });
 
@@ -37,12 +45,12 @@ export default async function RootLayout({ children }: LayoutProps<"/">) {
     <html
       lang="pt-BR"
       suppressHydrationWarning
-      className={`${montserrat.variable} ${geistMono.variable} h-full antialiased`}
+      className={`${montserrat.variable} ${poppins.variable} ${geistMono.variable} h-full antialiased`}
     >
       <head>
         <script
           dangerouslySetInnerHTML={{
-            __html: `if(!/^\\/(admin|login)(\\/|$)/.test(location.pathname)){document.documentElement.classList.add("animar")}`,
+            __html: `if(!/^\\/(admin|login)(\\/|$)|^\\/produtos\\/\\d+(\\/|$)/.test(location.pathname)){document.documentElement.classList.add("animar")}if(location.pathname==="/contato"){document.documentElement.classList.add("pagina-contato")}`,
           }}
         />
         <script

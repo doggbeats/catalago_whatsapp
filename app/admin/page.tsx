@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { useEffect, useMemo, useRef, useState } from "react";
-import { useSomenteLeitura } from "./useSomenteLeitura";
+import { useImagensConfiguradas, useSomenteLeitura } from "./useSomenteLeitura";
 
 type Produto = {
   id: number;
@@ -12,6 +12,7 @@ type Produto = {
   promotion: number | null;
   category: string;
   marca?: string;
+  modelo?: string;
   tipo?: string;
   cor?: string;
   tamanho?: string;
@@ -71,6 +72,7 @@ type FormState = {
   promotion: string;
   category: string;
   marca: string;
+  modelo: string;
   tipo: string;
   cor: string;
   tamanho: string;
@@ -88,6 +90,7 @@ const emptyForm: FormState = {
   promotion: "",
   category: "Masculino",
   marca: "",
+  modelo: "",
   tipo: "",
   cor: cores[0],
   tamanho: "",
@@ -122,6 +125,7 @@ export default function AdminPage() {
   const [marcasOcultas, setMarcasOcultas] = useState<string[]>([]);
   const [novaMarca, setNovaMarca] = useState("");
   const somenteLeitura = useSomenteLeitura();
+  const imagensConfiguradas = useImagensConfiguradas();
 
   // Marcas disponíveis = sugestões + marcas já cadastradas nos produtos
   // + as criadas nesta sessão, menos as removidas.
@@ -145,6 +149,7 @@ export default function AdminPage() {
       promotion: p.promotion ? String(p.promotion) : "",
       category: p.category,
       marca: p.marca ?? "",
+      modelo: p.modelo ?? "",
       tipo: p.tipo ?? "",
       cor: p.cor ?? "",
       tamanho: p.tamanho ?? "",
@@ -287,7 +292,7 @@ export default function AdminPage() {
     const arquivos = Array.from(input.files ?? []);
     if (!arquivos.length) return;
 
-    if (somenteLeitura) {
+    if (somenteLeitura || !imagensConfiguradas) {
       input.value = "";
       setMensagem({
         tipo: "erro",
@@ -417,6 +422,7 @@ export default function AdminPage() {
       promotion: promocao,
       category: form.category,
       marca: form.marca || undefined,
+      modelo: form.modelo.trim() || undefined,
       tipo: form.tipo || undefined,
       cor: form.cor || undefined,
       tamanho: form.tamanho.trim() || undefined,
@@ -512,9 +518,13 @@ export default function AdminPage() {
 
       {somenteLeitura ? (
         <div className="mt-4 rounded-lg border border-amber-200 bg-amber-50 px-4 py-3 text-sm font-medium text-black">
-          Modo somente leitura: o cadastro, a edição, a exclusão e o envio de
-          imagens estão desativados na Vercel. As alterações de catálogo devem
-          ser feitas no projeto local e publicadas pelo Git.
+          Banco Neon não configurado: adicione DATABASE_URL nas variáveis de ambiente da Vercel para salvar as alterações.
+        </div>
+      ) : null}
+
+      {!somenteLeitura && !imagensConfiguradas ? (
+        <div className="mt-4 rounded-lg border border-amber-200 bg-amber-50 px-4 py-3 text-sm font-medium text-black">
+          Conecte um Blob público ao projeto Vercel para habilitar o envio de imagens.
         </div>
       ) : null}
 
@@ -562,6 +572,17 @@ export default function AdminPage() {
               <option key={m} value={m}>{m}</option>
             ))}
           </select>
+        </div>
+
+        <div>
+          <label className="mb-1 block text-sm font-medium text-black">Modelo</label>
+          <input
+            name="modelo"
+            value={form.modelo}
+            onChange={handleChange}
+            className={inputClass}
+            placeholder="Ex.: Air Force 1, Wave Prophecy"
+          />
         </div>
 
         <div className="md:col-span-2">
@@ -677,7 +698,7 @@ export default function AdminPage() {
           <div className="mt-2 flex flex-wrap items-center gap-3">
             <label
               className={`inline-flex items-center gap-2 rounded-lg border border-slate-300 px-4 py-2.5 text-sm font-medium text-black transition ${
-                enviandoImagem || semEspacoParaImagem || somenteLeitura
+                enviandoImagem || semEspacoParaImagem || somenteLeitura || !imagensConfiguradas
                   ? "cursor-not-allowed opacity-60"
                   : "cursor-pointer hover:bg-slate-50"
               }`}
@@ -691,7 +712,7 @@ export default function AdminPage() {
                 accept="image/jpeg,image/png,image/webp,image/gif"
                 multiple
                 onChange={handlerArquivos}
-                disabled={enviandoImagem || semEspacoParaImagem || somenteLeitura}
+                disabled={enviandoImagem || semEspacoParaImagem || somenteLeitura || !imagensConfiguradas}
                 className="hidden"
               />
             </label>

@@ -9,7 +9,11 @@ import Filtros, { buildUrl, type Contagem } from "./Filtros";
 
 const categoriasBase = ["Masculino", "Feminino", "Infantil"];
 
-type Ignorar = "categoria" | "marca" | "tipo" | "tamanho";
+type Ignorar = "categoria" | "marca" | "modelo" | "tipo" | "tamanho";
+
+function chaveModelo(produto: Produto): string {
+  return `${produto.marca ?? "Sem marca"}::${produto.modelo ?? produto.name}`;
+}
 
 export const metadata = {
   title: "Produtos | TENIS NEON",
@@ -33,7 +37,13 @@ function ordenar(produtos: Produto[], ordem?: string): Produto[] {
     case "novidades":
       return lista.sort((a, b) => b.id - a.id);
     default:
-      return lista;
+      return lista.sort(
+        (a, b) =>
+          (a.marca ?? "Sem marca").localeCompare(b.marca ?? "Sem marca", "pt-BR") ||
+          (a.modelo ?? a.name).localeCompare(b.modelo ?? b.name, "pt-BR", {
+            numeric: true,
+          }),
+      );
   }
 }
 
@@ -45,12 +55,13 @@ export default async function Products({
     busca?: string;
     promo?: string;
     marca?: string;
+    modelo?: string;
     tipo?: string;
     tamanho?: string;
     ordem?: string;
   }>;
 }) {
-  const { categoria, busca, promo, marca, tipo, tamanho, ordem } =
+  const { categoria, busca, promo, marca, modelo, tipo, tamanho, ordem } =
     await searchParams;
   const promoAtiva = promo === "sim";
   const todos: Produto[] = await getProdutos();
@@ -61,12 +72,13 @@ export default async function Products({
     const matchCategoria =
       ignorar === "categoria" || !categoria || p.category === categoria;
     const matchMarca = ignorar === "marca" || !marca || p.marca === marca;
+    const matchModelo = ignorar === "modelo" || !modelo || chaveModelo(p) === modelo;
     const matchTipo = ignorar === "tipo" || !tipo || p.tipo === tipo;
     const matchPromo = promoAtiva ? Boolean(p.promotion) : true;
     const matchBusca = query
       ? p.name.toLowerCase().includes(query) ||
         p.specs?.some((s) => s.toLowerCase().includes(query)) ||
-        [p.cor, p.tamanho, p.qualidade, p.marca, p.tipo].some((v) =>
+        [p.cor, p.tamanho, p.qualidade, p.marca, p.modelo, p.tipo].some((v) =>
           v?.toLowerCase().includes(query),
         )
       : true;
@@ -77,6 +89,7 @@ export default async function Products({
     return (
       matchCategoria &&
       matchMarca &&
+      matchModelo &&
       matchTipo &&
       matchPromo &&
       matchBusca &&
@@ -108,6 +121,26 @@ export default async function Products({
     (m) => m.total > 0 || marca === m.nome,
   );
 
+  const modelosMap = new Map<string, { marca: string; modelo: string }>();
+  for (const produto of todos) {
+    if (!produto.modelo) continue;
+    const chave = chaveModelo(produto);
+    modelosMap.set(chave, {
+      marca: produto.marca ?? "Sem marca",
+      modelo: produto.modelo,
+    });
+  }
+  const modelos: Contagem[] = [...modelosMap.entries()]
+    .map(([valor, item]) => ({
+      valor,
+      nome: marca ? item.modelo : `${item.marca} · ${item.modelo}`,
+      total: todos.filter(
+        (produto) => chaveModelo(produto) === valor && combina(produto, "modelo"),
+      ).length,
+    }))
+    .filter((item) => item.total > 0 || item.valor === modelo)
+    .sort((a, b) => a.nome.localeCompare(b.nome, "pt-BR"));
+
   const tiposNomes = Array.from(
     new Set(todos.map((p) => p.tipo).filter((t): t is string => Boolean(t))),
   ).sort((a, b) => a.localeCompare(b, "pt-BR"));
@@ -126,6 +159,7 @@ export default async function Products({
   const totalFiltrosAtivos = [
     categoria,
     marca,
+    modelo,
     tipo,
     tamanho,
     busca,
@@ -134,15 +168,17 @@ export default async function Products({
 
   const rotuloResultado = busca
     ? `Resultados para “${busca}”`
+    : modelo
+      ? modelos.find((item) => item.valor === modelo)?.nome ?? "Modelo selecionado"
     : categoria
       ? `Tênis ${categoria.toLowerCase()}`
       : marca
         ? `Tênis ${marca}`
         : tipo
           ? `Tênis ${tipo}`
-          : promoAtiva
-            ? "Promoções"
-            : "Todos os tênis";
+            : promoAtiva
+              ? "Promoções"
+              : "Todos os tênis";
 
   const maisNovos = new Set(
     [...todos]
@@ -154,6 +190,7 @@ export default async function Products({
   const paramsAtuais = {
     categoria,
     marca,
+    modelo,
     tipo,
     tamanho,
     busca,
@@ -172,6 +209,12 @@ export default async function Products({
     chips.push({
       label: marca,
       href: buildUrl("/produtos", { ...paramsAtuais, marca: undefined }),
+    });
+  }
+  if (modelo) {
+    chips.push({
+      label: modelos.find((item) => item.valor === modelo)?.nome ?? modelo,
+      href: buildUrl("/produtos", { ...paramsAtuais, modelo: undefined }),
     });
   }
   if (tipo) {
@@ -208,6 +251,7 @@ export default async function Products({
       promo: promoAtiva ? "sim" : undefined,
       ordem,
       marca: marca === nome ? undefined : nome,
+      modelo: undefined,
     });
 
   return (
@@ -326,6 +370,7 @@ export default async function Products({
               <Filtros
                 categoria={categoria}
                 marca={marca}
+                modelo={modelo}
                 tipo={tipo}
                 tamanho={tamanho}
                 busca={busca}
@@ -333,6 +378,7 @@ export default async function Products({
                 tamanhos={tamanhos}
                 categorias={categorias}
                 marcas={marcasVisiveis}
+                modelos={modelos}
                 tipos={tiposVisiveis}
               />
             </div>
@@ -380,6 +426,7 @@ export default async function Products({
                 <Filtros
                   categoria={categoria}
                   marca={marca}
+                  modelo={modelo}
                   tipo={tipo}
                   tamanho={tamanho}
                   busca={busca}
@@ -387,6 +434,7 @@ export default async function Products({
                   tamanhos={tamanhos}
                   categorias={categorias}
                   marcas={marcasVisiveis}
+                  modelos={modelos}
                   tipos={tiposVisiveis}
                 />
               </div>
@@ -514,7 +562,7 @@ export default async function Products({
                               src={product.image}
                               alt={product.name}
                               fill
-                              className="object-contain p-5 mix-blend-multiply transition duration-500 ease-out group-hover:-rotate-3 group-hover:scale-110"
+                              className="object-contain p-5 mix-blend-multiply"
                               sizes="(min-width: 1280px) 30vw, (min-width: 640px) 45vw, 100vw"
                             />
                           ) : (
@@ -559,7 +607,7 @@ export default async function Products({
                           ) : null}
                         </div>
 
-                        <h3 className="mt-2 line-clamp-2 min-h-[2.75rem] text-base font-semibold leading-snug tracking-tight text-black">
+                        <h3 className="produto-nome mt-2 line-clamp-2 min-h-[2.75rem] text-base font-medium leading-snug tracking-tight text-black">
                           <Link
                             href={`/produtos/${product.id}`}
                             className="transition hover:text-amber-600"
@@ -587,11 +635,11 @@ export default async function Products({
 
                         <div className="mt-auto pt-4">
                           <div className="flex items-end gap-2">
-                            <span className="text-2xl font-black tracking-tight text-black">
+                            <span className="produto-preco text-2xl tracking-tight text-black">
                               {formatBRL(precoFinal)}
                             </span>
                             {product.promotion ? (
-                              <span className="mb-1 text-sm text-neutral-400 line-through">
+                              <span className="produto-preco mb-1 text-sm text-neutral-400 line-through">
                                 {formatBRL(product.price)}
                               </span>
                             ) : null}

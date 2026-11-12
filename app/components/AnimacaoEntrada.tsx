@@ -12,7 +12,7 @@ const CANDIDATOS = "section, article, aside, footer, .grid > *";
 const ALVO = `:is(${CANDIDATOS}):not(:has(:is(${CANDIDATOS})))`;
 
 /** Painel e login ficam sem animação para não atrapalhar formulários. */
-const SEM_ANIMACAO = /^\/(admin|login)(\/|$)/;
+const SEM_ANIMACAO = /^\/(admin|login)(\/|$)|^\/produtos\/\d+(\/|$)/;
 
 export default function AnimacaoEntrada() {
   const pathname = usePathname();
@@ -22,6 +22,7 @@ export default function AnimacaoEntrada() {
     const main = document.querySelector("main");
     const desativar = SEM_ANIMACAO.test(pathname);
 
+    raiz.classList.toggle("pagina-contato", pathname === "/contato");
     raiz.classList.toggle("animar", !desativar);
 
     if (!main || desativar) return;

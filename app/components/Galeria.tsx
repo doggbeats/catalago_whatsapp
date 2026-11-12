@@ -27,7 +27,7 @@ export default function Galeria({ imagens, alt }: Props) {
           alt={alt}
           fill
           priority
-          className="object-contain p-6 transition duration-500 ease-out hover:scale-105"
+          className="object-contain p-6"
           sizes="(min-width: 1024px) 50vw, 100vw"
         />
       </div>
@@ -51,7 +51,7 @@ export default function Galeria({ imagens, alt }: Props) {
                 src={src}
                 alt={`${alt} - foto ${i + 1}`}
                 fill
-                className="object-contain p-1 transition duration-300 hover:scale-110"
+                className="object-contain p-1"
                 sizes="120px"
               />
             </button>

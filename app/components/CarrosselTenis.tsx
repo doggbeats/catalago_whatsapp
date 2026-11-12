@@ -81,7 +81,7 @@ export default function CarrosselTenis({
                   src={produto.image}
                   alt={produto.name}
                   fill
-                  className="object-contain p-4 transition duration-500 ease-out group-hover:scale-110"
+                  className="object-contain p-4"
                   sizes="(min-width: 1024px) 33vw, (min-width: 640px) 47vw, 80vw"
                 />
                 {produto.marca ? (
@@ -104,7 +104,7 @@ export default function CarrosselTenis({
                   ) : null}
                 </div>
 
-                <h3 className="mt-1 line-clamp-1 text-lg font-semibold text-black">
+                <h3 className="produto-nome mt-1 line-clamp-1 text-lg font-medium text-black">
                   <Link
                     href={`/produtos/${produto.id}`}
                     className="transition group-hover:text-amber-600"
@@ -117,15 +117,15 @@ export default function CarrosselTenis({
                   <div className="flex h-7 items-end gap-2">
                     {produto.promotion ? (
                       <>
-                        <p className="text-sm text-slate-500 line-through">
+                        <p className="produto-preco text-sm text-slate-500 line-through">
                           {formatBRL(produto.price)}
                         </p>
-                        <p className="text-xl font-bold text-black">
+                        <p className="produto-preco text-xl text-black">
                           {formatBRL(produto.promotion)}
                         </p>
                       </>
                     ) : (
-                      <p className="text-xl font-bold text-black">
+                      <p className="produto-preco text-xl text-black">
                         {formatBRL(produto.price)}
                       </p>
                     )}

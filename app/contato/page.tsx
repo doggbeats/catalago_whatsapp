@@ -1,4 +1,3 @@
-import Image from "next/image";
 import Link from "next/link";
 import { formatarTelefone, whatsappContatos } from "@/lib/format";
 
@@ -53,16 +52,6 @@ export default function ContatoPage() {
             </p>
           </div>
 
-          <div className="shrink-0 self-start rounded-2xl bg-white p-4 shadow-lg shadow-black/25 md:self-center">
-            <Image
-              src="/logo1.png"
-              alt="Well Fashion"
-              width={418}
-              height={146}
-              priority
-              className="h-auto w-52 sm:w-64 lg:w-72"
-            />
-          </div>
         </div>
       </section>
 

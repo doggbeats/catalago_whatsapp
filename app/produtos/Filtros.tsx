@@ -12,11 +12,12 @@ export function buildUrl(
   return q ? `${base}?${q}` : base;
 }
 
-export type Contagem = { nome: string; total: number };
+export type Contagem = { nome: string; total: number; valor?: string };
 
 type Props = {
   categoria?: string;
   marca?: string;
+  modelo?: string;
   tipo?: string;
   tamanho?: string;
   busca?: string;
@@ -24,6 +25,7 @@ type Props = {
   tamanhos: string[];
   categorias: Contagem[];
   marcas: Contagem[];
+  modelos: Contagem[];
   tipos: Contagem[];
 };
 
@@ -103,6 +105,7 @@ function OpcaoFiltro({
 export default function Filtros({
   categoria,
   marca,
+  modelo,
   tipo,
   tamanho,
   busca,
@@ -110,11 +113,13 @@ export default function Filtros({
   tamanhos,
   categorias,
   marcas,
+  modelos,
   tipos,
 }: Props) {
   const base = {
     categoria,
     marca,
+    modelo,
     tipo,
     tamanho,
     busca,
@@ -125,7 +130,7 @@ export default function Filtros({
     buildUrl("/produtos", { ...base, ...overrides });
 
   const temFiltro = Boolean(
-    categoria || marca || tipo || tamanho || busca || promoAtiva,
+    categoria || marca || modelo || tipo || tamanho || busca || promoAtiva,
   );
 
   return (
@@ -154,7 +159,7 @@ export default function Filtros({
               return (
                 <Link
                   key={tam}
-                  href={url({ tamanho: ativo ? undefined : tam })}
+                  href={url({ tamanho: tam })}
                   aria-pressed={ativo}
                   className={`flex h-9 items-center justify-center rounded-lg border text-xs font-semibold transition ${
                     ativo
@@ -179,13 +184,34 @@ export default function Filtros({
           {marcas.map((m) => (
             <OpcaoFiltro
               key={m.nome}
-              href={url({ marca: marca === m.nome ? undefined : m.nome })}
+              href={url({
+                marca: marca === m.nome ? undefined : m.nome,
+                modelo: undefined,
+              })}
               label={m.nome}
               total={m.total}
               ativo={marca === m.nome}
             />
           ))}
         </ul>
+      </Secao>
+
+      <Secao titulo="Modelos">
+        {modelos.length ? (
+          <ul className="max-h-72 space-y-0.5 overflow-y-auto pr-1">
+            {modelos.map((m) => (
+              <OpcaoFiltro
+                key={m.valor ?? m.nome}
+                href={url({ modelo: m.valor })}
+                label={m.nome}
+                total={m.total}
+                ativo={modelo === m.valor}
+              />
+            ))}
+          </ul>
+        ) : (
+          <p className="text-sm text-neutral-500">Nenhum modelo para os filtros atuais.</p>
+        )}
       </Secao>
 
       <Secao titulo="Tipos">

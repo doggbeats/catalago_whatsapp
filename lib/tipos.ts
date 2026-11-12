@@ -6,6 +6,7 @@ export type Produto = {
   promotion: number | null;
   category: string;
   marca?: string;
+  modelo?: string;
   tipo?: string;
   cor?: string;
   tamanho?: string;

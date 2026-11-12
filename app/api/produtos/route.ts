@@ -95,6 +95,7 @@ export async function POST(request: Request) {
     promotion,
     category,
     marca: texto(body.marca),
+    modelo: texto(body.modelo),
     tipo: texto(body.tipo),
     cor: texto(body.cor),
     tamanho: texto(body.tamanho),
