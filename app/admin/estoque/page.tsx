@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
 import { ESTOQUE_BAIXO, nivelEstoque, rotuloEstoque } from "@/lib/estoque";
+import { useSomenteLeitura } from "../useSomenteLeitura";
 
 type Produto = {
   id: number;
@@ -31,6 +32,7 @@ export default function EstoquePage() {
     tipo: "sucesso" | "erro";
     texto: string;
   } | null>(null);
+  const somenteLeitura = useSomenteLeitura();
 
   useEffect(() => {
     let ativo = true;
@@ -55,6 +57,14 @@ export default function EstoquePage() {
   }, []);
 
   async function salvar(id: number) {
+    if (somenteLeitura) {
+      setMensagem({
+        tipo: "erro",
+        texto: "O ajuste de estoque está desativado neste ambiente.",
+      });
+      return;
+    }
+
     const valor = Number(quantidades[id]);
     if (!Number.isFinite(valor) || valor < 0) {
       setMensagem({
@@ -94,6 +104,14 @@ export default function EstoquePage() {
   }
 
   async function excluir(id: number) {
+    if (somenteLeitura) {
+      setMensagem({
+        tipo: "erro",
+        texto: "A exclusão de produtos está desativada neste ambiente.",
+      });
+      return;
+    }
+
     if (!confirm("Excluir este produto? Esta ação não pode ser desfeita.")) return;
 
     setExcluindo(id);
@@ -158,6 +176,13 @@ export default function EstoquePage() {
         Acompanhe as unidades disponíveis. Produtos com {ESTOQUE_BAIXO} unidades
         ou menos recebem alerta de estoque baixo.
       </p>
+
+      {somenteLeitura ? (
+        <div className="mt-4 rounded-lg border border-amber-200 bg-amber-50 px-4 py-3 text-sm font-medium text-black">
+          Modo somente leitura: o ajuste de estoque e a exclusão de produtos
+          estão desativados na Vercel.
+        </div>
+      ) : null}
 
       {mensagem ? (
         <div
@@ -268,13 +293,14 @@ export default function EstoquePage() {
                               [p.id]: e.target.value,
                             }))
                           }
-                          className="w-24 rounded-md border border-slate-300 px-2 py-1.5 text-sm text-black outline-none focus:border-blue-500"
+                          disabled={somenteLeitura}
+                          className="w-24 rounded-md border border-slate-300 px-2 py-1.5 text-sm text-black outline-none focus:border-blue-500 disabled:bg-slate-100 disabled:opacity-70"
                         />
                         <button
                           type="button"
                           onClick={() => salvar(p.id)}
-                          disabled={salvando === p.id}
-                          className="rounded-md bg-blue-600 px-3 py-1.5 text-xs font-semibold text-white transition hover:bg-blue-700 disabled:opacity-60"
+                          disabled={somenteLeitura || salvando === p.id}
+                          className="rounded-md bg-blue-600 px-3 py-1.5 text-xs font-semibold text-white transition hover:bg-blue-700 disabled:cursor-not-allowed disabled:opacity-60"
                         >
                           {salvando === p.id ? "Salvando..." : "Salvar"}
                         </button>
@@ -296,8 +322,8 @@ export default function EstoquePage() {
                         <button
                           type="button"
                           onClick={() => excluir(p.id)}
-                          disabled={excluindo === p.id}
-                          className="rounded-md border border-red-200 px-3 py-1 text-xs font-medium text-red-600 transition hover:bg-red-50 disabled:opacity-60"
+                          disabled={somenteLeitura || excluindo === p.id}
+                          className="rounded-md border border-red-200 px-3 py-1 text-xs font-medium text-red-600 transition hover:bg-red-50 disabled:cursor-not-allowed disabled:opacity-60"
                         >
                           {excluindo === p.id ? "Excluindo..." : "Excluir"}
                         </button>

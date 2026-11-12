@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { useEffect, useMemo, useRef, useState } from "react";
+import { useSomenteLeitura } from "./useSomenteLeitura";
 
 type Produto = {
   id: number;
@@ -120,6 +121,7 @@ export default function AdminPage() {
   const [marcasExtras, setMarcasExtras] = useState<string[]>([]);
   const [marcasOcultas, setMarcasOcultas] = useState<string[]>([]);
   const [novaMarca, setNovaMarca] = useState("");
+  const somenteLeitura = useSomenteLeitura();
 
   // Marcas disponíveis = sugestões + marcas já cadastradas nos produtos
   // + as criadas nesta sessão, menos as removidas.
@@ -285,6 +287,15 @@ export default function AdminPage() {
     const arquivos = Array.from(input.files ?? []);
     if (!arquivos.length) return;
 
+    if (somenteLeitura) {
+      input.value = "";
+      setMensagem({
+        tipo: "erro",
+        texto: "O envio de imagens está desativado neste ambiente.",
+      });
+      return;
+    }
+
     setMensagem(null);
     setEnviandoImagem(true);
 
@@ -349,6 +360,15 @@ export default function AdminPage() {
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
+
+    if (somenteLeitura) {
+      setMensagem({
+        tipo: "erro",
+        texto:
+          "Este ambiente é somente leitura: o produto não pode ser salvo na Vercel.",
+      });
+      return;
+    }
 
     if (enviandoImagem) {
       setMensagem({ tipo: "erro", texto: "Aguarde o envio das imagens terminar." });
@@ -451,6 +471,15 @@ export default function AdminPage() {
   }
 
   async function excluir(id: number) {
+    if (somenteLeitura) {
+      setMensagem({
+        tipo: "erro",
+        texto:
+          "Este ambiente é somente leitura: o produto não pode ser excluído na Vercel.",
+      });
+      return;
+    }
+
     if (!confirm("Excluir este produto?")) return;
 
     try {
@@ -480,6 +509,14 @@ export default function AdminPage() {
     <div className="mx-auto max-w-6xl px-4 py-10">
       <h1 className="text-3xl font-bold text-black">Gestão de Produtos</h1>
       <p className="mt-1 text-black">Cadastre produtos e anexe uma ou mais imagens.</p>
+
+      {somenteLeitura ? (
+        <div className="mt-4 rounded-lg border border-amber-200 bg-amber-50 px-4 py-3 text-sm font-medium text-black">
+          Modo somente leitura: o cadastro, a edição, a exclusão e o envio de
+          imagens estão desativados na Vercel. As alterações de catálogo devem
+          ser feitas no projeto local e publicadas pelo Git.
+        </div>
+      ) : null}
 
       <form
         onSubmit={handleSubmit}
@@ -640,7 +677,7 @@ export default function AdminPage() {
           <div className="mt-2 flex flex-wrap items-center gap-3">
             <label
               className={`inline-flex items-center gap-2 rounded-lg border border-slate-300 px-4 py-2.5 text-sm font-medium text-black transition ${
-                enviandoImagem || semEspacoParaImagem
+                enviandoImagem || semEspacoParaImagem || somenteLeitura
                   ? "cursor-not-allowed opacity-60"
                   : "cursor-pointer hover:bg-slate-50"
               }`}
@@ -654,7 +691,7 @@ export default function AdminPage() {
                 accept="image/jpeg,image/png,image/webp,image/gif"
                 multiple
                 onChange={handlerArquivos}
-                disabled={enviandoImagem || semEspacoParaImagem}
+                disabled={enviandoImagem || semEspacoParaImagem || somenteLeitura}
                 className="hidden"
               />
             </label>
@@ -752,7 +789,7 @@ export default function AdminPage() {
         <div className="flex flex-wrap gap-3 md:col-span-2">
           <button
             type="submit"
-            disabled={salvando || enviandoImagem}
+            disabled={somenteLeitura || salvando || enviandoImagem}
             className="rounded-lg bg-blue-600 px-5 py-2.5 font-semibold text-white transition hover:bg-blue-700 disabled:cursor-not-allowed disabled:opacity-60"
           >
             {enviandoImagem
@@ -871,7 +908,8 @@ export default function AdminPage() {
                   </button>
                   <button
                     onClick={() => excluir(p.id)}
-                    className="rounded-md border border-red-200 px-3 py-1.5 text-xs font-medium text-red-600 transition hover:bg-red-50"
+                    disabled={somenteLeitura}
+                    className="rounded-md border border-red-200 px-3 py-1.5 text-xs font-medium text-red-600 transition hover:bg-red-50 disabled:cursor-not-allowed disabled:opacity-60"
                   >
                     Excluir
                   </button>

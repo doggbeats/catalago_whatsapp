@@ -3,6 +3,7 @@ import { promises as fs } from "fs";
 import path from "path";
 import { randomUUID } from "crypto";
 import { isAdmin } from "@/lib/auth";
+import { AVISO_SOMENTE_LEITURA, somenteLeitura } from "@/lib/ambiente";
 
 const tiposPermitidos: Record<string, string[]> = {
   "image/jpeg": ["jpg", "jpeg"],
@@ -15,6 +16,10 @@ const tamanhoMaximo = 5 * 1024 * 1024;
 export async function POST(request: Request) {
   if (!(await isAdmin())) {
     return NextResponse.json({ error: "Não autorizado." }, { status: 401 });
+  }
+
+  if (somenteLeitura) {
+    return NextResponse.json({ error: AVISO_SOMENTE_LEITURA }, { status: 409 });
   }
 
   try {

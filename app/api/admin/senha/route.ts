@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { cookies } from "next/headers";
 import { getAdminConfig, setAdminPassword, verifyPassword } from "@/lib/admin";
+import { AVISO_SOMENTE_LEITURA, somenteLeitura } from "@/lib/ambiente";
 
 const TAMANHO_MINIMO = 8;
 
@@ -8,6 +9,10 @@ export async function POST(request: Request) {
   const cookieStore = await cookies();
   if (cookieStore.get("admin_auth")?.value !== "1") {
     return NextResponse.json({ error: "Não autorizado." }, { status: 401 });
+  }
+
+  if (somenteLeitura) {
+    return NextResponse.json({ error: AVISO_SOMENTE_LEITURA }, { status: 409 });
   }
 
   let body: {

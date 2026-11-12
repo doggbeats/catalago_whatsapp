@@ -44,7 +44,13 @@ export async function POST(request: Request) {
     status: "aguardando" as StatusPedido,
     estoqueBaixado: false,
   };
-  await salvarPedidos([...pedidos, novo]);
+  // Na Vercel o disco é somente leitura: a venda segue para o WhatsApp
+  // mesmo quando não é possível gravar o pedido no arquivo local.
+  try {
+    await salvarPedidos([...pedidos, novo]);
+  } catch (erro) {
+    console.error("Não foi possível gravar o pedido:", erro);
+  }
 
   return NextResponse.json(novo, { status: 201 });
 }

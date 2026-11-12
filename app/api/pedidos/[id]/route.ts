@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { getPedidos, salvarPedidos, type Pedido, type StatusPedido } from "@/lib/pedidos";
 import { getProdutos, salvarProdutos } from "@/lib/produtos";
 import { isAdmin } from "@/lib/auth";
+import { AVISO_SOMENTE_LEITURA, somenteLeitura } from "@/lib/ambiente";
 
 type Params = { params: Promise<{ id: string }> };
 
@@ -16,6 +17,10 @@ function estoqueJaBaixado(pedido: Pedido): boolean {
 export async function PATCH(request: Request, { params }: Params) {
   if (!(await isAdmin())) {
     return NextResponse.json({ error: "Não autorizado." }, { status: 401 });
+  }
+
+  if (somenteLeitura) {
+    return NextResponse.json({ error: AVISO_SOMENTE_LEITURA }, { status: 409 });
   }
 
   const { id } = await params;
@@ -77,6 +82,11 @@ export async function DELETE(_request: Request, { params }: Params) {
   if (!(await isAdmin())) {
     return NextResponse.json({ error: "Não autorizado." }, { status: 401 });
   }
+
+  if (somenteLeitura) {
+    return NextResponse.json({ error: AVISO_SOMENTE_LEITURA }, { status: 409 });
+  }
+
   const { id } = await params;
   const pedidos = await getPedidos();
   const pedido = pedidos.find((p) => p.id === Number(id));

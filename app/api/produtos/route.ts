@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { getProdutos, salvarProdutos, type Produto } from "@/lib/produtos";
 import { isAdmin } from "@/lib/auth";
+import { AVISO_SOMENTE_LEITURA, somenteLeitura } from "@/lib/ambiente";
 
 const MAX_IMAGENS = 8;
 
@@ -24,6 +25,10 @@ export async function GET() {
 export async function POST(request: Request) {
   if (!(await isAdmin())) {
     return NextResponse.json({ error: "Não autorizado." }, { status: 401 });
+  }
+
+  if (somenteLeitura) {
+    return NextResponse.json({ error: AVISO_SOMENTE_LEITURA }, { status: 409 });
   }
 
   let body: Record<string, unknown>;
