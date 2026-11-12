@@ -2,6 +2,7 @@ import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import Link from "next/link";
 import { getProdutos } from "@/lib/produtos";
+import { getPedidos } from "@/lib/pedidos";
 import { ESTOQUE_BAIXO } from "@/lib/estoque";
 import LogoutButton from "./logout-button";
 
@@ -17,22 +18,38 @@ export default async function AdminLayout({
     redirect("/login");
   }
 
-  const links = [
-    { href: "/admin", label: "Produtos" },
-    { href: "/admin/pedidos", label: "Pedidos" },
-    { href: "/admin/estoque", label: "Estoque" },
-  ];
-
   const produtos = await getProdutos();
   const baixos = produtos.filter((p) => p.quantity <= ESTOQUE_BAIXO);
   const semEstoque = produtos.filter((p) => p.quantity <= 0);
+
+  const pedidos = await getPedidos().catch(() => []);
+  const pendentes = pedidos.filter(
+    (p) => p.status === "aguardando" || p.status === "confirmado",
+  ).length;
+
+  const links = [
+    { href: "/admin", label: "Produtos", badge: 0, badgeClass: "" },
+    {
+      href: "/admin/pedidos",
+      label: "Vendas",
+      badge: pendentes,
+      badgeClass: "bg-amber-500",
+    },
+    {
+      href: "/admin/estoque",
+      label: "Estoque",
+      badge: baixos.length,
+      badgeClass: "bg-red-500",
+    },
+    { href: "/admin/senha", label: "Senha", badge: 0, badgeClass: "" },
+  ];
 
   return (
     <div className="min-h-screen">
       <div className="border-b border-slate-200 bg-white">
         <div className="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-3 px-4 py-3">
           <div className="flex items-center gap-2 font-bold text-black">
-            <span className="grid h-8 w-8 place-items-center rounded-lg bg-blue-600 text-white">
+            <span className="grid h-8 w-8 place-items-center rounded-lg bg-black text-white">
               <svg
                 className="h-4 w-4"
                 fill="none"
@@ -57,9 +74,11 @@ export default async function AdminLayout({
                 className="rounded-lg px-4 py-2 text-sm font-medium text-black transition hover:bg-slate-100 hover:text-black"
               >
                 {l.label}
-                {l.href === "/admin/estoque" && baixos.length ? (
-                  <span className="ml-1.5 rounded-full bg-red-500 px-1.5 py-0.5 text-[10px] font-bold text-white">
-                    {baixos.length}
+                {l.badge ? (
+                  <span
+                    className={`ml-1.5 rounded-full px-1.5 py-0.5 text-[10px] font-bold text-white ${l.badgeClass}`}
+                  >
+                    {l.badge}
                   </span>
                 ) : null}
               </Link>

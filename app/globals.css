@@ -8,7 +8,7 @@
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-mplus-u), ui-sans-serif, system-ui, sans-serif;
+  --font-sans: var(--font-montserrat), ui-sans-serif, system-ui, sans-serif;
   --font-mono: var(--font-geist-mono), ui-monospace, monospace;
 }
 
@@ -33,23 +33,40 @@ body {
   animation: pagina-entrada 0.5s cubic-bezier(0.22, 1, 0.36, 1) backwards;
 }
 
-@keyframes vitrine-entrada {
+/* Itens do site entrando deslizando da esquerda para a direita.
+   O :not(:has(...)) anima só o bloco mais interno, sem duplicar o efeito. */
+@keyframes entrada-deslize {
   from {
-    transform: translateX(100%);
     opacity: 0;
+    transform: translate3d(-40px, 0, 0);
   }
   to {
-    transform: translateX(0);
     opacity: 1;
+    transform: translate3d(0, 0, 0);
   }
 }
 
-.animate-vitrine-card {
-  animation: vitrine-entrada 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+@media (prefers-reduced-motion: no-preference) {
+  .animar
+    main
+    :is(section, article, aside, footer, .grid > *):not(
+      :has(:is(section, article, aside, footer, .grid > *))
+    ):not(.entrada-visivel) {
+    opacity: 0;
+    transform: translate3d(-40px, 0, 0);
+  }
+
+  .animar
+    main
+    :is(section, article, aside, footer, .grid > *):not(
+      :has(:is(section, article, aside, footer, .grid > *))
+    ).entrada-visivel {
+    animation: entrada-deslize 0.65s cubic-bezier(0.22, 1, 0.36, 1) backwards;
+    animation-delay: var(--entrada-delay, 0ms);
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .animate-vitrine-card,
   .animate-pagina {
     animation: none;
   }

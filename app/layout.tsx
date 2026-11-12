@@ -1,10 +1,15 @@
 import type { Metadata } from "next";
-import { Geist_Mono, M_PLUS_U } from "next/font/google";
+import Link from "next/link";
+import { Geist_Mono, Montserrat } from "next/font/google";
 import "./globals.css";
 import Navbar from "./components/Navbar";
+import BotoesFlutuantes from "./components/BotoesFlutuantes";
+import AnimacaoEntrada from "./components/AnimacaoEntrada";
+import { getMarcas } from "@/lib/produtos";
+import { whatsappContatos } from "@/lib/format";
 
-const mPlusU = M_PLUS_U({
-  variable: "--font-mplus-u",
+const montserrat = Montserrat({
+  variable: "--font-montserrat",
   subsets: ["latin"],
   display: "swap",
 });
@@ -20,13 +25,25 @@ export const metadata: Metadata = {
     "TENIS NEON - Os melhores tênis com os melhores preços. Masculino, Feminino, Infantil e muito mais.",
 };
 
-export default function RootLayout({ children }: LayoutProps<"/">) {
+export default async function RootLayout({ children }: LayoutProps<"/">) {
+  // Marcas cadastradas nos produtos alimentam o menu "Marcas" do site.
+  const marcas = await getMarcas();
+  const whatsappHref = `https://wa.me/${whatsappContatos[0].numero}?text=${encodeURIComponent(
+    "Olá! Vim pelo site da Well Fashion e gostaria de atendimento.",
+  )}`;
+
   return (
     <html
       lang="pt-BR"
-      className={`${mPlusU.variable} ${geistMono.variable} h-full antialiased`}
+      suppressHydrationWarning
+      className={`${montserrat.variable} ${geistMono.variable} h-full antialiased`}
     >
       <head>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `if(!/^\\/(admin|login)(\\/|$)/.test(location.pathname)){document.documentElement.classList.add("animar")}`,
+          }}
+        />
         <script
           dangerouslySetInnerHTML={{
             __html: `
@@ -45,15 +62,16 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         />
       </head>
       <body className="min-h-full flex flex-col bg-white">
-        <Navbar />
+        <Navbar marcas={marcas} />
         <main className="flex-1">{children}</main>
+        <AnimacaoEntrada />
 
         <footer className="border-t border-slate-200 bg-white">
           <div className="mx-auto max-w-6xl px-4 py-12">
             <div className="grid gap-8 md:grid-cols-4">
               <div>
                 <div className="flex items-center gap-2 font-bold text-black">
-                  TENIS NEON
+                  Well Fashion
                 </div>
                 <p className="mt-3 text-sm text-slate-600">
                   Os melhores tênis com os melhores preços. Masculino, Feminino, Infantil e muito mais.
@@ -97,9 +115,12 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
                     </span>
                   </li>
                   <li>
-                    <span className="cursor-pointer transition hover:text-amber-600">
+                    <Link
+                      href="/contato"
+                      className="transition hover:text-amber-600"
+                    >
                       Contato
-                    </span>
+                    </Link>
                   </li>
                   <li>
                     <span className="cursor-pointer transition hover:text-amber-600">
@@ -111,6 +132,14 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
                       Termos de Uso
                     </span>
                   </li>
+                  <li>
+                    <Link
+                      href="/politica-de-privacidade"
+                      className="transition hover:text-amber-600"
+                    >
+                      Política de Privacidade
+                    </Link>
+                  </li>
                 </ul>
               </div>
 
@@ -119,18 +148,27 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
                   Contato
                 </h3>
                 <ul className="mt-3 space-y-2 text-sm text-slate-600">
-                  <li>contato@electrics.com</li>
-                  <li>(11) 4002-8922</li>
+                  <li className="break-all">Wellerson.Araujo.s@gmail.com</li>
+                  <li>(61) 99428-2217</li>
+                  <li>(61) 99328-3388</li>
                   <li>Brasília - DF</li>
                 </ul>
               </div>
             </div>
 
-            <div className="mt-10 border-t border-slate-200 pt-6 text-center text-xs text-slate-500">
-              © {new Date().getFullYear()} TENIS NEON. Todos os direitos reservados. CODE_PH - SOLUÇÕES DIGITAIS.
+            <div className="mt-10 flex flex-col items-center gap-2 border-t border-slate-200 pt-6 text-center text-xs text-slate-500">
+              <p>
+                © {new Date().getFullYear()} Well Fashion. Todos os direitos
+                reservados.
+              </p>
+              <p className="font-medium text-slate-600">
+                code_ph Assistência técnica &amp; Soluções Digitais
+              </p>
             </div>
           </div>
         </footer>
+
+        <BotoesFlutuantes whatsappHref={whatsappHref} />
       </body>
     </html>
   );

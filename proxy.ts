@@ -4,7 +4,7 @@ import type { NextRequest } from "next/server";
 const PROTECTED_ADMIN_PREFIX = "/admin";
 const LOGIN_PATH = "/login";
 
-export function middleware(request: NextRequest) {
+export function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
   const isAdminRoute = pathname.startsWith(PROTECTED_ADMIN_PREFIX);
   const isLoginRoute = pathname === LOGIN_PATH;
@@ -27,8 +27,7 @@ export function middleware(request: NextRequest) {
     return NextResponse.redirect(url);
   }
 
-  // Protege APIs sensíveis
-  // Bloqueia mutações em /api/produtos (exceto GET que já é público para listagem)
+  // Bloqueia mutações em /api/produtos (GET é público para listagem)
   if (pathname.startsWith("/api/produtos")) {
     if (request.method !== "GET" && !authed) {
       return NextResponse.json({ error: "Não autorizado." }, { status: 401 });
@@ -40,9 +39,14 @@ export function middleware(request: NextRequest) {
     return NextResponse.json({ error: "Não autorizado." }, { status: 401 });
   }
 
+  // Bloqueia rotas administrativas (ex.: alterar senha)
+  if (pathname.startsWith("/api/admin") && !authed) {
+    return NextResponse.json({ error: "Não autorizado." }, { status: 401 });
+  }
+
   // Bloqueia alteração/exclusão de pedidos
   if (pathname.startsWith("/api/pedidos") && !authed) {
-    if (request.method === "PUT" || request.method === "DELETE") {
+    if (["PUT", "PATCH", "DELETE"].includes(request.method)) {
       return NextResponse.json({ error: "Não autorizado." }, { status: 401 });
     }
   }
@@ -56,6 +60,7 @@ export const config = {
     "/login",
     "/api/produtos/:path*",
     "/api/upload",
+    "/api/admin/:path*",
     "/api/pedidos/:path*",
   ],
 };

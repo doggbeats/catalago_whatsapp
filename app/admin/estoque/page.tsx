@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
 import { ESTOQUE_BAIXO, nivelEstoque, rotuloEstoque } from "@/lib/estoque";
 
@@ -25,26 +26,46 @@ export default function EstoquePage() {
   const [quantidades, setQuantidades] = useState<Record<number, string>>({});
   const [salvando, setSalvando] = useState<number | null>(null);
   const [salvo, setSalvo] = useState<number | null>(null);
+  const [excluindo, setExcluindo] = useState<number | null>(null);
+  const [mensagem, setMensagem] = useState<{
+    tipo: "sucesso" | "erro";
+    texto: string;
+  } | null>(null);
 
   useEffect(() => {
-    carregar();
-  }, []);
+    let ativo = true;
 
-  async function carregar() {
-    const res = await fetch("/api/produtos");
-    const dados: Produto[] = await res.json();
-    setProdutos(dados);
-    setQuantidades(
-      Object.fromEntries(dados.map((p) => [p.id, String(p.quantity)])),
-    );
-    setLoading(false);
-  }
+    fetch("/api/produtos")
+      .then((res) => res.json())
+      .then((dados: Produto[]) => {
+        if (!ativo) return;
+        setProdutos(dados);
+        setQuantidades(
+          Object.fromEntries(dados.map((p) => [p.id, String(p.quantity)])),
+        );
+        setLoading(false);
+      })
+      .catch(() => {
+        if (ativo) setLoading(false);
+      });
+
+    return () => {
+      ativo = false;
+    };
+  }, []);
 
   async function salvar(id: number) {
     const valor = Number(quantidades[id]);
-    if (!Number.isFinite(valor) || valor < 0) return;
+    if (!Number.isFinite(valor) || valor < 0) {
+      setMensagem({
+        tipo: "erro",
+        texto: "Informe uma quantidade válida (0 ou mais).",
+      });
+      return;
+    }
 
     setSalvando(id);
+    setMensagem(null);
     const res = await fetch(`/api/produtos/${id}`, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
@@ -63,6 +84,46 @@ export default function EstoquePage() {
       }));
       setSalvo(id);
       setTimeout(() => setSalvo((atual) => (atual === id ? null : atual)), 2000);
+    } else {
+      const data = await res.json().catch(() => ({}));
+      setMensagem({
+        tipo: "erro",
+        texto: data.error ?? "Não foi possível atualizar o estoque.",
+      });
+    }
+  }
+
+  async function excluir(id: number) {
+    if (!confirm("Excluir este produto? Esta ação não pode ser desfeita.")) return;
+
+    setExcluindo(id);
+    setMensagem(null);
+
+    try {
+      const res = await fetch(`/api/produtos/${id}`, { method: "DELETE" });
+      if (!res.ok) {
+        const data = await res.json().catch(() => ({}));
+        setMensagem({
+          tipo: "erro",
+          texto: data.error ?? "Não foi possível excluir o produto.",
+        });
+        return;
+      }
+
+      setProdutos((prev) => prev.filter((p) => p.id !== id));
+      setQuantidades((prev) => {
+        const proximo = { ...prev };
+        delete proximo[id];
+        return proximo;
+      });
+      setMensagem({ tipo: "sucesso", texto: "Produto excluído do catálogo." });
+    } catch {
+      setMensagem({
+        tipo: "erro",
+        texto: "Erro de conexão ao excluir o produto.",
+      });
+    } finally {
+      setExcluindo(null);
     }
   }
 
@@ -98,6 +159,20 @@ export default function EstoquePage() {
         ou menos recebem alerta de estoque baixo.
       </p>
 
+      {mensagem ? (
+        <div
+          role="status"
+          aria-live="polite"
+          className={`mt-4 rounded-lg border px-4 py-3 text-sm font-medium ${
+            mensagem.tipo === "sucesso"
+              ? "border-green-200 bg-green-50 text-green-700"
+              : "border-red-200 bg-red-50 text-red-700"
+          }`}
+        >
+          {mensagem.texto}
+        </div>
+      ) : null}
+
       <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         {card("Produtos cadastrados", String(totais.produtos), "text-black")}
         {card("Unidades em estoque", String(totais.unidades), "text-blue-600")}
@@ -128,6 +203,7 @@ export default function EstoquePage() {
                 <th className="px-4 py-3 font-semibold">Estoque atual</th>
                 <th className="px-4 py-3 font-semibold">Situação</th>
                 <th className="px-4 py-3 font-semibold">Ajustar estoque</th>
+                <th className="px-4 py-3 font-semibold">Ações</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-100">
@@ -147,13 +223,17 @@ export default function EstoquePage() {
                     <td className="px-4 py-3">
                       <div className="flex items-center gap-3">
                         <div className="relative h-12 w-12 shrink-0 overflow-hidden rounded-lg border border-slate-200 bg-slate-50">
-                          <Image
-                            src={p.image}
-                            alt={p.name}
-                            fill
-                            className="object-contain p-1"
-                            sizes="48px"
-                          />
+                          {p.image ? (
+                            <Image
+                              src={p.image}
+                              alt={p.name}
+                              fill
+                              className="object-contain p-1"
+                              sizes="48px"
+                            />
+                          ) : (
+                            <span className="grid h-full place-items-center text-lg">📦</span>
+                          )}
                         </div>
                         <div className="min-w-0">
                           <p className="font-medium text-black">{p.name}</p>
@@ -203,6 +283,24 @@ export default function EstoquePage() {
                             ✓ Salvo
                           </span>
                         ) : null}
+                      </div>
+                    </td>
+                    <td className="px-4 py-3">
+                      <div className="flex gap-2">
+                        <Link
+                          href={`/admin?editar=${p.id}`}
+                          className="rounded-md border border-slate-300 px-3 py-1 text-xs font-medium text-black transition hover:bg-slate-100"
+                        >
+                          Editar
+                        </Link>
+                        <button
+                          type="button"
+                          onClick={() => excluir(p.id)}
+                          disabled={excluindo === p.id}
+                          className="rounded-md border border-red-200 px-3 py-1 text-xs font-medium text-red-600 transition hover:bg-red-50 disabled:opacity-60"
+                        >
+                          {excluindo === p.id ? "Excluindo..." : "Excluir"}
+                        </button>
                       </div>
                     </td>
                   </tr>

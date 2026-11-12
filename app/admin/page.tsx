@@ -1,6 +1,7 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import Image from "next/image";
+import { useEffect, useMemo, useRef, useState } from "react";
 
 type Produto = {
   id: number;
@@ -16,9 +17,13 @@ type Produto = {
   qualidade?: string;
   quantity: number;
   image: string;
+  images?: string[];
   specs: string[];
   installments: number;
 };
+
+const MAX_IMAGENS = 8;
+const TAMANHO_MAXIMO_IMAGEM = 5 * 1024 * 1024;
 
 const categoriasIniciais = ["Masculino", "Feminino", "Infantil", "Painel de novidades"];
 const marcasIniciais = ["Adidas", "New Balance", "Mizuno", "Nike", "Jordan", "Fila", "Humbro"];
@@ -70,7 +75,7 @@ type FormState = {
   tamanho: string;
   qualidade: string;
   quantity: string;
-  image: string;
+  imagens: string[];
   specs: string;
   installments: string;
 };
@@ -87,13 +92,20 @@ const emptyForm: FormState = {
   tamanho: "",
   qualidade: qualidades[0],
   quantity: "",
-  image: "",
+  imagens: [],
   specs: "",
   installments: "4",
 };
 
+type Mensagem = { tipo: "sucesso" | "erro"; texto: string };
+
 function formatBRL(value: number): string {
   return value.toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
+}
+
+function imagensDoProduto(p: Produto): string[] {
+  if (p.images?.length) return p.images;
+  return p.image ? [p.image] : [];
 }
 
 export default function AdminPage() {
@@ -101,114 +113,26 @@ export default function AdminPage() {
   const [form, setForm] = useState<FormState>(emptyForm);
   const [editingId, setEditingId] = useState<number | null>(null);
   const [loading, setLoading] = useState(true);
-  const [previa, setPrevia] = useState<string>("");
   const [enviandoImagem, setEnviandoImagem] = useState(false);
-  const [categorias, setCategorias] = useState<string[]>(categoriasIniciais);
-  const [marcas, setMarcas] = useState<string[]>(marcasIniciais);
+  const [salvando, setSalvando] = useState(false);
+  const [mensagem, setMensagem] = useState<Mensagem | null>(null);
+  const [categorias] = useState<string[]>(categoriasIniciais);
+  const [marcasExtras, setMarcasExtras] = useState<string[]>([]);
+  const [marcasOcultas, setMarcasOcultas] = useState<string[]>([]);
   const [novaMarca, setNovaMarca] = useState("");
 
-  useEffect(() => {
-    carregar();
-  }, []);
-
-  async function carregar() {
-    const res = await fetch("/api/produtos");
-    setProdutos(await res.json());
-    setLoading(false);
-  }
-
-  function handleChange(e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) {
-    setForm({ ...form, [e.target.name]: e.target.value });
-  }
-
-function adicionarMarca() {
-    const nome = novaMarca.trim();
-    if (!nome) return;
-    if (marcas.some((m) => m.toLowerCase() === nome.toLowerCase())) {
-      setNovaMarca("");
-      return;
+  // Marcas disponíveis = sugestões + marcas já cadastradas nos produtos
+  // + as criadas nesta sessão, menos as removidas.
+  const marcas = useMemo(() => {
+    const nomes = new Set<string>(marcasIniciais);
+    for (const produto of produtos) {
+      if (produto.marca) nomes.add(produto.marca);
     }
-    setMarcas((prev) => [...prev, nome]);
-    setNovaMarca("");
-  }
-
-  function removerMarca(marca: string) {
-    setMarcas((prev) => prev.filter((m) => m !== marca));
-    if (form.marca === marca) setForm({ ...form, marca: "" });
-  }
-  function adicionarSpec(valor: string) {
-    const atuais = form.specs
-      .split(",")
-      .map((s) => s.trim())
-      .filter(Boolean);
-    const existe = atuais.some((s) => s.toLowerCase() === valor.toLowerCase());
-    const novos = existe
-      ? atuais.filter((s) => s.toLowerCase() !== valor.toLowerCase())
-      : [...atuais, valor];
-    setForm({ ...form, specs: novos.join(", ") });
-  }
-
-  async function handlerArquivo(e: React.ChangeEvent<HTMLInputElement>) {
-    const arquivo = e.target.files?.[0];
-    if (!arquivo) return;
-    setPrevia(URL.createObjectURL(arquivo));
-    setEnviandoImagem(true);
-    try {
-      const fd = new FormData();
-      fd.append("file", arquivo);
-      const res = await fetch("/api/upload", { method: "POST", body: fd });
-      if (!res.ok) {
-        const err = await res.json().catch(() => ({}));
-        alert(err.error ?? "Erro ao enviar imagem");
-        setPrevia("");
-        return;
-      }
-      const data = await res.json();
-      setForm({ ...form, image: data.image });
-    } finally {
-      setEnviandoImagem(false);
-    }
-  }
-
-  async function handleSubmit(e: React.FormEvent) {
-    e.preventDefault();
-    const payload = {
-      name: form.name,
-      description: form.description,
-      price: Number(form.price),
-      promotion: form.promotion ? Number(form.promotion) : null,
-      category: form.category,
-      marca: form.marca || undefined,
-      tipo: form.tipo || undefined,
-      cor: form.cor || undefined,
-      tamanho: form.tamanho || undefined,
-      qualidade: form.qualidade || undefined,
-      quantity: Number(form.quantity),
-      image: form.image,
-      specs: form.specs
-        .split(",")
-        .map((s) => s.trim())
-        .filter(Boolean),
-      installments: Number(form.installments) || 1,
-    };
-    if (editingId !== null) {
-      await fetch(`/api/produtos/${editingId}`, {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload),
-      });
-    } else {
-      await fetch("/api/produtos", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload),
-      });
-    }
-    setForm(emptyForm);
-    setPrevia("");
-    setEditingId(null);
-    await carregar();
-  }
+    for (const marca of marcasExtras) nomes.add(marca);
+    for (const marca of marcasOcultas) nomes.delete(marca);
+    return [...nomes].sort((a, b) => a.localeCompare(b, "pt-BR"));
+  }, [produtos, marcasExtras, marcasOcultas]);
+  const edicaoDaUrlAplicada = useRef(false);
 
   function iniciarEdicao(p: Produto) {
     setEditingId(p.id);
@@ -224,27 +148,338 @@ function adicionarMarca() {
       tamanho: p.tamanho ?? "",
       qualidade: p.qualidade ?? "",
       quantity: String(p.quantity),
-      image: p.image,
+      imagens: imagensDoProduto(p),
       specs: p.specs?.join(", ") ?? "",
       installments: String(p.installments ?? 1),
     });
-    setPrevia(p.image || "");
+    setMensagem(null);
     window.scrollTo({ top: 0, behavior: "smooth" });
+  }
+
+  function cancelarEdicao() {
+    setEditingId(null);
+    setForm(emptyForm);
+    setMensagem(null);
+  }
+
+  async function carregar() {
+    try {
+      const res = await fetch("/api/produtos");
+      if (!res.ok) throw new Error("Falha ao carregar produtos");
+      setProdutos(await res.json());
+    } catch {
+      setMensagem({ tipo: "erro", texto: "Não foi possível carregar os produtos." });
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  useEffect(() => {
+    let ativo = true;
+
+    fetch("/api/produtos")
+      .then((res) => {
+        if (!res.ok) throw new Error("Falha ao carregar produtos");
+        return res.json() as Promise<Produto[]>;
+      })
+      .then((dados) => {
+        if (!ativo) return;
+        setProdutos(dados);
+
+        if (!edicaoDaUrlAplicada.current) {
+          edicaoDaUrlAplicada.current = true;
+          const params = new URLSearchParams(window.location.search);
+          const id = Number(params.get("editar"));
+          const alvo = dados.find((p) => p.id === id);
+          if (alvo) {
+            iniciarEdicao(alvo);
+            window.history.replaceState(null, "", window.location.pathname);
+          }
+        }
+      })
+      .catch(() => {
+        if (ativo) {
+          setMensagem({
+            tipo: "erro",
+            texto: "Não foi possível carregar os produtos.",
+          });
+        }
+      })
+      .finally(() => {
+        if (ativo) setLoading(false);
+      });
+
+    return () => {
+      ativo = false;
+    };
+  }, []);
+
+  function handleChange(
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>,
+  ) {
+    const { name, value } = e.target;
+    setForm((atual) => ({ ...atual, [name]: value }));
+  }
+
+  function adicionarMarca() {
+    const nome = novaMarca.trim();
+    if (!nome) return;
+
+    const existente = marcas.find(
+      (m) => m.toLowerCase() === nome.toLowerCase(),
+    );
+
+    if (existente) {
+      setMarcasOcultas((prev) =>
+        prev.filter((m) => m.toLowerCase() !== nome.toLowerCase()),
+      );
+      setForm((atual) => ({ ...atual, marca: existente }));
+    } else {
+      setMarcasExtras((prev) => [...prev, nome]);
+      setForm((atual) => ({ ...atual, marca: nome }));
+    }
+
+    setNovaMarca("");
+  }
+
+  function removerMarca(marca: string) {
+    setMarcasExtras((prev) => prev.filter((m) => m !== marca));
+    setMarcasOcultas((prev) =>
+      prev.includes(marca) ? prev : [...prev, marca],
+    );
+    setForm((atual) =>
+      atual.marca === marca ? { ...atual, marca: "" } : atual,
+    );
+  }
+
+  function adicionarSpec(valor: string) {
+    setForm((atual) => {
+      const atuais = atual.specs
+        .split(",")
+        .map((s) => s.trim())
+        .filter(Boolean);
+      const existe = atuais.some((s) => s.toLowerCase() === valor.toLowerCase());
+      const novos = existe
+        ? atuais.filter((s) => s.toLowerCase() !== valor.toLowerCase())
+        : [...atuais, valor];
+      return { ...atual, specs: novos.join(", ") };
+    });
+  }
+
+  function removerImagem(src: string) {
+    setForm((atual) => ({
+      ...atual,
+      imagens: atual.imagens.filter((imagem) => imagem !== src),
+    }));
+  }
+
+  function definirPrincipal(src: string) {
+    setForm((atual) => ({
+      ...atual,
+      imagens: [src, ...atual.imagens.filter((imagem) => imagem !== src)],
+    }));
+  }
+
+  async function handlerArquivos(e: React.ChangeEvent<HTMLInputElement>) {
+    const input = e.currentTarget;
+    const arquivos = Array.from(input.files ?? []);
+    if (!arquivos.length) return;
+
+    setMensagem(null);
+    setEnviandoImagem(true);
+
+    const enviadas: string[] = [];
+    const erros: string[] = [];
+    const espacos = MAX_IMAGENS - form.imagens.length;
+
+    for (const arquivo of arquivos.slice(0, Math.max(espacos, 0))) {
+      if (!arquivo.type.startsWith("image/")) {
+        erros.push(`${arquivo.name}: formato inválido.`);
+        continue;
+      }
+      if (arquivo.size > TAMANHO_MAXIMO_IMAGEM) {
+        erros.push(`${arquivo.name}: maior que 5MB.`);
+        continue;
+      }
+
+      try {
+        const fd = new FormData();
+        fd.append("file", arquivo);
+        const res = await fetch("/api/upload", { method: "POST", body: fd });
+        const data = await res.json().catch(() => ({}));
+        if (!res.ok) {
+          erros.push(data.error ?? `${arquivo.name}: falha no envio.`);
+          continue;
+        }
+        enviadas.push(data.image);
+      } catch {
+        erros.push(`${arquivo.name}: erro de conexão.`);
+      }
+    }
+
+    if (arquivos.length > Math.max(espacos, 0)) {
+      erros.push(`Máximo de ${MAX_IMAGENS} imagens por produto.`);
+    }
+
+    if (enviadas.length) {
+      setForm((atual) => {
+        const imagens = [...atual.imagens];
+        for (const src of enviadas) {
+          if (!imagens.includes(src)) imagens.push(src);
+        }
+        return { ...atual, imagens: imagens.slice(0, MAX_IMAGENS) };
+      });
+    }
+
+    input.value = "";
+    setEnviandoImagem(false);
+
+    if (erros.length) {
+      setMensagem({ tipo: "erro", texto: erros.join(" ") });
+    } else if (enviadas.length) {
+      setMensagem({
+        tipo: "sucesso",
+        texto:
+          enviadas.length === 1
+            ? "Imagem anexada."
+            : `${enviadas.length} imagens anexadas.`,
+      });
+    }
+  }
+
+  async function handleSubmit(e: React.FormEvent) {
+    e.preventDefault();
+
+    if (enviandoImagem) {
+      setMensagem({ tipo: "erro", texto: "Aguarde o envio das imagens terminar." });
+      return;
+    }
+
+    const nome = form.name.trim();
+    const preco = Number(form.price);
+    const quantidade = Number(form.quantity);
+    const parcelas = Number(form.installments);
+    const promocaoTexto = form.promotion.trim();
+    const promocao = promocaoTexto ? Number(promocaoTexto) : null;
+
+    if (!nome) {
+      setMensagem({ tipo: "erro", texto: "Informe o nome do produto." });
+      return;
+    }
+    if (!Number.isFinite(preco) || preco <= 0) {
+      setMensagem({ tipo: "erro", texto: "Informe um valor válido para o produto." });
+      return;
+    }
+    if (
+      promocao !== null &&
+      (!Number.isFinite(promocao) || promocao <= 0 || promocao >= preco)
+    ) {
+      setMensagem({
+        tipo: "erro",
+        texto: "O valor promocional deve ser maior que zero e menor que o valor original.",
+      });
+      return;
+    }
+    if (!Number.isFinite(quantidade) || quantidade < 0) {
+      setMensagem({ tipo: "erro", texto: "Informe uma quantidade em estoque válida." });
+      return;
+    }
+    if (!form.imagens.length) {
+      setMensagem({ tipo: "erro", texto: "Anexe pelo menos uma imagem do produto." });
+      return;
+    }
+
+    const editando = editingId !== null;
+    const payload = {
+      name: nome,
+      description: form.description.trim(),
+      price: preco,
+      promotion: promocao,
+      category: form.category,
+      marca: form.marca || undefined,
+      tipo: form.tipo || undefined,
+      cor: form.cor || undefined,
+      tamanho: form.tamanho.trim() || undefined,
+      qualidade: form.qualidade || undefined,
+      quantity: Math.floor(quantidade),
+      image: form.imagens[0],
+      images: form.imagens,
+      specs: form.specs
+        .split(",")
+        .map((s) => s.trim())
+        .filter(Boolean),
+      installments: Number.isFinite(parcelas) && parcelas > 0 ? Math.floor(parcelas) : 1,
+    };
+
+    setSalvando(true);
+    setMensagem(null);
+
+    try {
+      const res = await fetch(
+        editando ? `/api/produtos/${editingId}` : "/api/produtos",
+        {
+          method: editando ? "PUT" : "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload),
+        },
+      );
+      const data = await res.json().catch(() => ({}));
+
+      if (!res.ok) {
+        setMensagem({
+          tipo: "erro",
+          texto: data.error ?? "Não foi possível salvar o produto.",
+        });
+        return;
+      }
+
+      setForm(emptyForm);
+      setEditingId(null);
+      setMensagem({
+        tipo: "sucesso",
+        texto: editando ? "Produto atualizado com sucesso." : "Produto cadastrado com sucesso.",
+      });
+      await carregar();
+    } catch {
+      setMensagem({
+        tipo: "erro",
+        texto: "Erro de conexão ao salvar o produto. Tente novamente.",
+      });
+    } finally {
+      setSalvando(false);
+    }
   }
 
   async function excluir(id: number) {
     if (!confirm("Excluir este produto?")) return;
-    await fetch(`/api/produtos/${id}`, { method: "DELETE" });
-    await carregar();
+
+    try {
+      const res = await fetch(`/api/produtos/${id}`, { method: "DELETE" });
+      if (!res.ok) {
+        const data = await res.json().catch(() => ({}));
+        setMensagem({
+          tipo: "erro",
+          texto: data.error ?? "Não foi possível excluir o produto.",
+        });
+        return;
+      }
+      if (editingId === id) cancelarEdicao();
+      setMensagem({ tipo: "sucesso", texto: "Produto excluído." });
+      await carregar();
+    } catch {
+      setMensagem({ tipo: "erro", texto: "Erro de conexão ao excluir o produto." });
+    }
   }
 
   const inputClass =
     "w-full rounded-md border border-slate-300 px-3 py-2 text-sm text-black outline-none focus:border-blue-500 focus:bg-white";
 
+  const semEspacoParaImagem = form.imagens.length >= MAX_IMAGENS;
+
   return (
     <div className="mx-auto max-w-6xl px-4 py-10">
       <h1 className="text-3xl font-bold text-black">Gestão de Produtos</h1>
-      <p className="mt-1 text-black">Cadastre produtos e anexe imagens.</p>
+      <p className="mt-1 text-black">Cadastre produtos e anexe uma ou mais imagens.</p>
 
       <form
         onSubmit={handleSubmit}
@@ -253,6 +488,20 @@ function adicionarMarca() {
         <h2 className="text-xl font-bold text-black md:col-span-2">
           {editingId !== null ? "Editar produto" : "Novo produto"}
         </h2>
+
+        {mensagem ? (
+          <div
+            role="status"
+            aria-live="polite"
+            className={`rounded-lg border px-4 py-3 text-sm font-medium md:col-span-2 ${
+              mensagem.tipo === "sucesso"
+                ? "border-green-200 bg-green-50 text-green-700"
+                : "border-red-200 bg-red-50 text-red-700"
+            }`}
+          >
+            {mensagem.texto}
+          </div>
+        ) : null}
 
         <div>
           <label className="mb-1 block text-sm font-medium text-black">Nome</label>
@@ -327,12 +576,12 @@ function adicionarMarca() {
 
         <div>
           <label className="mb-1 block text-sm font-medium text-black">Valor (R$)</label>
-          <input name="price" type="number" step="0.01" value={form.price} onChange={handleChange} required className={inputClass} placeholder="0.00" />
+          <input name="price" type="number" min="0.01" step="0.01" value={form.price} onChange={handleChange} required className={inputClass} placeholder="0.00" />
         </div>
 
         <div>
           <label className="mb-1 block text-sm font-medium text-black">Valor promocional (R$)</label>
-          <input name="promotion" type="number" step="0.01" value={form.promotion} onChange={handleChange} className={inputClass} placeholder="Deixe vazio se não houver" />
+          <input name="promotion" type="number" min="0.01" step="0.01" value={form.promotion} onChange={handleChange} className={inputClass} placeholder="Deixe vazio se não houver" />
         </div>
 
         <div className="md:col-span-2">
@@ -372,35 +621,96 @@ function adicionarMarca() {
 
         <div>
           <label className="mb-1 block text-sm font-medium text-black">Quantidade em estoque</label>
-          <input name="quantity" type="number" value={form.quantity} onChange={handleChange} required className={inputClass} placeholder="0" />
+          <input name="quantity" type="number" min="0" step="1" value={form.quantity} onChange={handleChange} required className={inputClass} placeholder="0" />
         </div>
 
         <div>
           <label className="mb-1 block text-sm font-medium text-black">Parcelas (até quantas vezes)</label>
-          <input name="installments" type="number" min="1" value={form.installments} onChange={handleChange} className={inputClass} placeholder="4" />
+          <input name="installments" type="number" min="1" step="1" value={form.installments} onChange={handleChange} className={inputClass} placeholder="4" />
         </div>
 
         <div className="md:col-span-2">
-          <label className="mb-1 block text-sm font-medium text-black">Imagem do produto</label>
-          <div className="flex items-center gap-4">
-            <label className="inline-flex cursor-pointer items-center gap-2 rounded-lg border border-slate-300 px-4 py-2.5 text-sm font-medium text-black transition hover:bg-slate-50">
+          <div className="flex flex-wrap items-center justify-between gap-2">
+            <label className="block text-sm font-medium text-black">Imagens do produto *</label>
+            <span className="text-xs font-medium text-black">
+              {form.imagens.length} de {MAX_IMAGENS}
+            </span>
+          </div>
+
+          <div className="mt-2 flex flex-wrap items-center gap-3">
+            <label
+              className={`inline-flex items-center gap-2 rounded-lg border border-slate-300 px-4 py-2.5 text-sm font-medium text-black transition ${
+                enviandoImagem || semEspacoParaImagem
+                  ? "cursor-not-allowed opacity-60"
+                  : "cursor-pointer hover:bg-slate-50"
+              }`}
+            >
               <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
               </svg>
-              {enviandoImagem ? "Enviando..." : "Anexar imagem"}
+              {enviandoImagem ? "Enviando..." : "Anexar imagens"}
               <input
                 type="file"
-                accept="image/*"
-                onChange={handlerArquivo}
+                accept="image/jpeg,image/png,image/webp,image/gif"
+                multiple
+                onChange={handlerArquivos}
+                disabled={enviandoImagem || semEspacoParaImagem}
                 className="hidden"
               />
             </label>
-            {previa ? (
-              <img src={previa} alt="Prévia" className="h-16 w-16 rounded-lg border border-slate-200 object-contain" />
-            ) : (
-              <span className="text-sm text-black">Nenhuma imagem anexada</span>
-            )}
+            <span className="text-xs text-black">
+              JPG, PNG, WEBP ou GIF · até 5MB cada
+            </span>
           </div>
+
+          {form.imagens.length ? (
+            <>
+              <div className="mt-3 grid grid-cols-3 gap-2 sm:grid-cols-4 md:grid-cols-6">
+                {form.imagens.map((src, indice) => (
+                  <div
+                    key={src}
+                    className="group relative aspect-square overflow-hidden rounded-lg border border-slate-200 bg-slate-50"
+                  >
+                    <Image
+                      src={src}
+                      alt={`Imagem ${indice + 1} do produto`}
+                      fill
+                      className="object-contain p-1"
+                      sizes="120px"
+                    />
+                    {indice === 0 ? (
+                      <span className="absolute left-1 top-1 rounded bg-amber-400 px-1.5 py-0.5 text-[10px] font-bold text-black">
+                        Principal
+                      </span>
+                    ) : null}
+                    <div className="absolute inset-x-1 bottom-1 flex gap-1">
+                      {indice > 0 ? (
+                        <button
+                          type="button"
+                          onClick={() => definirPrincipal(src)}
+                          className="flex-1 rounded bg-black/75 px-1 py-1 text-[10px] font-medium text-white transition hover:bg-black"
+                        >
+                          Principal
+                        </button>
+                      ) : null}
+                      <button
+                        type="button"
+                        onClick={() => removerImagem(src)}
+                        className="flex-1 rounded bg-red-600/90 px-1 py-1 text-[10px] font-medium text-white transition hover:bg-red-700"
+                      >
+                        Remover
+                      </button>
+                    </div>
+                  </div>
+                ))}
+              </div>
+              <p className="mt-2 text-xs text-black">
+                A primeira imagem é a principal do catálogo. Use “Principal” para reordenar.
+              </p>
+            </>
+          ) : (
+            <p className="mt-2 text-sm text-black">Nenhuma imagem anexada.</p>
+          )}
         </div>
 
         <div className="md:col-span-2">
@@ -439,21 +749,24 @@ function adicionarMarca() {
           </div>
         </div>
 
-        <div className="flex gap-3 md:col-span-2">
+        <div className="flex flex-wrap gap-3 md:col-span-2">
           <button
             type="submit"
-            className="rounded-lg bg-blue-600 px-5 py-2.5 font-semibold text-white transition hover:bg-blue-700"
+            disabled={salvando || enviandoImagem}
+            className="rounded-lg bg-blue-600 px-5 py-2.5 font-semibold text-white transition hover:bg-blue-700 disabled:cursor-not-allowed disabled:opacity-60"
           >
-            {editingId !== null ? "Salvar alterações" : "Adicionar produto"}
+            {enviandoImagem
+              ? "Anexando imagens..."
+              : salvando
+                ? "Salvando..."
+                : editingId !== null
+                  ? "Salvar alterações"
+                  : "Adicionar produto"}
           </button>
           {editingId !== null && (
             <button
               type="button"
-              onClick={() => {
-                setEditingId(null);
-                setForm(emptyForm);
-                setPrevia("");
-              }}
+              onClick={cancelarEdicao}
               className="rounded-lg border border-slate-300 px-5 py-2.5 font-semibold text-black transition hover:bg-slate-100"
             >
               Cancelar
@@ -466,75 +779,107 @@ function adicionarMarca() {
 
       {loading ? (
         <p className="mt-4 text-black">Carregando...</p>
+      ) : produtos.length === 0 ? (
+        <p className="mt-4 rounded-xl border border-dashed border-slate-300 bg-white px-4 py-8 text-center text-sm text-black">
+          Nenhum produto cadastrado ainda.
+        </p>
       ) : (
-        <div className="mt-4 overflow-x-auto rounded-xl border border-slate-200 bg-white">
-          <table className="w-full min-w-[700px] text-left text-sm">
-            <thead className="border-b border-slate-200 bg-slate-50 text-black">
-              <tr>
-                <th className="px-4 py-3 font-semibold">Produto</th>
-                <th className="px-4 py-3 font-semibold">Categoria</th>
-                <th className="px-4 py-3 font-semibold">Cor / Tam. / Qual.</th>
-                <th className="px-4 py-3 font-semibold">Valor</th>
-                <th className="px-4 py-3 font-semibold">Promoção</th>
-                <th className="px-4 py-3 font-semibold">Qtd.</th>
-                <th className="px-4 py-3 font-semibold">Parcelas</th>
-                <th className="px-4 py-3 font-semibold">Ações</th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-slate-100">
-              {produtos.map((p) => (
-                <tr key={p.id} className="hover:bg-slate-50">
-                  <td className="px-4 py-3">
-                    <p className="font-medium text-black">{p.name}</p>
+        <ul className="mt-4 divide-y divide-slate-100 rounded-xl border border-slate-200 bg-white">
+          {produtos.map((p) => {
+            const imagens = imagensDoProduto(p);
+            return (
+              <li
+                key={p.id}
+                className="flex flex-wrap items-center gap-x-6 gap-y-3 px-4 py-4 hover:bg-slate-50"
+              >
+                <div className="flex min-w-0 flex-[1_1_240px] items-center gap-3">
+                  <div className="relative h-14 w-14 shrink-0 overflow-hidden rounded-lg border border-slate-200 bg-slate-50">
+                    {imagens[0] ? (
+                      <Image
+                        src={imagens[0]}
+                        alt={p.name}
+                        fill
+                        className="object-contain p-1"
+                        sizes="56px"
+                      />
+                    ) : (
+                      <span className="grid h-full place-items-center text-lg">📦</span>
+                    )}
+                  </div>
+                  <div className="min-w-0">
+                    <p className="font-semibold text-black">{p.name}</p>
                     {p.description ? (
-                      <p className="mt-0.5 max-w-xs truncate text-xs text-black" title={p.description}>
+                      <p className="mt-0.5 line-clamp-2 text-xs text-black">
                         {p.description}
                       </p>
                     ) : null}
-                  </td>
-                  <td className="px-4 py-3 text-black">{p.category}</td>
-                  <td className="px-4 py-3 text-black">
-                    <span className="flex flex-wrap gap-1">
-                      {[p.cor, p.tamanho, p.qualidade]
-                        .filter(Boolean)
-                        .map((v) => (
-                          <span key={v} className="rounded-md bg-slate-100 px-2 py-0.5 text-xs text-black">
-                            {v}
-                          </span>
-                        ))}
-                    </span>
-                  </td>
-                  <td className="px-4 py-3">{formatBRL(p.price)}</td>
-                  <td className="px-4 py-3">
+                    <p className="mt-1 text-[11px] text-black">
+                      {imagens.length} {imagens.length === 1 ? "imagem" : "imagens"}
+                    </p>
+                  </div>
+                </div>
+
+                <div className="flex min-w-0 flex-[1_1_180px] flex-wrap items-center gap-1.5">
+                  <span className="rounded-md bg-slate-100 px-2 py-0.5 text-xs font-medium text-black">
+                    {p.category}
+                  </span>
+                  {[p.cor, p.tamanho, p.qualidade]
+                    .filter(Boolean)
+                    .map((v) => (
+                      <span
+                        key={v}
+                        className="rounded-md bg-slate-100 px-2 py-0.5 text-xs text-black"
+                      >
+                        {v}
+                      </span>
+                    ))}
+                </div>
+
+                <div className="flex flex-wrap items-center gap-x-6 gap-y-2">
+                  <div>
+                    <p className="text-[11px] font-medium text-slate-500">Valor</p>
+                    <p className="text-sm font-semibold text-black">
+                      {formatBRL(p.price)}
+                    </p>
+                  </div>
+                  <div>
+                    <p className="text-[11px] font-medium text-slate-500">Promoção</p>
                     {p.promotion ? (
-                      <span className="font-semibold text-green-600">{formatBRL(p.promotion)}</span>
+                      <p className="text-sm font-semibold text-green-600">
+                        {formatBRL(p.promotion)}
+                      </p>
                     ) : (
-                      <span className="text-black">—</span>
+                      <p className="text-sm text-black">—</p>
                     )}
-                  </td>
-                  <td className="px-4 py-3">{p.quantity}</td>
-                  <td className="px-4 py-3">{p.installments}x</td>
-                  <td className="px-4 py-3">
-                    <div className="flex gap-2">
-                      <button
-                        onClick={() => iniciarEdicao(p)}
-                        className="rounded-md border border-slate-300 px-3 py-1 text-xs font-medium text-black transition hover:bg-slate-100"
-                      >
-                        Editar
-                      </button>
-                      <button
-                        onClick={() => excluir(p.id)}
-                        className="rounded-md border border-red-200 px-3 py-1 text-xs font-medium text-red-600 transition hover:bg-red-50"
-                      >
-                        Excluir
-                      </button>
-                    </div>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+                  </div>
+                  <div>
+                    <p className="text-[11px] font-medium text-slate-500">Estoque</p>
+                    <p className="text-sm text-black">{p.quantity} un.</p>
+                  </div>
+                  <div>
+                    <p className="text-[11px] font-medium text-slate-500">Parcelas</p>
+                    <p className="text-sm text-black">{p.installments}x</p>
+                  </div>
+                </div>
+
+                <div className="ml-auto flex items-center gap-2">
+                  <button
+                    onClick={() => iniciarEdicao(p)}
+                    className="rounded-md border border-slate-300 px-3 py-1.5 text-xs font-medium text-black transition hover:bg-slate-100"
+                  >
+                    Editar
+                  </button>
+                  <button
+                    onClick={() => excluir(p.id)}
+                    className="rounded-md border border-red-200 px-3 py-1.5 text-xs font-medium text-red-600 transition hover:bg-red-50"
+                  >
+                    Excluir
+                  </button>
+                </div>
+              </li>
+            );
+          })}
+        </ul>
       )}
     </div>
   );

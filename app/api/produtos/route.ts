@@ -1,10 +1,20 @@
 import { NextResponse } from "next/server";
-import {
-  getProdutos,
-  salvarProdutos,
-  type Produto,
-} from "@/lib/produtos";
+import { getProdutos, salvarProdutos, type Produto } from "@/lib/produtos";
 import { isAdmin } from "@/lib/auth";
+
+const MAX_IMAGENS = 8;
+
+function texto(valor: unknown): string | undefined {
+  return typeof valor === "string" && valor.trim() ? valor.trim() : undefined;
+}
+
+function listaImagens(body: Record<string, unknown>): string[] {
+  const informadas = Array.isArray(body.images) ? body.images : [];
+  const imagens = informadas.map(texto).filter((v): v is string => Boolean(v));
+  const principal = texto(body.image);
+  if (principal && !imagens.includes(principal)) imagens.unshift(principal);
+  return Array.from(new Set(imagens)).slice(0, MAX_IMAGENS);
+}
 
 export async function GET() {
   const produtos = await getProdutos();
@@ -15,26 +25,83 @@ export async function POST(request: Request) {
   if (!(await isAdmin())) {
     return NextResponse.json({ error: "Não autorizado." }, { status: 401 });
   }
-  const body = (await request.json()) as Omit<Produto, "id">;
+
+  let body: Record<string, unknown>;
+  try {
+    body = (await request.json()) as Record<string, unknown>;
+  } catch {
+    return NextResponse.json({ error: "Dados inválidos." }, { status: 400 });
+  }
+
+  const name = texto(body.name);
+  const category = texto(body.category);
+  const price = Number(body.price);
+  const quantity = Number(body.quantity);
+  const installments = Number(body.installments);
+  const imagens = listaImagens(body);
+
+  if (!name) {
+    return NextResponse.json({ error: "Informe o nome do produto." }, { status: 400 });
+  }
+  if (!category) {
+    return NextResponse.json({ error: "Informe a categoria." }, { status: 400 });
+  }
+  if (!Number.isFinite(price) || price <= 0) {
+    return NextResponse.json({ error: "Informe um valor válido." }, { status: 400 });
+  }
+  if (!Number.isFinite(quantity) || quantity < 0) {
+    return NextResponse.json(
+      { error: "Informe uma quantidade em estoque válida." },
+      { status: 400 },
+    );
+  }
+  if (!imagens.length) {
+    return NextResponse.json(
+      { error: "Anexe pelo menos uma imagem do produto." },
+      { status: 400 },
+    );
+  }
+
+  const promocao = texto(String(body.promotion ?? ""));
+  const promotion = promocao ? Number(promocao) : null;
+  if (promotion !== null && (!Number.isFinite(promotion) || promotion <= 0)) {
+    return NextResponse.json(
+      { error: "Informe um valor promocional válido." },
+      { status: 400 },
+    );
+  }
+  if (promotion !== null && promotion >= price) {
+    return NextResponse.json(
+      { error: "O valor promocional deve ser menor que o valor original." },
+      { status: 400 },
+    );
+  }
+
+  const specs = Array.isArray(body.specs)
+    ? body.specs.map(texto).filter((v): v is string => Boolean(v))
+    : [];
+
   const produtos = await getProdutos();
   const novo: Produto = {
     id: produtos.length ? Math.max(...produtos.map((p) => p.id)) + 1 : 1,
-    name: body.name,
-    description: body.description || "",
-    price: Number(body.price),
-    promotion: body.promotion ? Number(body.promotion) : null,
-    category: body.category,
-    marca: (body as any).marca || undefined,
-    tipo: (body as any).tipo || undefined,
-    cor: (body as any).cor || undefined,
-    tamanho: (body as any).tamanho || undefined,
-    qualidade: (body as any).qualidade || undefined,
-    quantity: Number(body.quantity),
-    image: body.image || "",
-    specs: body.specs || [],
-    installments: Number(body.installments) || 1,
+    name,
+    description: texto(body.description) ?? "",
+    price,
+    promotion,
+    category,
+    marca: texto(body.marca),
+    tipo: texto(body.tipo),
+    cor: texto(body.cor),
+    tamanho: texto(body.tamanho),
+    qualidade: texto(body.qualidade),
+    quantity: Math.floor(quantity),
+    image: imagens[0],
+    images: imagens,
+    specs,
+    installments:
+      Number.isFinite(installments) && installments > 0 ? Math.floor(installments) : 1,
   };
-  const atualizados = [...produtos, novo];
-  await salvarProdutos(atualizados);
+
+  await salvarProdutos([...produtos, novo]);
   return NextResponse.json(novo, { status: 201 });
 }

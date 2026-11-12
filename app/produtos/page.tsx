@@ -231,25 +231,25 @@ export default async function Products({
             </Link>
           </div>
 
-          <div className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+          <div className="mt-4 grid grid-cols-2 gap-2.5 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
             {marcas.map((m) => {
               const ativo = marca === m.nome;
               return (
                 <Link
                   key={m.nome}
                   href={linkMarca(m.nome)}
-                  className={`group flex items-center justify-between gap-3 rounded-2xl border px-4 py-3.5 transition ${
+                  className={`group flex items-center justify-between gap-2 rounded-xl border px-3 py-2 transition ${
                     ativo
-                      ? "border-black bg-black text-white shadow-lg"
-                      : "border-neutral-200 bg-white text-black hover:border-black hover:shadow-md"
+                      ? "border-black bg-black text-white shadow-md"
+                      : "border-neutral-200 bg-white text-black hover:border-black hover:shadow-sm"
                   }`}
                 >
                   <span className="min-w-0">
-                    <span className="block truncate text-base font-black tracking-tight">
+                    <span className="block truncate text-sm font-bold tracking-tight">
                       {m.nome}
                     </span>
                     <span
-                      className={`mt-0.5 block text-xs ${
+                      className={`block text-[11px] ${
                         ativo ? "text-neutral-300" : "text-neutral-500"
                       }`}
                     >
@@ -257,14 +257,14 @@ export default async function Products({
                     </span>
                   </span>
                   <span
-                    className={`grid h-9 w-9 shrink-0 place-items-center rounded-full transition ${
+                    className={`grid h-7 w-7 shrink-0 place-items-center rounded-full transition ${
                       ativo
                         ? "bg-white/10 text-white"
                         : "bg-neutral-100 text-neutral-500 group-hover:bg-amber-100 group-hover:text-amber-600"
                     }`}
                   >
                     <svg
-                      className="h-4 w-4"
+                      className="h-3.5 w-3.5"
                       fill="none"
                       stroke="currentColor"
                       viewBox="0 0 24 24"
@@ -283,19 +283,19 @@ export default async function Products({
 
             <Link
               href="/marcas"
-              className="group flex items-center justify-between gap-3 rounded-2xl border border-dashed border-neutral-300 bg-transparent px-4 py-3.5 text-black transition hover:border-black hover:bg-white"
+              className="group flex items-center justify-between gap-2 rounded-xl border border-dashed border-neutral-300 bg-transparent px-3 py-2 text-black transition hover:border-black hover:bg-white"
             >
               <span className="min-w-0">
-                <span className="block text-base font-black tracking-tight">
+                <span className="block text-sm font-bold tracking-tight">
                   Todas as marcas
                 </span>
-                <span className="mt-0.5 block text-xs text-neutral-500">
-                  Explore o catálogo completo
+                <span className="block text-[11px] text-neutral-500">
+                  Catálogo completo
                 </span>
               </span>
-              <span className="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-neutral-100 text-neutral-500 transition group-hover:bg-black group-hover:text-white">
+              <span className="grid h-7 w-7 shrink-0 place-items-center rounded-full bg-neutral-100 text-neutral-500 transition group-hover:bg-black group-hover:text-white">
                 <svg
-                  className="h-4 w-4"
+                  className="h-3.5 w-3.5"
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"

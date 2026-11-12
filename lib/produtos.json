@@ -31,7 +31,7 @@
     "tipo": "Casual",
     "tamanho": "34-43",
     "qualidade": "Original",
-    "quantity": 10,
+    "quantity": 9,
     "image": "/tenis/new-balance/modelo-2/01.jpeg",
     "images": [
       "/tenis/new-balance/modelo-2/01.jpeg",
@@ -946,13 +946,13 @@
     "tamanho": "34-43",
     "qualidade": "Original",
     "quantity": 10,
-    "image": "/tenis/vans/modelo-1/01.jpeg",
+    "image": "/tenis/vans/Vans%2001/01.jpeg",
     "images": [
-      "/tenis/vans/modelo-1/01.jpeg",
-      "/tenis/vans/modelo-1/02.jpeg",
-      "/tenis/vans/modelo-1/03.jpeg",
-      "/tenis/vans/modelo-1/04.jpeg",
-      "/tenis/vans/modelo-1/05.jpeg"
+      "/tenis/vans/Vans%2001/01.jpeg",
+      "/tenis/vans/Vans%2001/02.jpeg",
+      "/tenis/vans/Vans%2001/03.jpeg",
+      "/tenis/vans/Vans%2001/04.jpeg",
+      "/tenis/vans/Vans%2001/05.jpeg"
     ],
     "specs": [],
     "description": "Tênis Vans Modelo 1, numeração 34-43.",
@@ -1309,5 +1309,63 @@
     "specs": [],
     "description": "Tênis All Star Infantil Modelo 2, numeração 26-33.",
     "installments": 6
+  },
+  {
+    "id": 67,
+    "name": "Modelo 1 corrida",
+    "description": "",
+    "price": 199.9,
+    "promotion": null,
+    "category": "Masculino",
+    "marca": "Adidas",
+    "tipo": "Corrida",
+    "cor": "Preto",
+    "qualidade": "Premium",
+    "quantity": 4,
+    "image": "/uploads/cfd9641e-b85d-49e4-802e-78c5c9060b3a-01.jpeg",
+    "images": [
+      "/uploads/cfd9641e-b85d-49e4-802e-78c5c9060b3a-01.jpeg",
+      "/uploads/71285b9d-3162-47b0-ac50-9419e1106f9b-02.jpeg"
+    ],
+    "specs": [
+      "Amortecimento",
+      "Macio",
+      "Solado emborrachado",
+      "Alta durabilidade",
+      "Unissex",
+      "Acabamento premium"
+    ],
+    "installments": 4
+  },
+  {
+    "id": 68,
+    "name": "Jordan 4",
+    "description": "",
+    "price": 499.9,
+    "promotion": null,
+    "category": "Masculino",
+    "tipo": "Esportivo",
+    "cor": "Preto",
+    "tamanho": "38,39,40,41",
+    "qualidade": "Original",
+    "quantity": 12,
+    "image": "/uploads/94f15030-7579-4c89-bd67-319018c78327-03.jpeg",
+    "images": [
+      "/uploads/94f15030-7579-4c89-bd67-319018c78327-03.jpeg",
+      "/uploads/45318b29-55d8-44b2-9060-356b7d201cd0-05.jpeg",
+      "/uploads/8c0389c0-3872-41bc-8efe-b9b5e196c361-06.jpeg"
+    ],
+    "specs": [
+      "Confortável",
+      "Macio",
+      "Amortecimento",
+      "Solado emborrachado",
+      "Solado EVA",
+      "Alta durabilidade",
+      "Acabamento premium",
+      "Flexível",
+      "Anti-deslizante"
+    ],
+    "installments": 4
   }
 ]

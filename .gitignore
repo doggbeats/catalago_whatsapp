@@ -34,6 +34,13 @@ yarn-error.log*
 .env*
 !.env.example
 
+# credenciais locais do admin
+/lib/admin-config.json
+
+# dados de clientes e arquivos enviados pelo painel (não versionar)
+/lib/pedidos.json
+/public/uploads/
+
 # vercel
 .vercel
 

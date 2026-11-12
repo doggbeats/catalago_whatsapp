@@ -5,8 +5,13 @@ import type { Pedido } from "./tipos";
 const dataFile = path.join(process.cwd(), "lib", "pedidos.json");
 
 export async function getPedidos(): Promise<Pedido[]> {
-  const raw = await fs.readFile(dataFile, "utf-8");
-  return JSON.parse(raw);
+  try {
+    const raw = await fs.readFile(dataFile, "utf-8");
+    return JSON.parse(raw);
+  } catch (erro) {
+    if ((erro as NodeJS.ErrnoException).code === "ENOENT") return [];
+    throw erro;
+  }
 }
 
 export async function salvarPedidos(pedidos: Pedido[]): Promise<void> {

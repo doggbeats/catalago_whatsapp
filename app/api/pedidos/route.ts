@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { getPedidos, salvarPedidos, type Pedido, type StatusPedido } from "@/lib/pedidos";
-import { getProdutos, salvarProdutos } from "@/lib/produtos";
+import { getProdutos } from "@/lib/produtos";
 
 function dataAtual(): string {
   return new Date().toISOString();
@@ -30,9 +30,7 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "Estoque insuficiente" }, { status: 400 });
   }
 
-  produto.quantity -= quantidade;
-  await salvarProdutos(produtos);
-
+  // O estoque só é baixado quando o admin concluir a venda.
   const valor = (produto.promotion ?? produto.price) * quantidade;
   const pedidos = await getPedidos();
   const novo: Pedido = {
@@ -44,6 +42,7 @@ export async function POST(request: Request) {
     quantidade,
     data: dataAtual(),
     status: "aguardando" as StatusPedido,
+    estoqueBaixado: false,
   };
   await salvarPedidos([...pedidos, novo]);
 

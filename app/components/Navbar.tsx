@@ -6,9 +6,9 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import CarrinhoBotao from "./CarrinhoBotao";
 
-const marcas = ["Adidas", "New Balance", "Mizuno", "Nike"];
+const marcasPadrao: string[] = [];
 
-const categories = [
+const categories = (marcas: string[]) => [
   { href: "/tipos", label: "Tipos de Calçados" },
   {
     href: "#",
@@ -34,7 +34,12 @@ const categories = [
   { href: "/contato", label: "Contato" },
 ];
 
-export default function Navbar() {
+export default function Navbar({
+  marcas = marcasPadrao,
+}: {
+  marcas?: string[];
+}) {
+  const menu = categories(marcas);
   const router = useRouter();
   const [open, setOpen] = useState(false);
   const [submenuAberto, setSubmenuAberto] = useState<string | null>(null);
@@ -78,7 +83,7 @@ export default function Navbar() {
         </Link>
 
         <ul className="ml-4 hidden flex-1 items-center justify-center gap-1 xl:ml-6 lg:flex">
-          {categories.map((cat) => (
+          {menu.map((cat) => (
             <li key={cat.label} className={cat.submenu ? "group relative" : ""}>
               {cat.submenu ? (
                 <>
@@ -156,7 +161,7 @@ export default function Navbar() {
                 onChange={(e) => setBusca(e.target.value)}
                 placeholder="Buscar tênis..."
                 aria-label="Buscar produtos"
-                className="h-10 w-36 rounded-full border border-slate-700 bg-white/5 pl-9 pr-3 text-sm text-white outline-none transition placeholder:text-slate-500 focus:border-amber-500 focus:bg-white/10 xl:w-56"
+                className="h-10 w-36 rounded-full border border-slate-300 bg-white pl-9 pr-3 text-sm text-black outline-none transition placeholder:text-slate-500 focus:border-amber-500 focus:ring-2 focus:ring-amber-400/40 xl:w-56"
               />
             </div>
           </form>
@@ -226,7 +231,7 @@ export default function Navbar() {
                 onChange={(e) => setBusca(e.target.value)}
                 placeholder="Buscar tênis..."
                 aria-label="Buscar produtos"
-                className="h-11 w-full rounded-full border border-slate-700 bg-white/5 pl-9 pr-3 text-base text-white outline-none transition placeholder:text-slate-500 focus:border-amber-500 focus:bg-white/10"
+                className="h-11 w-full rounded-full border border-slate-300 bg-white pl-9 pr-3 text-base text-black outline-none transition placeholder:text-slate-500 focus:border-amber-500 focus:ring-2 focus:ring-amber-400/40"
               />
             </div>
             <button
@@ -238,7 +243,7 @@ export default function Navbar() {
           </form>
 
           <ul className="space-y-1">
-            {categories.map((cat) => (
+            {menu.map((cat) => (
               <li key={cat.label}>
                 {cat.submenu ? (
                   <>

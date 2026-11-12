@@ -1,28 +1,38 @@
 import { NextResponse } from "next/server";
 import { cookies } from "next/headers";
-
-const ADMIN_USER = process.env.ADMIN_USER ?? "Login Admin";
-const ADMIN_PASS = process.env.ADMIN_PASS ?? "4dmin.1973";
+import { getAdminConfig, verifyPassword } from "@/lib/admin";
 
 export async function POST(request: Request) {
-  const body = await request.json();
-  const ok =
-    body.user === ADMIN_USER && body.password === ADMIN_PASS;
+  let body: { user?: unknown; password?: unknown };
+  try {
+    body = await request.json();
+  } catch {
+    return NextResponse.json({ error: "Dados inválidos." }, { status: 400 });
+  }
 
-  if (!ok) {
+  const { user: adminUser, password: senhaSalva } = await getAdminConfig();
+
+  const usuarioOk = typeof body.user === "string" && body.user === adminUser;
+  const senhaOk =
+    usuarioOk &&
+    typeof body.password === "string" &&
+    (await verifyPassword(body.password, senhaSalva));
+
+  if (!usuarioOk || !senhaOk) {
     return NextResponse.json(
       { error: "Usuário ou senha inválidos." },
       { status: 401 },
     );
   }
 
+  const secure = new URL(request.url).protocol === "https:";
   const cookieStore = await cookies();
   cookieStore.set("admin_auth", "1", {
     httpOnly: true,
     sameSite: "strict",
     path: "/",
     maxAge: 60 * 60 * 4,
-    secure: process.env.NODE_ENV === "production",
+    secure,
   });
 
   return NextResponse.json({ ok: true });

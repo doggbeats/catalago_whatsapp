@@ -3,8 +3,9 @@ import Link from "next/link";
 import { getProdutos } from "@/lib/produtos";
 
 export const metadata = {
-  title: "Marcas | TENIS NEON",
-  description: "Explore o catálogo por marca: Adidas, New Balance e mais.",
+  title: "Marcas | Well Fashion",
+  description:
+    "Explore o catálogo por marca e encontre o par ideal para você.",
 };
 
 export default async function MarcasPage() {

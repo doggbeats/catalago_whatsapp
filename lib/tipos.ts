@@ -28,4 +28,5 @@ export type Pedido = {
   quantidade: number;
   data: string;
   status: StatusPedido;
+  estoqueBaixado?: boolean;
 };
