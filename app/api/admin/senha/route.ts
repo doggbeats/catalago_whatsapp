@@ -1,13 +1,18 @@
 import { NextResponse } from "next/server";
 import { cookies } from "next/headers";
 import { getAdminConfig, setAdminPassword, verifyPassword } from "@/lib/admin";
+import {
+  ADMIN_SESSION_COOKIE,
+  ADMIN_SESSION_MAX_AGE,
+  criarSessaoAdmin,
+  isAdmin,
+} from "@/lib/auth";
 import { AVISO_SOMENTE_LEITURA, somenteLeitura } from "@/lib/ambiente";
 
 const TAMANHO_MINIMO = 8;
 
 export async function POST(request: Request) {
-  const cookieStore = await cookies();
-  if (cookieStore.get("admin_auth")?.value !== "1") {
+  if (!(await isAdmin())) {
     return NextResponse.json({ error: "Não autorizado." }, { status: 401 });
   }
 
@@ -70,7 +75,19 @@ export async function POST(request: Request) {
   }
 
   try {
-    await setAdminPassword(novaSenha);
+    const novaConfig = await setAdminPassword(novaSenha);
+    const cookieStore = await cookies();
+    cookieStore.set(
+      ADMIN_SESSION_COOKIE,
+      criarSessaoAdmin(novaConfig.user, novaConfig.password),
+      {
+        httpOnly: true,
+        sameSite: "strict",
+        path: "/",
+        maxAge: ADMIN_SESSION_MAX_AGE,
+        secure: process.env.NODE_ENV === "production",
+      },
+    );
   } catch {
     return NextResponse.json(
       { error: "Não foi possível salvar a nova senha." },

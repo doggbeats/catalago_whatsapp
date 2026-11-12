@@ -48,7 +48,11 @@ export async function verifyPassword(
   if (!senhaSalva) return false;
 
   // Compatibilidade com configurações antigas salvas em texto puro.
-  if (!senhaSalva.startsWith("scrypt:")) return senha === senhaSalva;
+  if (!senhaSalva.startsWith("scrypt:")) {
+    const informada = Buffer.from(senha);
+    const salva = Buffer.from(senhaSalva);
+    return informada.length === salva.length && timingSafeEqual(informada, salva);
+  }
 
   const [, salt, hashHex] = senhaSalva.split(":");
   if (!salt || !hashHex) return false;
@@ -84,13 +88,13 @@ export async function getAdminConfig(): Promise<AdminConfig> {
 }
 
 /** Grava a nova senha apenas como hash scrypt, nunca em texto puro. */
-export async function setAdminPassword(senha: string): Promise<void> {
+export async function setAdminPassword(senha: string): Promise<AdminConfig> {
   const { user } = await getAdminConfig();
   const passwordHash = await hashPassword(senha);
 
   if (temBancoConfigurado()) {
     await salvarDadosPersistidos("admin", { user, passwordHash });
-    return;
+    return { user, password: passwordHash };
   }
 
   await fs.writeFile(
@@ -98,4 +102,5 @@ export async function setAdminPassword(senha: string): Promise<void> {
     JSON.stringify({ user, passwordHash }, null, 2),
     { encoding: "utf-8", mode: 0o600 },
   );
+  return { user, password: passwordHash };
 }

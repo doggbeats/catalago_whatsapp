@@ -20,10 +20,22 @@ export default function LoginPage() {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ user, password }),
-    });
+    }).catch(() => null);
+
+    if (!res) {
+      setError("Não foi possível conectar ao servidor. Tente novamente.");
+      setLoading(false);
+      return;
+    }
+
+    if (res.status === 503) {
+      setError("O serviço de autenticação está indisponível. Tente novamente.");
+      setLoading(false);
+      return;
+    }
 
     if (res.ok) {
-      router.push("/admin");
+      router.replace("/admin");
       router.refresh();
     } else {
       setError("Usuário ou senha inválidos.");
@@ -65,9 +77,13 @@ export default function LoginPage() {
               Usuário
             </label>
             <input
+              name="username"
               value={user}
               onChange={(e) => setUser(e.target.value)}
               required
+              autoComplete="username"
+              autoCapitalize="none"
+              spellCheck={false}
               className={inputClass}
               placeholder="Login Admin"
             />
@@ -79,10 +95,12 @@ export default function LoginPage() {
             </label>
             <div className="relative">
               <input
+                name="password"
                 type="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 required
+                autoComplete="current-password"
                 className={`${inputClass} pr-10`}
                 placeholder="••••••••"
               />

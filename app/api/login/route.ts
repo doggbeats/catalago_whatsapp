@@ -1,18 +1,45 @@
 import { NextResponse } from "next/server";
 import { cookies } from "next/headers";
-import { getAdminConfig, verifyPassword } from "@/lib/admin";
+import { getAdminConfig, verifyPassword, type AdminConfig } from "@/lib/admin";
+import {
+  ADMIN_SESSION_COOKIE,
+  ADMIN_SESSION_MAX_AGE,
+  criarSessaoAdmin,
+} from "@/lib/auth";
 
 export async function POST(request: Request) {
   let body: { user?: unknown; password?: unknown };
   try {
-    body = await request.json();
+    const recebido: unknown = await request.json();
+    if (!recebido || typeof recebido !== "object" || Array.isArray(recebido)) {
+      throw new Error("Corpo inválido");
+    }
+    body = recebido as typeof body;
   } catch {
     return NextResponse.json({ error: "Dados inválidos." }, { status: 400 });
   }
 
-  const { user: adminUser, password: senhaSalva } = await getAdminConfig();
+  let config: AdminConfig;
+  try {
+    config = await getAdminConfig();
+  } catch {
+    return NextResponse.json(
+      { error: "Não foi possível verificar as credenciais agora. Tente novamente." },
+      { status: 503 },
+    );
+  }
 
-  const usuarioOk = typeof body.user === "string" && body.user === adminUser;
+  const { user: adminUser, password: senhaSalva } = config;
+
+  if (
+    (typeof body.user === "string" && body.user.length > 256) ||
+    (typeof body.password === "string" && body.password.length > 1024)
+  ) {
+    return NextResponse.json({ error: "Credenciais inválidas." }, { status: 400 });
+  }
+
+  const usuarioOk =
+    typeof body.user === "string" && body.user.trim() === adminUser;
   const senhaOk =
     usuarioOk &&
     typeof body.password === "string" &&
@@ -25,21 +52,25 @@ export async function POST(request: Request) {
     );
   }
 
-  const secure = new URL(request.url).protocol === "https:";
+  const secure = process.env.NODE_ENV === "production";
   const cookieStore = await cookies();
-  cookieStore.set("admin_auth", "1", {
-    httpOnly: true,
-    sameSite: "strict",
-    path: "/",
-    maxAge: 60 * 60 * 4,
-    secure,
-  });
+  cookieStore.set(
+    ADMIN_SESSION_COOKIE,
+    criarSessaoAdmin(adminUser, senhaSalva),
+    {
+      httpOnly: true,
+      sameSite: "strict",
+      path: "/",
+      maxAge: ADMIN_SESSION_MAX_AGE,
+      secure,
+    },
+  );
 
   return NextResponse.json({ ok: true });
 }
 
 export async function DELETE() {
   const cookieStore = await cookies();
-  cookieStore.delete("admin_auth");
+  cookieStore.delete(ADMIN_SESSION_COOKIE);
   return NextResponse.json({ ok: true });
 }

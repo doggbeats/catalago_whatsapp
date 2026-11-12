@@ -1,4 +1,3 @@
-import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import Link from "next/link";
 import { getProdutos } from "@/lib/produtos";
@@ -6,16 +5,14 @@ import { getPedidos } from "@/lib/pedidos";
 import { ESTOQUE_BAIXO } from "@/lib/estoque";
 import { AVISO_SOMENTE_LEITURA, somenteLeitura } from "@/lib/ambiente";
 import LogoutButton from "./logout-button";
+import { isAdmin } from "@/lib/auth";
 
 export default async function AdminLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  const cookieStore = await cookies();
-  const authed = cookieStore.get("admin_auth")?.value === "1";
-
-  if (!authed) {
+  if (!(await isAdmin())) {
     redirect("/login");
   }
 

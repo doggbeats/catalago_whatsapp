@@ -262,8 +262,8 @@ export default async function Home() {
 
       <section id="contato" className="mt-20 bg-white">
         <div className="mx-auto max-w-6xl px-4 py-12">
-          <div className="grid gap-8 md:grid-cols-2">
-            <div>
+          <div className="grid gap-8">
+            <div className="max-w-xl">
               <h2 className="text-2xl font-bold text-black">Contato</h2>
               <p className="mt-2 text-slate-600">Fale conosco pelo WhatsApp e tire suas dúvidas.</p>
               <div className="mt-6 space-y-3">
@@ -279,9 +279,6 @@ export default async function Home() {
                   </div>
                 </a>
               </div>
-            </div>
-            <div className="flex items-center justify-center">
-              <Image src="/logo1.png" alt="TENIS NEON" width={418} height={146} className="h-auto w-72 md:w-96" />
             </div>
           </div>
         </div>
