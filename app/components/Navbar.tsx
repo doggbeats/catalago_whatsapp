@@ -69,16 +69,16 @@ export default function Navbar({
       <nav className="mx-auto flex h-20 w-full max-w-7xl items-center gap-3 px-3 md:h-24 md:px-4">
         <Link
           href="/"
-          aria-label="TENIS NEON - ir para a página inicial"
+          aria-label="WELL FASHION - ir para a página inicial"
           className="flex shrink-0 items-center"
         >
           <Image
             src="/logo1.png"
-            alt="TENIS NEON"
-            width={418}
-            height={146}
+            alt="WELL FASHION - Os melhores tênis com os melhores preços"
+            width={400}
+            height={126}
             priority
-            className="h-14 w-auto md:h-20"
+            className="h-14 w-auto md:h-15"
           />
         </Link>
 
