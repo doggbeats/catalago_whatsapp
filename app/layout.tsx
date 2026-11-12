@@ -20,10 +20,11 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "TENIS NEON + TÊNIS",
+  title: "WELL FASHION - Os melhores tênis com os melhores preços",
   description:
-    "TENIS NEON - Os melhores tênis com os melhores preços. Masculino, Feminino, Infantil e muito mais.",
-};
+    "WELL FASHION - Os melhores tênis com os melhores preços. Masculino, Feminino, Infantil e muito mais.",
+  keywords:
+    "tênis, tênis masculino, tênis feminino, tênis infantil, moda, calçados, bem-estar, estilo, conforto, qualidade, tendências, marcas de tênis",};
 
 export default async function RootLayout({ children }: LayoutProps<"/">) {
   // Marcas cadastradas nos produtos alimentam o menu "Marcas" do site.
