@@ -36,7 +36,7 @@ export default function LoginPage() {
 
   return (
     <div className="mx-auto flex max-w-md flex-col px-4 py-16">
-      <div className="rounded-xl border border-slate-200 bg-white p-8 shadow-sm">
+      <div className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm sm:p-8">
         <div className="flex items-center gap-3">
           <span className="grid h-12 w-12 place-items-center rounded-lg bg-blue-600 text-white">
             <svg

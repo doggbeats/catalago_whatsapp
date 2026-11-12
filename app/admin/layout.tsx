@@ -48,7 +48,7 @@ export default async function AdminLayout({
   return (
     <div className="min-h-screen">
       <div className="border-b border-slate-200 bg-white">
-        <div className="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-3 px-4 py-3">
+        <div className="mx-auto flex max-w-6xl flex-col items-stretch gap-3 px-3 py-3 sm:flex-row sm:items-center sm:justify-between sm:px-4">
           <div className="flex items-center gap-2 font-bold text-black">
             <span className="grid h-8 w-8 place-items-center rounded-lg bg-black text-white">
               <svg
@@ -67,12 +67,12 @@ export default async function AdminLayout({
             </span>
             Painel Admin
           </div>
-          <nav className="flex items-center gap-2">
+          <nav className="grid w-full grid-cols-2 gap-1 sm:flex sm:w-auto sm:items-center sm:gap-2">
             {links.map((l) => (
               <Link
                 key={l.href}
                 href={l.href}
-                className="rounded-lg px-4 py-2 text-sm font-medium text-black transition hover:bg-slate-100 hover:text-black"
+                className="flex items-center justify-center rounded-lg px-2 py-2 text-xs font-medium text-black transition hover:bg-slate-100 hover:text-black sm:px-4 sm:text-sm"
               >
                 {l.label}
                 {l.badge ? (

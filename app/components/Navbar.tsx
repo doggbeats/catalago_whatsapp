@@ -5,6 +5,7 @@ import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import CarrinhoBotao from "./CarrinhoBotao";
+import FavoritosBotao from "./FavoritosBotao";
 
 const marcasPadrao: string[] = [];
 
@@ -171,6 +172,7 @@ export default function Navbar({
           </form>
 
           <CarrinhoBotao />
+          <FavoritosBotao />
 
           <Link
             href="/admin"

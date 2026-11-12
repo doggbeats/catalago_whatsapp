@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 
 type Icone = {
@@ -62,6 +63,30 @@ function LogoMarca({ nome }: { nome: string }) {
       >
         <path d={icone.path} />
       </svg>
+    );
+  }
+
+  if (chave === "lacoste") {
+    return (
+      <Image src="/lacoste.jpg" alt="Logo Lacoste com jacaré" width={610} height={405} className="h-auto w-14 object-contain" sizes="56px" />
+    );
+  }
+
+  if (chave === "mizuno") {
+    return (
+      <Image src="/mizuno.jpg" alt="Logo Mizuno" width={600} height={400} className="h-auto w-14 object-contain" sizes="56px" />
+    );
+  }
+
+  if (chave === "armani exchange" || chave === "armani") {
+    return (
+      <span
+        role="img"
+        aria-label={nome}
+        className="text-2xl font-black leading-none tracking-[-0.12em]"
+      >
+        A<span className="mx-0.5 font-light">|</span>X
+      </span>
     );
   }
 

@@ -141,7 +141,7 @@ export default function AlterarSenhaPage() {
   }
 
   return (
-    <div className="mx-auto max-w-2xl px-4 py-10">
+    <div className="mx-auto max-w-2xl px-3 py-6 sm:px-4 sm:py-10">
       <Link
         href="/admin"
         className="text-sm font-medium text-slate-600 transition hover:text-blue-600"
@@ -170,7 +170,7 @@ export default function AlterarSenhaPage() {
 
       <form
         onSubmit={handleSubmit}
-        className="mt-6 space-y-4 rounded-xl border border-slate-200 bg-white p-6"
+        className="mt-6 space-y-4 rounded-xl border border-slate-200 bg-white p-4 sm:p-6"
       >
         <CampoSenha
           id="senha-atual"

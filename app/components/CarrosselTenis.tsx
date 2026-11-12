@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { formatBRL } from "@/lib/format";
 import BotaoCarrinho from "./BotaoCarrinho";
+import BotaoFavorito from "./BotaoFavorito";
 
 type ProdutoCarrossel = {
   id: number;
@@ -72,29 +73,35 @@ export default function CarrosselTenis({
             className="w-[80%] shrink-0 snap-start sm:w-[47%] lg:w-[31.5%]"
           >
             <article className="group flex h-full flex-col overflow-hidden rounded-2xl border border-slate-200 bg-white transition duration-300 hover:-translate-y-1.5 hover:border-amber-400 hover:shadow-xl">
-              <Link
-                href={`/produtos/${produto.id}`}
-                aria-label={`Ver detalhes de ${produto.name}`}
-                className="relative block h-52 w-full overflow-hidden bg-slate-50"
-              >
-                <Image
-                  src={produto.image}
-                  alt={produto.name}
-                  fill
-                  className="object-contain p-4"
-                  sizes="(min-width: 1024px) 33vw, (min-width: 640px) 47vw, 80vw"
+              <div className="relative h-52 w-full overflow-hidden bg-slate-50">
+                <Link
+                  href={`/produtos/${produto.id}`}
+                  aria-label={`Ver detalhes de ${produto.name}`}
+                  className="absolute inset-0"
+                >
+                  <Image
+                    src={produto.image}
+                    alt={produto.name}
+                    fill
+                    className="object-contain p-4"
+                    sizes="(min-width: 1024px) 33vw, (min-width: 640px) 47vw, 80vw"
+                  />
+                  {produto.marca ? (
+                    <span className="absolute left-3 top-3 rounded-md bg-amber-400 px-2.5 py-1 text-xs font-bold text-black shadow-sm">
+                      {produto.marca}
+                    </span>
+                  ) : null}
+                  {(produto.images?.length ?? 0) > 1 ? (
+                    <span className="absolute bottom-3 right-3 rounded-md bg-black/70 px-2.5 py-1 text-xs font-medium text-white">
+                      {produto.images!.length} fotos
+                    </span>
+                  ) : null}
+                </Link>
+                <BotaoFavorito
+                  produtoId={produto.id}
+                  className="absolute right-3 top-3 z-10"
                 />
-                {produto.marca ? (
-                  <span className="absolute left-3 top-3 rounded-md bg-amber-400 px-2.5 py-1 text-xs font-bold text-black shadow-sm">
-                    {produto.marca}
-                  </span>
-                ) : null}
-                {(produto.images?.length ?? 0) > 1 ? (
-                  <span className="absolute bottom-3 right-3 rounded-md bg-black/70 px-2.5 py-1 text-xs font-medium text-white">
-                    {produto.images!.length} fotos
-                  </span>
-                ) : null}
-              </Link>
+              </div>
 
               <div className="flex flex-1 flex-col p-5">
                 <div className="flex flex-wrap items-center gap-x-2 text-xs font-semibold uppercase tracking-wide">

@@ -4,6 +4,7 @@ import { getProdutos } from "@/lib/produtos";
 import { formatBRL, formatParcelas } from "@/lib/format";
 import ComprarProduto from "@/app/components/ComprarProduto";
 import Galeria from "@/app/components/Galeria";
+import BotaoFavorito from "@/app/components/BotaoFavorito";
 import { listaTamanhos } from "@/lib/tamanhos";
 
 export default async function ProdutoPage({
@@ -49,7 +50,13 @@ export default async function ProdutoPage({
       </nav>
 
       <div className="mt-6 grid gap-10 lg:grid-cols-2">
-        <Galeria imagens={imagens} alt={produto.name} />
+        <div className="relative">
+          <Galeria imagens={imagens} alt={produto.name} />
+          <BotaoFavorito
+            produtoId={produto.id}
+            className="absolute right-3 top-3 z-10"
+          />
+        </div>
 
         <div>
           <div className="flex flex-wrap items-center gap-2 text-xs font-semibold uppercase tracking-wide">

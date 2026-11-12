@@ -1,4 +1,5 @@
 import Image from "next/image";
+import BotaoFavorito from "@/app/components/BotaoFavorito";
 import Link from "next/link";
 import { getProdutos, type Produto } from "@/lib/produtos";
 import { formatBRL, formatParcelas } from "@/lib/format";
@@ -590,6 +591,11 @@ export default async function Products({
                             </span>
                           ) : null}
                         </div>
+
+                        <BotaoFavorito
+                          produtoId={product.id}
+                          className="absolute bottom-3 right-3 z-10"
+                        />
 
                         <span className="pointer-events-none absolute bottom-3 left-3 rounded-full bg-white/90 px-3 py-1 text-[11px] font-semibold text-neutral-700 opacity-0 shadow-sm backdrop-blur transition duration-300 group-hover:opacity-100">
                           Ver detalhes →

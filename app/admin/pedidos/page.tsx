@@ -263,9 +263,9 @@ export default function AdminDashboard() {
   const anos = Array.from({ length: 5 }, (_, i) => getCurrentMonthYear().year - 2 + i);
 
   return (
-    <div className="mx-auto max-w-6xl px-4 py-10">
-      <h1 className="text-4xl font-bold text-black">Dashboard de Vendas</h1>
-      <p className="mt-2 text-lg text-black">
+    <div className="mx-auto max-w-6xl px-3 py-6 sm:px-4 sm:py-10">
+      <h1 className="text-3xl font-bold text-black sm:text-4xl">Dashboard de Vendas</h1>
+      <p className="mt-2 text-base text-black sm:text-lg">
         Acompanhe as vendas, conclua pedidos e veja os produtos mais vendidos.
       </p>
 
@@ -507,7 +507,9 @@ export default function AdminDashboard() {
       {loading ? (
         <p className="mt-4 text-black">Carregando...</p>
       ) : (
-        <div className="mt-4 overflow-x-auto rounded-xl border border-slate-200 bg-white">
+        <>
+          <p className="mt-3 text-xs text-slate-500 sm:hidden">Deslize a tabela para os lados para ver todas as colunas.</p>
+          <div className="mt-2 overflow-x-auto overscroll-x-contain rounded-xl border border-slate-200 bg-white [touch-action:pan-x] sm:mt-4">
           <table className="w-full min-w-[860px] text-left text-sm">
             <thead className="border-b border-slate-200 bg-slate-50 text-black">
               <tr>
@@ -583,7 +585,8 @@ export default function AdminDashboard() {
               )}
             </tbody>
           </table>
-        </div>
+          </div>
+        </>
       )}
     </div>
   );

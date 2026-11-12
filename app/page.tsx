@@ -1,9 +1,11 @@
 import Image from "next/image";
 import Link from "next/link";
 import { getProdutos } from "@/lib/produtos";
+import { getPedidos } from "@/lib/pedidos";
 import { whatsappLink } from "@/lib/format";
 import CarrosselTenis from "./components/CarrosselTenis";
 import FaixaMarcas from "./components/FaixaMarcas";
+import BotaoFavorito from "./components/BotaoFavorito";
 
 const advantages = [
   {
@@ -48,6 +50,24 @@ export default async function Home() {
   const produtos = await getProdutos();
   const novidades = produtos
     .filter((p) => p.images?.length || p.image)
+    .slice(0, 8);
+
+  const pedidos = await getPedidos().catch(() => []);
+  const procuraPorProduto = new Map<number, number>();
+  for (const pedido of pedidos) {
+    if (pedido.status === "cancelado") continue;
+    procuraPorProduto.set(
+      pedido.produtoId,
+      (procuraPorProduto.get(pedido.produtoId) ?? 0) + pedido.quantidade,
+    );
+  }
+  const maisProcurados = produtos
+    .filter((produto) => produto.image && (procuraPorProduto.get(produto.id) ?? 0) > 0)
+    .sort(
+      (a, b) =>
+        (procuraPorProduto.get(b.id) ?? 0) -
+        (procuraPorProduto.get(a.id) ?? 0),
+    )
     .slice(0, 8);
 
   const fotoCategoria = (categoria: string) =>
@@ -138,7 +158,7 @@ export default async function Home() {
         <section className="mt-14">
           <div className="flex items-end justify-between">
             <div>
-              <h2 className="text-2xl font-bold text-black">Por Tipo de Tênis</h2>
+              <h2 className="text-2xl font-bold text-black">Por tipo de tênis</h2>
               <p className="mt-1 text-slate-600">Corrida, Casual, Esportivo, Fashion, Slip-on e Lazer</p>
             </div>
             <Link href="/tipos" className="text-sm font-semibold text-amber-600 transition hover:text-amber-500">
@@ -154,95 +174,38 @@ export default async function Home() {
           </div>
         </section>
 
-        <section className="mt-14">
-          <div className="flex items-end justify-between">
-            <div>
-              <h2 className="text-2xl font-bold text-black">Marcas</h2>
-              <p className="mt-1 text-slate-600">
-                Compre pelos modelos que você já confia
-              </p>
-            </div>
-            <Link
-              href="/marcas"
-              className="text-sm font-semibold text-amber-600 transition hover:text-amber-500"
-            >
-              Ver todas
-            </Link>
-          </div>
-          <div className="mt-6 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
-            {marcas.map((marca) => (
-              <Link
-                key={marca.nome}
-                href={`/produtos?marca=${encodeURIComponent(marca.nome)}`}
-                className="group overflow-hidden rounded-2xl border border-slate-200 bg-white transition hover:border-amber-400 hover:shadow-md"
-              >
-                <div className="relative h-40 w-full overflow-hidden bg-gradient-to-br from-neutral-100 via-neutral-50 to-neutral-200">
-                  {marca.imagem ? (
-                    <Image
-                      src={marca.imagem}
-                      alt={marca.nome}
-                      fill
-                      className="object-contain p-5 mix-blend-multiply transition duration-300 group-hover:scale-110"
-                      sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
-                    />
-                  ) : null}
-                </div>
-                <div className="flex items-center justify-between p-5">
-                  <div>
-                    <h3 className="text-lg font-black tracking-tight text-black">
-                      {marca.nome}
-                    </h3>
-                    <p className="mt-0.5 text-sm text-slate-600">
-                      {marca.total} {marca.total === 1 ? "produto" : "produtos"}
-                    </p>
-                  </div>
-                  <span className="grid h-8 w-8 shrink-0 place-items-center rounded-full bg-slate-100 text-slate-500 transition group-hover:bg-amber-100 group-hover:text-amber-600">
-                    <svg
-                      className="h-4 w-4"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M9 5l7 7-7 7"
-                      />
-                    </svg>
-                  </span>
-                </div>
-              </Link>
-            ))}
-
-            <Link
-              href="/marcas"
-              className="group flex min-h-56 flex-col items-center justify-center gap-2 rounded-2xl border border-dashed border-slate-300 p-6 text-center transition hover:border-amber-400 hover:bg-white"
-            >
-              <span className="grid h-11 w-11 place-items-center rounded-full bg-slate-100 text-slate-500 transition group-hover:bg-amber-100 group-hover:text-amber-600">
-                <svg
-                  className="h-5 w-5"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
+        {maisProcurados.length ? (
+          <section className="mt-14">
+            <h2 className="text-2xl font-bold text-black">Tênis mais procurados</h2>
+            <p className="mt-1 text-slate-600">Os modelos com mais pedidos na loja</p>
+            <div className="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-3 sm:gap-5 lg:grid-cols-4">
+              {maisProcurados.map((produto) => (
+                <div
+                  key={produto.id}
+                  className="group relative aspect-square overflow-hidden rounded-2xl bg-neutral-50"
                 >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M9 5l7 7-7 7"
+                  <Link
+                    href={`/produtos/${produto.id}`}
+                    aria-label={`Ver ${produto.name}`}
+                    className="absolute inset-0"
+                  >
+                    <Image
+                      src={produto.image}
+                      alt={produto.name}
+                      fill
+                      className="object-contain p-3 sm:p-5"
+                      sizes="(min-width: 1024px) 25vw, (min-width: 640px) 33vw, 50vw"
+                    />
+                  </Link>
+                  <BotaoFavorito
+                    produtoId={produto.id}
+                    className="absolute right-2 top-2 z-10"
                   />
-                </svg>
-              </span>
-              <span className="text-base font-bold text-black">
-                Ver todas as marcas
-              </span>
-              <span className="text-sm text-slate-600">
-                Explore o catálogo completo
-              </span>
-            </Link>
-          </div>
-        </section>
+                </div>
+              ))}
+            </div>
+          </section>
+        ) : null}
 
         <div className="mt-14 grid grid-cols-2 gap-4 md:grid-cols-4">
           {advantages.map((adv) => (
@@ -302,7 +265,7 @@ export default async function Home() {
           <div className="grid gap-8 md:grid-cols-2">
             <div>
               <h2 className="text-2xl font-bold text-black">Contato</h2>
-              <p className="mt-2 text-slate-600">Fale conosco pelo WhatsApp e tire suas dúvidas</p>
+              <p className="mt-2 text-slate-600">Fale conosco pelo WhatsApp e tire suas dúvidas.</p>
               <div className="mt-6 space-y-3">
                 <a href={whatsappLink("Olá! Vim pelo site da Well Fashion e gostaria de atendimento.")} target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 rounded-xl border border-slate-200 p-4 transition hover:border-green-400 hover:bg-green-50">
                   <div className="grid h-10 w-10 place-items-center rounded-full bg-green-100 text-green-600">

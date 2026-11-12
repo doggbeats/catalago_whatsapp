@@ -512,7 +512,7 @@ export default function AdminPage() {
   const semEspacoParaImagem = form.imagens.length >= MAX_IMAGENS;
 
   return (
-    <div className="mx-auto max-w-6xl px-4 py-10">
+    <div className="mx-auto max-w-6xl px-3 py-6 sm:px-4 sm:py-10">
       <h1 className="text-3xl font-bold text-black">Gestão de Produtos</h1>
       <p className="mt-1 text-black">Cadastre produtos e anexe uma ou mais imagens.</p>
 
@@ -530,7 +530,7 @@ export default function AdminPage() {
 
       <form
         onSubmit={handleSubmit}
-        className="mt-8 grid gap-4 rounded-xl border border-slate-200 bg-white p-6 md:grid-cols-2"
+        className="mt-6 grid gap-4 rounded-xl border border-slate-200 bg-white p-4 sm:mt-8 sm:p-6 md:grid-cols-2"
       >
         <h2 className="text-xl font-bold text-black md:col-span-2">
           {editingId !== null ? "Editar produto" : "Novo produto"}
@@ -587,11 +587,11 @@ export default function AdminPage() {
 
         <div className="md:col-span-2">
           <label className="mb-1 block text-sm font-medium text-black">Gerenciar marcas</label>
-          <div className="flex gap-2">
+          <div className="flex min-w-0 gap-2">
             <input
               value={novaMarca}
               onChange={(e) => setNovaMarca(e.target.value)}
-              className={inputClass}
+              className={`${inputClass} min-w-0 flex-1`}
               placeholder="Nova marca"
             />
             <button

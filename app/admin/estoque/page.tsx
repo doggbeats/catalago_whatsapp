@@ -170,7 +170,7 @@ export default function EstoquePage() {
   );
 
   return (
-    <div className="mx-auto max-w-6xl px-4 py-10">
+    <div className="mx-auto max-w-6xl px-3 py-6 sm:px-4 sm:py-10">
       <h1 className="text-3xl font-bold text-black">Controle de Estoque</h1>
       <p className="mt-1 text-black">
         Acompanhe as unidades disponíveis. Produtos com {ESTOQUE_BAIXO} unidades
@@ -220,7 +220,9 @@ export default function EstoquePage() {
       {loading ? (
         <p className="mt-6 text-black">Carregando estoque...</p>
       ) : (
-        <div className="mt-4 overflow-x-auto rounded-xl border border-slate-200 bg-white">
+        <>
+          <p className="mt-3 text-xs text-slate-500 sm:hidden">Deslize a tabela para os lados para ver todas as colunas.</p>
+          <div className="mt-2 overflow-x-auto overscroll-x-contain rounded-xl border border-slate-200 bg-white [touch-action:pan-x] sm:mt-4">
           <table className="w-full min-w-[760px] text-left text-sm">
             <thead className="border-b border-slate-200 bg-slate-50 text-black">
               <tr>
@@ -334,7 +336,8 @@ export default function EstoquePage() {
               })}
             </tbody>
           </table>
-        </div>
+          </div>
+        </>
       )}
     </div>
   );
