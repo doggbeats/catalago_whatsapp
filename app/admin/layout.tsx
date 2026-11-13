@@ -16,11 +16,12 @@ export default async function AdminLayout({
     redirect("/login");
   }
 
-  const produtos = await getProdutos();
+  const [produtos, pedidos] = await Promise.all([
+    getProdutos(),
+    getPedidos().catch(() => []),
+  ]);
   const baixos = produtos.filter((p) => p.quantity <= ESTOQUE_BAIXO);
   const semEstoque = produtos.filter((p) => p.quantity <= 0);
-
-  const pedidos = await getPedidos().catch(() => []);
   const pendentes = pedidos.filter(
     (p) => p.status === "aguardando" || p.status === "confirmado",
   ).length;

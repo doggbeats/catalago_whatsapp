@@ -36,7 +36,6 @@ export default function LoginPage() {
 
     if (res.ok) {
       router.replace("/admin");
-      router.refresh();
     } else {
       setError("Usuário ou senha inválidos.");
       setLoading(false);

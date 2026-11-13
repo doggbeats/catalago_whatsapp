@@ -1,5 +1,8 @@
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
+import { useRef } from "react";
 
 type Icone = {
   path: string;
@@ -128,7 +131,39 @@ function LogoMarca({ nome }: { nome: string }) {
 }
 
 export default function FaixaMarcas({ marcas }: { marcas: string[] }) {
+  const faixaRef = useRef<HTMLUListElement>(null);
+  const arrasto = useRef({ xInicial: 0, scrollInicial: 0, ativo: false });
+  const suprimirClique = useRef(false);
+
   if (!marcas.length) return null;
+
+  function iniciarArrasto(event: React.PointerEvent<HTMLUListElement>) {
+    if (event.pointerType === "mouse" && event.button !== 0) return;
+    const faixa = faixaRef.current;
+    if (!faixa) return;
+    arrasto.current = {
+      xInicial: event.clientX,
+      scrollInicial: faixa.scrollLeft,
+      ativo: true,
+    };
+  }
+
+  function moverFaixa(event: React.PointerEvent<HTMLUListElement>) {
+    const faixa = faixaRef.current;
+    if (!faixa || !arrasto.current.ativo) return;
+    const deslocamento = event.clientX - arrasto.current.xInicial;
+    if (Math.abs(deslocamento) > 5) suprimirClique.current = true;
+    if (suprimirClique.current) faixa.scrollLeft = arrasto.current.scrollInicial - deslocamento;
+  }
+
+  function encerrarArrasto() {
+    arrasto.current.ativo = false;
+    if (suprimirClique.current) {
+      window.setTimeout(() => {
+        suprimirClique.current = false;
+      }, 0);
+    }
+  }
 
   return (
     <section className="border-b border-neutral-200 bg-white">
@@ -136,13 +171,28 @@ export default function FaixaMarcas({ marcas }: { marcas: string[] }) {
         <p className="text-center text-[11px] font-semibold uppercase tracking-[0.28em] text-neutral-500">
           Marcas que você encontra aqui
         </p>
-        <ul className="mt-6 flex flex-wrap items-start justify-center gap-x-6 gap-y-7 sm:gap-x-10">
+        <ul
+          ref={faixaRef}
+          onPointerDown={iniciarArrasto}
+          onPointerMove={moverFaixa}
+          onPointerUp={encerrarArrasto}
+          onPointerCancel={encerrarArrasto}
+          onDragStart={(event) => event.preventDefault()}
+          onClickCapture={(event) => {
+            if (suprimirClique.current) {
+              event.preventDefault();
+              event.stopPropagation();
+            }
+          }}
+          className="mt-6 grid w-full cursor-grab auto-cols-max grid-flow-col grid-rows-1 snap-x snap-mandatory select-none touch-pan-y items-start justify-start gap-x-6 overflow-x-auto scroll-smooth px-1 pb-3 [scrollbar-width:none] active:cursor-grabbing [&::-webkit-scrollbar]:hidden sm:gap-x-10"
+        >
           {marcas.map((nome) => (
-            <li key={nome}>
+            <li key={nome} className="shrink-0 snap-start">
               <Link
                 href={`/produtos?marca=${encodeURIComponent(nome)}`}
                 title={`Ver produtos ${nome}`}
                 aria-label={`Ver produtos da marca ${nome}`}
+                draggable={false}
                 className="group flex w-20 flex-col items-center gap-2 text-neutral-900 focus-visible:outline-none sm:w-24"
               >
                 <span className="flex h-16 w-16 items-center justify-center rounded-full border border-neutral-200 bg-white shadow-sm transition duration-200 group-hover:-translate-y-0.5 group-hover:border-neutral-900 group-hover:shadow-md group-focus-visible:ring-2 group-focus-visible:ring-neutral-900 group-focus-visible:ring-offset-2 sm:h-20 sm:w-20">

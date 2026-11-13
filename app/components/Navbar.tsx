@@ -9,31 +9,42 @@ import FavoritosBotao from "./FavoritosBotao";
 
 const marcasPadrao: string[] = [];
 
-const categories = (marcas: string[]) => [
-  { href: "/tipos", label: "Tipos de Calçados" },
-  {
-    href: "#",
-    label: "Gêneros",
-    submenu: [
-      { href: "/produtos?categoria=Masculino", label: "Masculino" },
-      { href: "/produtos?categoria=Feminino", label: "Feminino" },
-      { href: "/produtos?categoria=Infantil", label: "Infantil" },
-    ],
-  },
-  {
-    href: "/marcas",
-    label: "Marcas",
-    submenu: [
-      { href: "/marcas", label: "Todas as marcas" },
-      ...marcas.map((marca) => ({
-        href: `/produtos?marca=${encodeURIComponent(marca)}`,
-        label: marca,
-      })),
-    ],
-  },
-  { href: "/produtos?promo=sim", label: "Promoções" },
-  { href: "/contato", label: "Contato" },
-];
+const categories = (marcas: string[]) => {
+  const marcasOrdenadas = [...marcas].sort((a, b) =>
+    a.localeCompare(b, "pt-BR"),
+  );
+  const indiceVans = marcasOrdenadas.findIndex(
+    (marca) => marca.trim().toLocaleLowerCase("pt-BR") === "vans",
+  );
+  const marcasAteVans =
+    indiceVans >= 0 ? marcasOrdenadas.slice(0, indiceVans + 1) : marcasOrdenadas;
+  const marcasVisiveis = marcasAteVans.slice(0, 5);
+
+  return [
+    { href: "/tipos", label: "Tipos de Calçados" },
+    {
+      href: "#",
+      label: "Gêneros",
+      submenu: [
+        { href: "/produtos?categoria=Masculino", label: "Masculino" },
+        { href: "/produtos?categoria=Feminino", label: "Feminino" },
+        { href: "/produtos?categoria=Infantil", label: "Infantil" },
+      ],
+    },
+    {
+      href: "/marcas",
+      label: "Marcas",
+      submenu: [
+        ...marcasVisiveis.map((marca) => ({
+          href: `/produtos?marca=${encodeURIComponent(marca)}`,
+          label: marca,
+        })),
+      ],
+    },
+    { href: "/produtos?promo=sim", label: "Promoções" },
+    { href: "/contato", label: "Contato" },
+  ];
+};
 
 export default function Navbar({
   marcas = marcasPadrao,
@@ -67,7 +78,7 @@ export default function Navbar({
     <header
       className={`${
         isHome
-          ? "absolute inset-x-0 top-0 z-50 bg-transparent"
+          ? "relative z-50 bg-neutral-950 lg:absolute lg:inset-x-0 lg:top-0 lg:bg-transparent"
           : "sticky top-0 z-50 bg-neutral-950"
       } transition-shadow ${scrolled && !isHome ? "shadow-lg shadow-black/30" : ""}`}
     >
@@ -107,19 +118,36 @@ export default function Navbar({
                     </svg>
                     <span className="absolute inset-x-3 -bottom-0.5 h-0.5 origin-left scale-x-0 rounded-full bg-amber-400 transition-transform duration-200 group-hover:scale-x-100" />
                   </button>
-                  <div className="invisible absolute left-0 top-full mt-1 w-44 rounded-lg border border-slate-800 bg-neutral-900 opacity-0 shadow-lg transition-all duration-150 group-hover:visible group-hover:opacity-100">
-                    <ul className="py-1">
-                      {cat.submenu.map((sub) => (
-                        <li key={sub.href}>
-                          <Link
-                            href={sub.href}
-                            className="block px-4 py-2 text-base text-slate-300 transition hover:bg-white/10 hover:text-white"
-                          >
-                            {sub.label}
-                          </Link>
-                        </li>
-                      ))}
-                    </ul>
+                  <div className={`invisible absolute left-0 top-full z-50 pt-3 opacity-0 transition-all duration-200 group-hover:visible group-hover:opacity-100 group-focus-within:visible group-focus-within:opacity-100 ${cat.label === "Marcas" ? "w-[min(20rem,90vw)]" : "w-64"}`}>
+                    <div className="overflow-hidden rounded-2xl border border-white/10 bg-neutral-950/95 p-3 shadow-[0_20px_60px_-18px_rgba(0,0,0,0.75)] backdrop-blur-xl">
+                      <div className="mb-2 flex items-center justify-between border-b border-white/10 px-2 pb-3">
+                        <div>
+                          <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-amber-400">Explore</p>
+                          <p className="mt-1 text-sm font-semibold text-white">{cat.label === "Marcas" ? "Escolha sua marca" : "Encontre seu estilo"}</p>
+                        </div>
+                        {cat.label === "Marcas" ? (
+                          <Link href="/marcas" className="rounded-full border border-white/15 px-3 py-1.5 text-xs font-semibold text-slate-200 transition hover:border-amber-400/60 hover:text-amber-300">Ver todas <span aria-hidden="true">→</span></Link>
+                        ) : null}
+                      </div>
+                      <ul className={cat.label === "Marcas" ? "max-h-[min(60vh,24rem)] space-y-1 overflow-y-auto overscroll-contain pr-1" : "space-y-1"}>
+                        {cat.submenu.map((sub, index) => (
+                          <li key={`${sub.href}-${sub.label}`}>
+                            <Link
+                              href={sub.href}
+                              className="group/item flex items-center gap-3 rounded-xl px-2.5 py-2.5 text-sm text-slate-300 transition hover:bg-white/[0.07] hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-400"
+                            >
+                              {cat.label !== "Marcas" ? (
+                                <span className="grid h-9 w-9 shrink-0 place-items-center rounded-lg border border-white/10 bg-white/[0.04] text-xs font-bold uppercase text-amber-300 transition group-hover/item:border-amber-400/30 group-hover/item:bg-amber-400/10">
+                                  {sub.label.charAt(0)}
+                                </span>
+                              ) : null}
+                              <span className="min-w-0 flex-1 truncate font-medium">{sub.label}</span>
+                              <span aria-hidden="true" className="text-slate-600 transition group-hover/item:translate-x-0.5 group-hover/item:text-amber-300">→</span>
+                            </Link>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
                   </div>
                 </>
               ) : cat.label === "Contato" ? (
@@ -272,19 +300,30 @@ export default function Navbar({
                       </svg>
                     </button>
                     {submenuAberto === cat.label && (
-                      <ul className="ml-3 mt-1 space-y-1 border-l border-slate-800 pl-3">
-                        {cat.submenu.map((sub) => (
-                          <li key={sub.href}>
-                            <Link
-                              href={sub.href}
-                              onClick={() => setOpen(false)}
-                              className="block rounded-lg px-3 py-2 text-base text-slate-400 transition hover:text-amber-400"
-                            >
-                              {sub.label}
-                            </Link>
-                          </li>
-                        ))}
-                      </ul>
+                      <>
+                        <ul className={`ml-3 mt-1 border-l border-slate-800 pl-3 ${cat.label === "Marcas" ? "max-h-[40vh] space-y-1 overflow-y-auto overscroll-contain" : "space-y-1"}`}>
+                          {cat.submenu.map((sub) => (
+                            <li key={sub.href}>
+                              <Link
+                                href={sub.href}
+                                onClick={() => setOpen(false)}
+                                className="flex items-center gap-2 rounded-lg px-3 py-2.5 text-sm text-slate-300 transition hover:bg-white/[0.06] hover:text-amber-300"
+                              >
+                                {sub.label}
+                              </Link>
+                            </li>
+                          ))}
+                        </ul>
+                        {cat.label === "Marcas" ? (
+                          <Link
+                            href="/marcas"
+                            onClick={() => setOpen(false)}
+                            className="ml-6 mt-2 inline-flex rounded-full border border-amber-400/40 px-3 py-2 text-xs font-semibold text-amber-300 transition hover:bg-amber-400/10"
+                          >
+                            Ver todas <span className="ml-1" aria-hidden="true">→</span>
+                          </Link>
+                        ) : null}
+                      </>
                     )}
                   </>
                 ) : cat.label === "Contato" ? (

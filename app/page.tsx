@@ -1,11 +1,10 @@
 import Image from "next/image";
 import Link from "next/link";
 import { getProdutos } from "@/lib/produtos";
-import { getPedidos } from "@/lib/pedidos";
 import { whatsappLink } from "@/lib/format";
 import CarrosselTenis from "./components/CarrosselTenis";
 import FaixaMarcas from "./components/FaixaMarcas";
-import BotaoFavorito from "./components/BotaoFavorito";
+import VideoTenis from "./components/VideoTenis";
 
 const advantages = [
   {
@@ -50,24 +49,6 @@ export default async function Home() {
   const produtos = await getProdutos();
   const novidades = produtos
     .filter((p) => p.images?.length || p.image)
-    .slice(0, 8);
-
-  const pedidos = await getPedidos().catch(() => []);
-  const procuraPorProduto = new Map<number, number>();
-  for (const pedido of pedidos) {
-    if (pedido.status === "cancelado") continue;
-    procuraPorProduto.set(
-      pedido.produtoId,
-      (procuraPorProduto.get(pedido.produtoId) ?? 0) + pedido.quantidade,
-    );
-  }
-  const maisProcurados = produtos
-    .filter((produto) => produto.image && (procuraPorProduto.get(produto.id) ?? 0) > 0)
-    .sort(
-      (a, b) =>
-        (procuraPorProduto.get(b.id) ?? 0) -
-        (procuraPorProduto.get(a.id) ?? 0),
-    )
     .slice(0, 8);
 
   const fotoCategoria = (categoria: string) =>
@@ -132,9 +113,9 @@ export default async function Home() {
 
       <FaixaMarcas marcas={marcasFaixa} />
 
-      <div className="mx-auto max-w-6xl px-4 py-10">
+      <div className="mx-auto max-w-6xl px-4 pb-10 pt-4 sm:py-10">
         {novidades.length ? (
-          <section className="mt-14">
+          <section className="mt-0 sm:mt-14">
             <div className="flex items-end justify-between">
               <div>
                 <h2 className="text-2xl font-bold text-black">Novidades</h2>
@@ -156,12 +137,12 @@ export default async function Home() {
         ) : null}
 
         <section className="mt-14">
-          <div className="flex items-end justify-between">
+          <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
             <div>
               <h2 className="text-2xl font-bold text-black">Por tipo de tênis</h2>
               <p className="mt-1 text-slate-600">Corrida, Casual, Esportivo, Fashion, Slip-on e Lazer</p>
             </div>
-            <Link href="/tipos" className="text-sm font-semibold text-amber-600 transition hover:text-amber-500">
+            <Link href="/tipos" className="shrink-0 self-start whitespace-nowrap text-sm font-semibold text-amber-600 transition hover:text-amber-500 sm:self-auto">
               Ver todos
             </Link>
           </div>
@@ -174,38 +155,30 @@ export default async function Home() {
           </div>
         </section>
 
-        {maisProcurados.length ? (
-          <section className="mt-14">
-            <h2 className="text-2xl font-bold text-black">Tênis mais procurados</h2>
-            <p className="mt-1 text-slate-600">Os modelos com mais pedidos na loja</p>
-            <div className="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-3 sm:gap-5 lg:grid-cols-4">
-              {maisProcurados.map((produto) => (
-                <div
-                  key={produto.id}
-                  className="group relative aspect-square overflow-hidden rounded-2xl bg-neutral-50"
-                >
-                  <Link
-                    href={`/produtos/${produto.id}`}
-                    aria-label={`Ver ${produto.name}`}
-                    className="absolute inset-0"
-                  >
-                    <Image
-                      src={produto.image}
-                      alt={produto.name}
-                      fill
-                      className="object-contain p-3 sm:p-5"
-                      sizes="(min-width: 1024px) 25vw, (min-width: 640px) 33vw, 50vw"
-                    />
-                  </Link>
-                  <BotaoFavorito
-                    produtoId={produto.id}
-                    className="absolute right-2 top-2 z-10"
-                  />
-                </div>
-              ))}
+        <section className="mt-14">
+          <div className="grid overflow-hidden rounded-3xl bg-neutral-950 text-white shadow-xl lg:grid-cols-[0.8fr_1.2fr]">
+            <div className="flex flex-col justify-center p-6 sm:p-9 lg:p-12">
+              <span className="text-xs font-bold uppercase tracking-[0.2em] text-amber-400">
+                Well Fashion apresenta
+              </span>
+              <h2 className="mt-3 text-2xl font-extrabold sm:text-3xl">
+                Seu próximo tênis em movimento
+              </h2>
+              <p className="mt-3 max-w-md text-sm leading-relaxed text-neutral-300 sm:text-base">
+                Veja os detalhes de perto e encontre o modelo ideal para o seu estilo.
+              </p>
+              <Link
+                href="/produtos"
+                className="mt-6 inline-flex w-fit items-center rounded-full bg-amber-400 px-5 py-3 text-sm font-bold text-black transition hover:bg-amber-300"
+              >
+                Explorar modelos <span className="ml-2" aria-hidden="true">→</span>
+              </Link>
             </div>
-          </section>
-        ) : null}
+            <div className="min-w-0 bg-black">
+              <VideoTenis />
+            </div>
+          </div>
+        </section>
 
         <div className="mt-14 grid grid-cols-2 gap-4 md:grid-cols-4">
           {advantages.map((adv) => (
